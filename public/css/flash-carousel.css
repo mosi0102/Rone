@@ -1,0 +1,36 @@
+/* flash-carousel.css — کروسل فروش فوری (ساده): کارت‌های کشیدنی + نقطه‌های جایگاه */
+.fl { position: relative; }
+.fl-track { display: flex; gap: 12px; overflow-x: auto; padding: 2px 16px 6px; margin-inline: -16px; scroll-padding-inline: 16px; scroll-snap-type: x mandatory; scrollbar-width: none; overscroll-behavior-x: contain; outline: none; }
+.fl-track::-webkit-scrollbar { display: none; }
+.fl-slide { flex: 0 0 90%; max-width: 440px; scroll-snap-align: start; transition: opacity .3s var(--ease); }
+.fl-slide:not(.is-active) { opacity: .88; }
+
+.fl-card { height: 100%; overflow: hidden; background: var(--surface); border: 1px solid var(--line); border-radius: 20px; box-shadow: var(--shadow-1); }
+.fl-media { position: relative; aspect-ratio: 16 / 10; display: grid; place-items: center; background: #dbe4f3; color: #8ea0c0; overflow: hidden; }
+.fl-media > img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.fl-badge { position: absolute; top: 12px; inset-inline-start: 12px; display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; border-radius: 10px; background: rgba(255, 255, 255, .95); border: 1px solid #c9d6ee; color: var(--primary); font-weight: 800; font-size: 13px; }
+.fl-save { position: absolute; top: 12px; inset-inline-end: 12px; width: 46px; height: 46px; padding: 0; border: 0; border-radius: 14px; background: #fff; color: var(--primary); display: grid; place-items: center; box-shadow: var(--shadow-1); transition: transform var(--t-fast); }
+.fl-save:active { transform: scale(.9); }
+.fl-save.is-on .icon { fill: var(--primary); animation: pop .3s var(--ease); }
+
+.fl-body { display: block; padding: 14px 16px 16px; color: inherit; }
+.fl-body:hover { color: inherit; }
+.fl-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.fl-title { margin: 0; font-size: 19px; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.fl-dealer { display: inline-flex; align-items: center; gap: 6px; flex-shrink: 0; font-size: 13.5px; color: var(--ink-2); }
+.fl-dealer .icon { color: var(--primary); }
+.fl-meta { display: block; margin-top: 2px; font-size: 14px; color: var(--muted); }
+.fl-prices { margin-top: 8px; }
+.fl-price { color: var(--primary); font-size: 22px; font-weight: 900; line-height: 1.5; }
+.fl-price small { font-size: 14px; font-weight: 700; margin-inline-start: 4px; }
+.fl-old { font-size: 14px; color: var(--muted); } .fl-old small { font-size: 13px; }
+.fl-loc { margin-top: 6px; font-size: 13.5px; color: var(--muted); }
+
+.fl-dots { display: flex; justify-content: center; gap: 8px; margin-top: 12px; }
+.fl-dots button { width: 9px; height: 9px; padding: 0; border: 0; border-radius: 5px; background: #cbd5e1; transition: width .25s var(--ease), background .25s; }
+.fl-dots button.is-active { width: 26px; background: var(--primary); }
+
+@media (min-width: 992px) {
+  .fl-track { margin-inline: 0; padding-inline: 0; scroll-padding-inline: 0; }
+  .fl-slide { flex-basis: 380px; }
+}

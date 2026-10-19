@@ -1,0 +1,51 @@
+/* dealer-profile.css — پروفایل نمایشگاه (دید کاربر) */
+.dp-layout { display: grid; gap: 14px; }
+.dp-main { display: grid; gap: 14px; align-content: start; }
+.dp-card { overflow: hidden; }
+.dp-cover { position: relative; aspect-ratio: 370 / 184; background: linear-gradient(135deg, #dbe4f3, #b9c7df); display: grid; place-items: center; color: #8ea0c0; overflow: hidden; }
+.dp-cover img { width: 100%; height: 100%; object-fit: cover; }
+.dp-card-body { padding: 14px 16px 16px; }
+.dp-name { margin: 0; font-size: 20px; }
+.dp-video { position: relative; display: grid; gap: 2px; margin-top: 12px; padding: 12px 14px; padding-inline-start: 66px; border-radius: var(--r-md); background: var(--primary-soft); }
+.dp-video p { margin: 0; font-size: 13.5px; font-weight: 700; }
+.dp-video-link { justify-self: start; display: inline-flex; align-items: center; gap: 4px; padding: 0; border: 0; background: none; color: var(--primary); font-weight: 800; font-size: 13.5px; }
+.dp-video-link .icon { transition: transform var(--t-med) var(--ease); }
+.dp-video-link:hover .icon { transform: translateX(-4px); }
+.dp-video-ic { position: absolute; inset-inline-start: 14px; top: 50%; transform: translateY(-50%); width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; background: #fff; color: var(--primary); box-shadow: var(--shadow-1); }
+
+@keyframes livePulseBox { 0% { transform: scale(.9); opacity: .9; } 100% { transform: scale(1.25); opacity: 0; } }
+
+.dp-info { padding: 16px; display: grid; gap: 12px; }
+.dp-about { margin: 0; font-size: 14.5px; font-weight: 600; line-height: 2; }
+.dp-row { display: flex; align-items: center; gap: 10px; font-size: 13.5px; color: var(--ink-2); }
+.dp-ic { width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center; flex-shrink: 0; background: var(--primary-soft); color: var(--primary); }
+.dp-actions { display: flex; gap: 10px; margin-top: 4px; }
+.dp-actions .btn { height: 48px; }
+
+.dp-verified-note { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 16px; border-radius: var(--r-lg); background: #e8f6ed; border: 1px solid #c3e8cf; }
+.dp-verified-note h3 { margin: 0 0 2px; font-size: 14.5px; color: #15803d; }
+.dp-verified-note p { margin: 0; font-size: 13px; color: var(--ink-2); }
+.dp-vi { width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center; background: #fff; color: #16a34a; flex-shrink: 0; }
+
+@media (min-width: 992px) {
+  .dp-layout { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 24px; align-items: start; }
+  .dp-main { position: sticky; top: 92px; }
+}
+
+/* ---- ابزار مدیریت صاحب نمایشگاه ---- */
+.owner-bar { margin-bottom: 14px; padding: 14px; border-radius: var(--r-lg); background: var(--primary); color: #fff; box-shadow: var(--shadow-1); }
+.ob-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 12px; }
+.ob-head .badge-s { background: rgba(255, 255, 255, .16); color: #fff; }
+.ob-link { display: inline-flex; align-items: center; gap: 4px; color: #fff; font-weight: 800; font-size: 13px; } .ob-link:hover { color: var(--accent); }
+.ob-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.ob-grid a, .ob-grid button { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 10px 4px; border: 0; border-radius: var(--r-md); background: rgba(255, 255, 255, .1); color: #fff; font-weight: 700; font-size: 12px; text-align: center; transition: background var(--t-fast), transform var(--t-fast); }
+.ob-grid a:hover, .ob-grid button:hover { background: rgba(255, 255, 255, .2); color: #fff; } .ob-grid a:active, .ob-grid button:active { transform: scale(.95); }
+.ob-grid span { width: 38px; height: 38px; border-radius: 12px; display: grid; place-items: center; background: rgba(255, 255, 255, .14); }
+.dp-cam { position: absolute; bottom: 12px; inset-inline-start: 12px; display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border: 0; border-radius: var(--r-pill); background: rgba(14, 26, 54, .78); color: #fff; font-weight: 700; font-size: 12.5px; -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); transition: transform var(--t-fast); }
+.dp-cam:active { transform: scale(.94); }
+.dropzone { position: relative; display: block; overflow: hidden; border: 2px dashed #b7cbec; border-radius: var(--r-lg); background: var(--primary-soft); aspect-ratio: 2 / 1; cursor: pointer; transition: border-color var(--t-fast); }
+.dropzone:hover { border-color: var(--primary); }
+.dropzone img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.dz-hint { position: absolute; inset: auto 0 0 0; display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 10px; background: rgba(14, 26, 54, .65); color: #fff; font-weight: 700; font-size: 13px; }
+.dz-hint small { font-weight: 500; font-size: 11px; opacity: .85; }
+@media (max-width: 380px) { .ob-grid { grid-template-columns: repeat(2, 1fr); } }

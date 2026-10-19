@@ -1,0 +1,42 @@
+/* home.css — فقط صفحه خانه (طبق طرح نهایی). بلوک‌های مشترک در blocks.css هستند. */
+
+/* سرتیتر + هیرو: سفید و تمام‌عرض */
+.home-top { margin: -16px -16px 0; background: #fff; }
+.masthead { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: calc(var(--safe-top) + 16px) 20px 14px; }
+.masthead h1 { margin: 0; font-size: 22px; font-weight: 900; }
+.masthead p { margin: 0; font-size: 14px; color: var(--muted); }
+.masthead img { display: block; height: 48px; width: auto; }
+
+.hero { position: relative; background: #fff; overflow: hidden; }
+.hero-img { display: block; width: 100%; height: auto; aspect-ratio: 824 / 400; object-fit: cover; object-position: left center; }
+.hero-text { position: absolute; top: 50%; inset-inline-start: 18px; transform: translateY(-58%); margin: 0; max-width: 58%; font-size: 26px; line-height: 1.6; font-weight: 900; color: var(--primary); }
+.hero-text span { display: block; }
+
+@media (min-width: 992px) {
+  .home-top { margin: 0; border: 1px solid var(--line); border-radius: 24px; overflow: hidden; }
+  .masthead { display: none; }
+  .hero-img { max-height: 400px; }
+  .hero-text { inset-inline-start: 56px; font-size: 40px; }
+}
+
+/* کارت مزایده */
+.auction-card { margin-top: 24px; padding: 20px 16px 16px; }
+.ac-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 16px; }
+.ac-head h2 { margin: 0; font-size: 21px; }
+.count-pill { padding: 3px 14px; border-radius: var(--r-pill); background: var(--primary-soft); color: var(--primary); font-weight: 800; font-size: 13px; white-space: nowrap; }
+.ac-list { display: grid; gap: 14px; margin-bottom: 16px; }
+.btn-block-lg { width: 100%; padding-block: .9rem; font-size: 16px; }
+
+.auction-row { display: block; padding: 12px; border: 1px solid #d5e1f5; border-radius: 16px; background: #f6f9fe; color: inherit; transition: border-color var(--t-fast), background var(--t-fast); }
+.auction-row:hover { color: inherit; border-color: #a9c0e6; }
+.auction-row:active { background: #eef4fc; }
+.ar-main { display: flex; gap: 14px; }
+.ar-media { flex: 0 0 92px; height: 92px; border-radius: 12px; overflow: hidden; background: #dbe4f3; display: grid; place-items: center; color: #8ea0c0; }
+.ar-media img { width: 100%; height: 100%; object-fit: cover; }
+.ar-body { flex: 1; min-width: 0; display: flex; flex-direction: column; justify-content: center; gap: 2px; }
+.ar-title { margin: 0; font-size: 16px; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ar-meta { font-size: 13.5px; color: var(--muted); }
+.ar-price { color: var(--primary); font-weight: 900; font-size: 17px; white-space: nowrap; }
+.ar-price small { font-size: 12.5px; font-weight: 700; }
+.ar-timer { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 12px; padding: 8px 12px; border: 1px solid #d5e1f5; border-radius: 12px; background: #fff; font-weight: 800; font-size: 14px; color: var(--primary); }
+@media (min-width: 992px) { .auction-card { padding: 24px; } .ac-list { grid-template-columns: repeat(2, 1fr); } }

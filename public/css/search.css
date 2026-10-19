@@ -1,0 +1,46 @@
+/* search.css — صفحه کامل جستجو + انتخاب شهر (اسکلت؛ بعد از طرح نهایی بازطراحی می‌شود) */
+.search-page .app-main { padding-top: 0; }
+.sp { margin-inline: -16px; background: var(--surface); min-height: 100dvh; padding-bottom: 32px; }
+.sp-head { position: sticky; top: 0; z-index: 20; display: flex; align-items: center; gap: 8px; padding: calc(var(--safe-top) + 10px) 12px 10px; background: rgba(255, 255, 255, .94); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); border-bottom: 1px solid var(--line); }
+.sp-head .icon-btn { color: var(--primary); flex-shrink: 0; }
+.sp-form { position: relative; flex: 1; }
+.sp-form input[type="search"] { width: 100%; height: 48px; padding: 0 44px; border: 1.5px solid var(--line); border-radius: 16px; background: var(--bg); font-size: 15px; transition: border-color var(--t-fast), box-shadow var(--t-fast), background var(--t-fast); }
+.sp-form input[type="search"]:focus { outline: none; background: #fff; border-color: var(--primary); box-shadow: 0 0 0 4px rgba(27, 77, 158, .12); }
+.sp-form input[type="search"]::-webkit-search-cancel-button { display: none; }
+.sp-ic { position: absolute; top: 50%; inset-inline-start: 14px; transform: translateY(-50%); color: var(--muted); }
+.sp-clear { position: absolute; top: 50%; inset-inline-end: 8px; transform: translateY(-50%); width: 30px; height: 30px; border: 0; border-radius: 50%; background: #dfe5f0; color: var(--ink-2); display: grid; place-items: center; }
+.sp-city { display: flex; align-items: center; gap: 12px; width: calc(100% - 32px); margin: 14px 16px 0; padding: 12px 14px; border: 1px solid var(--line); border-radius: 16px; background: var(--surface); text-align: start; transition: border-color var(--t-fast), background var(--t-fast); }
+.sp-city:hover { border-color: #b7cbec; background: var(--primary-soft); }
+.sp-city-ic { width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; background: var(--primary-soft); color: var(--primary); }
+.sp-city-txt { flex: 1; display: flex; flex-direction: column; line-height: 1.5; }
+.sp-city-txt small { color: var(--muted); font-size: 12px; } .sp-city-txt b { font-size: 15px; }
+.sp-city-act { display: inline-flex; align-items: center; gap: 2px; color: var(--primary); font-weight: 800; font-size: 13px; }
+.sp-block { padding: 20px 16px 0; }
+.sp-title { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+.sp-title h2 { margin: 0; font-size: 15px; display: flex; align-items: center; gap: 6px; }
+.sp-title button { border: 0; background: none; color: var(--primary); font-weight: 700; font-size: 13px; }
+.sp-list { display: grid; }
+.sp-row { display: flex; align-items: center; gap: 10px; padding: 12px 4px; color: var(--ink); border-bottom: 1px solid #eef1f7; }
+.sp-row .icon { color: var(--muted); }
+.sp-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.sp-chip { padding: 8px 16px; border-radius: var(--r-pill); background: var(--bg); color: var(--ink-2); font-weight: 600; font-size: 13.5px; transition: background var(--t-fast), color var(--t-fast), transform var(--t-fast); }
+.sp-chip:hover { background: var(--primary-soft); color: var(--primary); } .sp-chip:active { transform: scale(.95); }
+.sp-cats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.sp-cat { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 14px 6px; border-radius: 16px; background: var(--bg); color: var(--ink); font-weight: 700; font-size: 13px; }
+.sp-cat span { width: 44px; height: 44px; border-radius: 14px; display: grid; place-items: center; background: #fff; color: var(--primary); box-shadow: var(--shadow-1); }
+@media (min-width: 992px) { .sp { margin-inline: auto; max-width: 720px; border-radius: var(--r-lg); border: 1px solid var(--line); min-height: 0; overflow: hidden; } .sp-head { position: static; } }
+
+/* صفحه کامل انتخاب شهر */
+.city-page { position: fixed; inset: 0; z-index: 2200; display: flex; flex-direction: column; background: var(--surface); transform: translateX(-100%); visibility: hidden; transition: transform .35s var(--ease), visibility 0s .35s; }
+html[dir="rtl"] .city-page { transform: translateX(100%); }
+.city-page.open { transform: none; visibility: visible; transition: transform .35s var(--ease), visibility 0s; }
+.cp-title { margin: 0; font-size: 18px; }
+.cp-search { position: relative; margin: 12px 16px 4px; }
+.cp-search input { width: 100%; height: 46px; padding: 0 42px; border: 1.5px solid var(--line); border-radius: 14px; background: var(--bg); }
+.cp-search input:focus { outline: none; border-color: var(--primary); background: #fff; }
+.cp-search .icon { position: absolute; top: 50%; inset-inline-start: 14px; transform: translateY(-50%); color: var(--muted); }
+.cp-list { flex: 1; overflow-y: auto; padding: 4px 8px calc(var(--safe-bottom) + 16px); }
+.city-item { display: flex; align-items: center; justify-content: space-between; width: 100%; padding: 15px 12px; border: 0; border-bottom: 1px solid #f0f3f8; background: transparent; font-weight: 600; text-align: start; transition: background var(--t-fast); }
+.city-item:hover { background: var(--bg); }
+.city-item.active { color: var(--primary); font-weight: 800; }
+.city-item .icon { opacity: 0; color: var(--primary); } .city-item.active .icon { opacity: 1; }

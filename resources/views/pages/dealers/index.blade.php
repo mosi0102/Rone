@@ -27,8 +27,7 @@
     @foreach($featured as $dealer)<x-dealer-card :dealer="$dealer" />@endforeach
   </div>
 
-  {{-- بنر دوم --}}
-  <x-banner-slider :banners="$banners2" :full="false" class="rounded-banner mt-3" style="aspect-ratio: 370 / 186" />
+  @if(!empty($banners2))<x-banner-slider :banners="$banners2" :full="false" class="rounded-banner mt-3" style="aspect-ratio: 370 / 186" />@endif
 
   {{-- جدیدترین نمایشگاه‌ها --}}
   <x-section-head title="جدیدترین نمایشگاه ها" :href="route('dealers.index', ['sort' => 'new'])" more="مشاهده همه" />

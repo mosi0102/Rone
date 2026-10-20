@@ -2,10 +2,7 @@
 @section('title', 'بازار تخصصی نمایشگاه‌های خودرو')
 @section('no_topbar', '1')
 
-@push('styles')
-    <link rel="stylesheet" href="{{ asset('css/home.css') }}"
-
-@endpush
+@push('styles')<link rel="stylesheet" href="{{ asset('css/home.css') }}">@endpush
 
 @section('content')
   {{-- سرتیتر + هیرو (سفید، تمام‌عرض) --}}

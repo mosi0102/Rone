@@ -2,7 +2,7 @@
   ردیف آگهی. عکس سمت راست (طبق طرح)، متن کنار آن.
   $item: id, title, url, image, price, year, km, extra, dealer, verified, sale_type ('instant'|'auction'|null), category (برای فیلتر تب‌ها)
 --}}
-@props(['item'])
+@props(['item', 'edit' => null])
 @php $i = (object) $item; @endphp
 <article class="listing-row" data-category="{{ $i->category ?? '' }}">
   <a href="{{ $i->url ?? '#' }}" class="lr-link">
@@ -21,4 +21,5 @@
       </div>
     </div>
   </a>
+  @if($edit)<a href="{{ $edit }}" class="lr-edit" aria-label="ویرایش آگهی"><x-icon name="pencil" class="icon-sm" /> ویرایش</a>@endif
 </article>

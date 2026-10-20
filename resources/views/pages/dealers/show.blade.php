@@ -45,18 +45,6 @@
       </div>
     </section>
 
-    {{-- اطلاعات --}}
-    <section class="card-s dp-info">
-      <p class="dp-about">{{ $dealer->about }}</p>
-      <div class="dp-row"><span class="dp-ic"><x-icon name="pin" class="icon-sm" /></span><span>{{ $dealer->address }}</span></div>
-      <div class="dp-row"><span class="dp-ic"><x-icon name="clock" class="icon-sm" /></span><span>زمان مراجعه حضوری : {{ $dealer->hours }}</span></div>
-      <div class="dp-actions">
-        @if($dealer->map_url)<a href="{{ $dealer->map_url }}" target="_blank" rel="noopener" class="btn btn-outline-primary flex-fill"><x-icon name="navigation" class="icon-sm" /> مسیریابی</a>@endif
-        <button type="button" class="btn-square" data-share data-title="{{ $dealer->name }}" aria-label="اشتراک‌گذاری"><x-icon name="share" /></button>
-        <button type="button" class="btn-square" data-save data-id="d{{ $dealer->id }}" aria-label="نشان کردن"><x-icon name="bookmark" /></button>
-      </div>
-    </section>
-
     @if($dealer->verified)
       <section class="dp-verified-note">
         <span class="dp-vi"><x-icon name="shield" /></span>
@@ -66,6 +54,14 @@
         </div>
       </section>
     @endif
+
+    {{-- اطلاعات --}}
+    <section class="card-s dp-info">
+      <p class="dp-about">{{ $dealer->about }}</p>
+      <div class="dp-row"><span class="dp-ic"><x-icon name="pin" class="icon-sm" /></span><span>{{ $dealer->address }}</span></div>
+      <div class="dp-row"><span class="dp-ic"><x-icon name="clock" class="icon-sm" /></span><span>زمان مراجعه حضوری : {{ $dealer->hours }}</span></div>
+    </section>
+
   </div>
 
   <div class="dp-side">
@@ -77,9 +73,10 @@
       @endforeach
     </div>
     <div class="lr-list mt-3" id="stockList">
-      @foreach($stock as $item)<x-listing-row :item="$item" />@endforeach
+      @foreach($stock as $item)<x-listing-row :item="$item" :edit="$isOwner ? route('listings.edit', $item['id']) : null" />@endforeach
     </div>
     <div class="d-none" id="stockEmpty"><x-empty-state icon="car" title="آگهی‌ای در این دسته نیست" /></div>
+    @if($isOwner)<a href="{{ route('listings.create') }}" class="btn btn-primary btn-lg w-100 mt-3"><x-icon name="plus" /> افزودن آگهی جدید</a>@endif
     <a href="{{ route('listings.index', ['dealer' => $dealer->id]) }}" class="soft-btn mt-3">مشاهده همه <span data-fa>{{ $dealer->active_count }}</span> آگهی</a>
 
     <x-deposit-info icon="shield" class="mt-3" title="ارتباط مستقیم با نمایشگاه دار فقط از طریق آگهی فعال است." text="برای تماس مستقیم، انتخاب آگهی و پرداخت بیعانه امانی از جزئیات آگهی مربوطه الزامی است." />

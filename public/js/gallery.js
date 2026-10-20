@@ -53,7 +53,7 @@
       });
       modal.show();
     }
-    root.querySelector('[data-open]').addEventListener('click', open);
+    var ob = root.querySelector('[data-open]'); if (ob) ob.addEventListener('click', open);
     track.addEventListener('click', open);
   }
 

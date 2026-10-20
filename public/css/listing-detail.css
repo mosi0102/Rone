@@ -7,8 +7,7 @@
 .gal-track::-webkit-scrollbar { display: none; }
 .gal-slide { flex: 0 0 100%; scroll-snap-align: center; aspect-ratio: 480 / 323; cursor: zoom-in; }
 .gal-slide img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.gal-badge { position: absolute; top: 14px; inset-inline-start: 14px; display: inline-flex; align-items: center; gap: 5px; padding: 5px 12px; border-radius: 10px; background: #fff; color: var(--primary); font-weight: 800; font-size: 13px; box-shadow: var(--shadow-1); }
-.gal-badge .icon { fill: var(--accent); stroke: var(--accent); }
+.gal-badge { position: absolute; top: 14px; inset-inline-start: 14px; display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; border-radius: 10px; background: rgba(255, 255, 255, .96); border: 1px solid #c9d6ee; color: var(--primary); font-weight: 800; font-size: 13px; }
 .gal-count { position: absolute; bottom: 14px; inset-inline-end: 14px; display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; border-radius: 10px; background: rgba(255, 255, 255, .94); font-weight: 700; font-size: 13px; color: var(--ink); box-shadow: var(--shadow-1); pointer-events: none; }
 .gal-count .icon { color: var(--primary); }
 .gal-expand { position: absolute; top: 12px; inset-inline-end: 12px; width: 38px; height: 38px; border: 0; border-radius: 12px; background: rgba(255, 255, 255, .94); color: var(--ink); display: grid; place-items: center; box-shadow: var(--shadow-1); transition: transform var(--t-fast); }
@@ -42,7 +41,7 @@
 .cd-grid { display: flex; flex-direction: column; gap: 4px; }
 .cd-main, .cd-aside { display: contents; }
 .cd-gallery { order: 1; } .cd-head { order: 2; }
-.cd-specs { order: 3; } .cd-details { order: 4; } .cd-desc { order: 5; } .dealer-mini { order: 6; margin-top: 8px; } .cd-deposit { order: 7; margin-top: 16px; }
+.cd-specs { order: 3; } .cd-details { order: 4; } .cd-desc { order: 5; } .cd-deposit { order: 6; margin-top: 16px; }
 .cd-head { padding-top: 14px; }
 @media (min-width: 992px) {
   .cd-grid { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 24px; align-items: start; }
@@ -86,15 +85,6 @@
 /* ---- توضیحات ---- */
 .cd-desc p { margin: 0; font-size: 16px; line-height: 2.1; color: var(--ink-2); }
 
-/* ---- کارت نمایشگاه ---- */
-.dealer-mini { position: relative; display: flex; gap: 14px; align-items: flex-start; padding: 16px; transition: transform var(--t-med) var(--ease), box-shadow var(--t-med); }
-.dealer-mini:hover { transform: translateY(-2px); box-shadow: var(--shadow-2); color: inherit; }
-.dm-ic { width: 54px; height: 54px; border-radius: 16px; display: grid; place-items: center; flex-shrink: 0; background: var(--primary-soft); color: var(--primary); }
-.dm-ic .icon { width: 28px; height: 28px; }
-.dm-body { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
-.dm-body h3 { margin: 0; font-size: 17px; }
-.dm-badge { position: absolute; top: 14px; inset-inline-end: 14px; display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px; border-radius: var(--r-pill); background: #e6f6ec; color: #15803d; font-weight: 800; font-size: 12px; }
-
 /* ---- شیت پرداخت ---- */
 .pay-rows { border: 1px solid var(--line); border-radius: var(--r-md); overflow: hidden; }
 .pay-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 14px; }
@@ -119,3 +109,14 @@
 .plan input { width: 20px; height: 20px; accent-color: var(--primary); flex-shrink: 0; }
 .plan span { flex: 1; display: flex; flex-direction: column; } .plan small { color: var(--muted); font-size: 12px; }
 .plan:has(input:checked) { border-color: var(--primary); background: var(--primary-soft); }
+
+/* ---- بنر نمایشگاه بالای صفحه ---- */
+.dealer-banner { position: relative; display: block; height: 210px; margin: -16px -16px 16px; overflow: hidden; background: #cbd5e1; color: #fff; }
+.dealer-banner:hover { color: #fff; }
+.dealer-banner img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .6s var(--ease); }
+.dealer-banner:hover img { transform: scale(1.03); }
+.db-shade { position: absolute; inset: 0; background: linear-gradient(0deg, rgba(8, 14, 30, .78) 0%, rgba(8, 14, 30, .1) 55%, transparent 100%); }
+.db-text { position: absolute; inset-inline: 16px; bottom: 14px; display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; }
+.db-text b { font-size: 20px; font-weight: 900; }
+.db-text span { font-size: 13px; opacity: .95; }
+@media (min-width: 992px) { .dealer-banner { height: 240px; margin: 0 0 20px; border-radius: 20px; } }

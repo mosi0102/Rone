@@ -64,18 +64,17 @@ $cities = ['تهران', 'مشهد', 'اصفهان', 'شیراز', 'تبریز',
 $img = fn ($f) => asset('img/mock/' . $f);
 
 Route::get('/dealers', function () use ($cities, $img) {
-    $hasht = ['id' => 8, 'name' => 'اتوگالری هشت', 'manager' => 'ابولفضل پناهی', 'address' => 'تهران، سعادت‌آباد، بین سعادتی 20 و 22، جنب بانک شهر', 'cover' => $img('dealer-cover.jpg'), 'url' => route('dealers.show', 8), 'verified' => true, 'has_instant' => true,
+    $hasht = ['id' => 8, 'name' => 'اتوگالری هالیوود', 'manager' => 'ابولفضل پناهی', 'address' => 'تهران، سعادت‌آباد، بین سعادتی 20 و 22، جنب بانک شهر', 'cover' => $img('dealer-cover.jpg'), 'url' => route('dealers.show', 8), 'verified' => true, 'featured' => true,
         'stats' => [['value' => 12, 'unit' => 'آگهی', 'label' => 'فعال'], ['value' => 5, 'unit' => 'سال', 'label' => 'سابقه فعالیت'], ['value' => 3, 'unit' => 'شعبه', 'label' => 'در تهران']]];
     return view('pages.dealers.index', [
         'city' => 'سبزوار', 'cities' => $cities,
-        'banners'  => [['image' => $img('banner-dealers-1.jpg'), 'url' => '#', 'alt' => 'جای شما بین بهترین‌ها خالیست']],
-        'banners2' => [['image' => $img('banner-dealers-2.jpg'), 'url' => '#', 'alt' => 'با خیالی آسوده انتخاب کنید']],
+        'banners'  => [['image' => $img('banner-dealers-1.jpg'), 'alt' => 'جزو بهترین‌ها باش؛ به‌صورت رایگان به خانواده بزرگ آروان بپیوندید', 'url' => route('dealer.join')]],
         'categories' => [
             ['slug' => 'car', 'title' => 'نمایشگاه سواری', 'icon' => 'car', 'count' => 50],
             ['slug' => 'heavy', 'title' => 'نمایشگاه سنگین', 'icon' => 'truck', 'count' => 16],
             ['slug' => 'bike', 'title' => 'نمایشگاه موتور', 'icon' => 'bike', 'count' => 23],
         ],
-        'featured' => [$hasht, array_merge($hasht, ['id' => 9, 'name' => 'اتوگالری آرش', 'manager' => 'عباس آرمانجو', 'has_instant' => false, 'url' => route('dealers.show', 9)])],
+        'featured' => [$hasht, array_merge($hasht, ['id' => 9, 'name' => 'اتوگالری آرش', 'manager' => 'عباس آرمانجو', 'featured' => false, 'url' => route('dealers.show', 9)])],
         'latest' => collect([
             ['id' => 31, 'name' => 'اتوگالری آرش', 'manager' => 'عباس آرمانجو', 'area' => 'تهران، سعادت‌آباد', 'active_count' => 12, 'image' => $img('dealer-thumb-1.jpg'), 'url' => route('dealers.show', 9)],
             ['id' => 32, 'name' => 'اتوگالری کرمی', 'manager' => 'یار رمضانی', 'area' => 'سبزوار، چهل متری', 'active_count' => 21, 'image' => $img('dealer-thumb-2.jpg'), 'url' => route('dealers.show', 8)],
@@ -88,8 +87,8 @@ Route::get('/dealers/{id}', function ($id) use ($img) {
     $row = fn ($i, $t, $p, $y, $k, $x, $d, $im, $cat, $st = null) => ['id' => $i, 'title' => $t, 'url' => route('listings.show', 24817), 'image' => $img($im), 'price' => $p, 'year' => $y, 'km' => $k, 'extra' => $x, 'dealer' => $d, 'verified' => true, 'sale_type' => $st, 'category' => $cat];
     return view('pages.dealers.show', [
         'dealer' => (object) [
-            'id' => $id, 'name' => 'اتوگالری هشت', 'short_name' => 'گالری هشت', 'manager' => 'ابولفضل پناهی', 'verified' => true, 'cover' => $img('dealer-cover.jpg'),
-            'video' => null, // آدرس ویدیو معرفی (mp4) — با مقدار، دکمه پخش نمایش داده می‌شود
+            'id' => $id, 'name' => 'اتوگالری هالیوود', 'short_name' => 'گالری هالیوود', 'manager' => 'ابولفضل پناهی', 'verified' => true, 'cover' => $img('dealer-cover.jpg'),
+            'video' => asset('video/intro.mp4'), // آدرس ویدیو معرفی (mp4)؛ خالی = بخش ویدیو نمایش داده نمی‌شود
             'about' => 'فروش تخصصی سواری، سنگین و موتورسیکلت در شعب آریا؛ بازدید حضوری و کارشناسی مستقل با هماهنگی.',
             'address' => 'تهران، سعادت‌آباد، بین سعادتی 20 و 22، جنب بانک شهر', 'hours' => 'شنبه تا پنجشنبه ۹ تا ۲۰',
             'map_url' => 'https://maps.google.com/?q=35.78,51.37', 'active_count' => 12,
@@ -135,7 +134,7 @@ Route::get('/listings/{id}', function ($id) use ($img) {
                 ['label' => 'گیربکس', 'value' => 'سالم و پلمپ', 'status' => 'ok'],
             ],
             'description' => 'خودرو تک‌مالک، سرویس‌ها به‌موقع انجام شده و بیمه تا اسفند ۱۴۰۵ معتبر است. آماده کارشناسی در مرکز مورد اعتماد شما؛ بازدید با هماهنگی قبلی.',
-            'dealer' => ['id' => 8, 'name' => 'نمایشگاه آریا', 'area' => 'تهران، سعادت‌آباد', 'active_count' => 12, 'verified' => true],
+            'dealer' => ['id' => 8, 'name' => 'اتوگالری هالیوود', 'area' => 'تهران، سعادت‌آباد', 'active_count' => 12, 'verified' => true, 'cover' => $img('detail-banner.jpg'), 'url' => route('dealers.show', 8)],
         ],
         'similar' => [
             ['id' => 41, 'title' => 'پژو ۲۰۷ پانوراما', 'url' => route('listings.show', 24817), 'image' => $img('car-207.jpg'), 'price' => 940000000, 'year' => 1401, 'km' => 52000, 'extra' => 'مشکی', 'dealer' => 'نمایشگاه پارس', 'verified' => true, 'sale_type' => null],
@@ -161,7 +160,7 @@ View::composer('*', function ($view) {
         $mode = request('mode') ?: session('demo_mode', 'buyer');
         if ($as !== 'dealer') $mode = 'buyer';
         session(['demo_mode' => $mode]);
-        $dealer = $as === 'dealer' ? (object) ['id' => 8, 'name' => 'اتوگالری هشت', 'verified' => true, 'plan_days_left' => 41, 'plan_total_days' => 90, 'plan_name' => 'اشتراک ۳ ماهه'] : null;
+        $dealer = $as === 'dealer' ? (object) ['id' => 8, 'name' => 'اتوگالری هالیوود', 'verified' => true, 'plan_days_left' => 41, 'plan_total_days' => 90, 'plan_name' => 'اشتراک ۳ ماهه'] : null;
         $auth = (object) [
             'check'       => $as !== 'guest',
             'name'        => $as === 'dealer' ? 'ابولفضل پناهی' : 'علی محمدی',
@@ -227,7 +226,7 @@ Route::get('/panel', function () {
                 ['title' => 'تسویه به حساب بانکی', 'amount' => 120000000, 'in' => false, 'date' => now()->subDays(6)],
             ],
         ],
-        'dealer' => (object) ['name' => 'اتوگالری هشت', 'short' => 'گالری هشت', 'manager' => 'ابولفضل پناهی', 'phone' => '۰۲۱۲۲۳۴۵۶۷۸', 'about' => 'فروش تخصصی سواری، سنگین و موتورسیکلت؛ بازدید حضوری و کارشناسی مستقل با هماهنگی.', 'address' => 'تهران، سعادت‌آباد، بین سعادتی ۲۰ و ۲۲، جنب بانک شهر', 'hours' => 'شنبه تا پنجشنبه ۹ تا ۲۰', 'cover' => $img('dealer-cover.jpg')],
+        'dealer' => (object) ['name' => 'اتوگالری هالیوود', 'short' => 'گالری هالیوود', 'manager' => 'ابولفضل پناهی', 'phone' => '۰۲۱۲۲۳۴۵۶۷۸', 'about' => 'فروش تخصصی سواری، سنگین و موتورسیکلت؛ بازدید حضوری و کارشناسی مستقل با هماهنگی.', 'address' => 'تهران، سعادت‌آباد، بین سعادتی ۲۰ و ۲۲، جنب بانک شهر', 'hours' => 'شنبه تا پنجشنبه ۹ تا ۲۰', 'cover' => $img('dealer-cover.jpg')],
     ]);
 })->name('panel');
 
@@ -251,7 +250,7 @@ foreach ([
     'auctions.create'  => ['/panel/auctions/create', 'ساخت مزایده'],
     'notifications'    => ['/notifications', 'اعلان‌ها'],
 ] as $name => [$uri, $title]) {
-    Route::get($uri, fn () => view('pages.soon', compact('title')))->name($name);
+    Route::get($uri, fn () => view('pages.soon', ['title' => $title]))->name($name);
 }
 
 // صفحه کامل جستجو (اسکلت؛ داده و طرح نهایی بعداً)

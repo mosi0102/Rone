@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('title', $car->title)
 @section('page_title', 'اطلاعات خودرو')
-@section('page_subtitle')کد آگهی: <span class="hl" data-fa>{{ $car->code }}</span>@endsection
+@section('page_subtitle', $car->dealer['name'])
 @section('back', route('listings.index'))
 @section('body_class', 'no-bottom-nav has-sticky-cta')
 
@@ -16,6 +16,8 @@
 @endphp
 
 @section('content')
+{{-- بنر نمایشگاه: مشخص می‌کند آگهی مال کدام نمایشگاه است --}}
+<x-dealer-banner :dealer="$car->dealer" />
 @if($isOwner)
   <div class="owner-banner"><x-icon name="store" class="icon-sm" /> این آگهی متعلق به نمایشگاه شماست؛ ابزار مدیریت را در پایین می‌بینید.</div>
 @endif
@@ -54,15 +56,6 @@
       <p>{{ $car->description }}</p>
     </div>
 
-    <a href="{{ route('dealers.show', $car->dealer['id']) }}" class="card-s dealer-mini text-reset">
-      <span class="dm-ic"><x-icon name="store" /></span>
-      <div class="dm-body">
-        <h3>{{ $car->dealer['name'] }}</h3>
-        <span class="text-muted-s small">{{ $car->dealer['area'] }} • <span data-fa>{{ $car->dealer['active_count'] }}</span> آگهی فعال</span>
-        <span class="dr-more">مشاهده نمایشگاه و موجودی <x-icon name="arrow-left" class="icon-sm" /></span>
-      </div>
-      @if($car->dealer['verified'])<span class="dm-badge"><x-icon name="shield" class="icon-sm" /> تأییدشده</span>@endif
-    </a>
 
     @unless($isOwner)<x-deposit-info class="cd-deposit" />@endunless
   </div>
@@ -87,7 +80,7 @@
 
       @if($isOwner)
         <div class="owner-panel">
-          <div class="op-head"><span class="badge-s badge-success">آگهی شما • فعال</span><span class="small text-muted-s">{{ $car->expires ?? 'تا ۴۱ روز دیگر' }}</span></div>
+          <div class="op-head"><span class="badge-s badge-success">آگهی شما • فعال</span><span class="small text-muted-s">کد آگهی: <b data-fa>{{ $car->code }}</b></span></div>
           <div class="op-stats">
             <div><b data-fa>{{ $car->views }}</b><span>بازدید</span></div>
             <div><b data-fa>18</b><span>نشان‌شده</span></div>
@@ -112,10 +105,9 @@
 </div>
 
 {{-- نوار پایین موبایل --}}
-<div class="sticky-cta cd-cta-mobile">
+<div class="sticky-cta cd-cta-mobile {{ $isOwner ? 'd-none' : '' }}">
   @if($isOwner)
-    <a href="{{ route('listings.edit', $car->id) }}" class="btn btn-primary btn-lg flex-fill"><x-icon name="pencil" /> ویرایش آگهی</a>
-    <button type="button" class="btn btn-accent btn-lg" data-bs-toggle="offcanvas" data-bs-target="#ownerSheet" aria-label="مدیریت"><x-icon name="dots" /> مدیریت</button>
+    {{-- صاحب آگهی: ابزار مدیریت داخل خود صفحه است؛ نوار ثابت پایین لازم نیست --}}
   @elseif(!$auth->check)
     <a href="{{ $loginUrl }}" class="btn btn-primary btn-lg flex-fill"><x-icon name="user" /> ورود برای پرداخت بیعانه</a>
   @else
@@ -127,18 +119,6 @@
 
 
 @if($isOwner)
-{{-- مدیریت آگهی (موبایل) --}}
-<div class="offcanvas offcanvas-bottom sheet" tabindex="-1" id="ownerSheet" aria-labelledby="ownerTitle">
-  <div class="sheet-handle"></div>
-  <div class="offcanvas-header"><h5 class="offcanvas-title" id="ownerTitle">مدیریت آگهی</h5><button type="button" class="btn-close ms-0 me-auto" data-bs-dismiss="offcanvas" aria-label="بستن"></button></div>
-  <div class="offcanvas-body pt-0 d-grid gap-2">
-    <div class="op-stats mb-2"><div><b data-fa>{{ $car->views }}</b><span>بازدید</span></div><div><b data-fa>18</b><span>نشان‌شده</span></div><div><b data-fa>2</b><span>بیعانه</span></div></div>
-    <button type="button" class="btn btn-accent btn-lg" data-bs-dismiss="offcanvas" data-bs-toggle="offcanvas" data-bs-target="#instantSheet"><x-icon name="bolt" /> قرار دادن در فروش فوری</button>
-    <a href="{{ route('auctions.create', ['listing' => $car->id]) }}" class="btn btn-outline-primary btn-lg"><x-icon name="gavel" /> ساخت مزایده برای این آگهی</a>
-    <button type="button" class="btn btn-soft btn-lg op-danger" data-bs-dismiss="offcanvas" data-bs-toggle="offcanvas" data-bs-target="#removeSheet"><x-icon name="trash" /> حذف / غیرفعال‌سازی</button>
-  </div>
-</div>
-
 {{-- خرید فروش فوری --}}
 <div class="offcanvas offcanvas-bottom sheet" tabindex="-1" id="instantSheet" aria-labelledby="instantTitle">
   <div class="sheet-handle"></div>

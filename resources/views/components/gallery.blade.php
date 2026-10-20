@@ -17,7 +17,6 @@
     </div>
     @if($badge)<span class="gal-badge"><x-icon name="bolt" class="icon-sm" /> {{ $badge }}</span>@endif
     <span class="gal-count"><x-icon name="image" class="icon-sm" /> <span data-cur>۱</span> از <span data-fa>{{ $imgs->count() }}</span></span>
-    <button type="button" class="gal-expand" data-open aria-label="نمایش تمام‌صفحه"><x-icon name="expand" class="icon-sm" /></button>
     <button type="button" class="gal-nav gal-prev" data-dir="prev" aria-label="قبلی"><x-icon name="chevron-right" /></button>
     <button type="button" class="gal-nav gal-next" data-dir="next" aria-label="بعدی"><x-icon name="chevron-left" /></button>
   </div>

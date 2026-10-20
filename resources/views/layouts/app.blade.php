@@ -3,7 +3,6 @@
 <head>
   @include('partials.head')
   @stack('styles')
-
 </head>
 {{-- برای صفحاتی که ناوبری پایین نمی‌خواهند: @section('body_class', 'no-bottom-nav') --}}
 <body class="@yield('body_class')">

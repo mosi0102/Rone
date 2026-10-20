@@ -91,7 +91,7 @@
 .dealer-card:hover .dc-media img { transform: scale(1.05); }
 .dc-flash, .dc-verified { position: absolute; top: 12px; display: inline-flex; align-items: center; gap: 5px; padding: 4px 12px; border-radius: var(--r-pill); font-weight: 800; font-size: 12px; box-shadow: var(--shadow-1); }
 .dc-flash { inset-inline-start: 12px; background: #fff; color: var(--primary); border: 1px solid #c9d6ee; }
-.dc-flash .icon { fill: var(--accent); stroke: var(--accent); }
+.dc-flash .icon { fill: none; }
 .dc-verified { inset-inline-end: 12px; background: #e6f6ec; color: #15803d; border: 1px solid #bfe6cc; }
 .dc-body { padding: 14px 16px 16px; }
 .dc-top { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
@@ -184,3 +184,8 @@
 .countdown.light .cd-unit { min-width: 50px; padding: 3px 6px; background: #fff; color: var(--ink); border: 1px solid #d9e2f1; font-size: 17px; font-weight: 800; }
 .countdown.light .cd-unit small { color: var(--muted); font-size: 11px; font-weight: 600; }
 .countdown.light.is-urgent .cd-unit { background: #fff; color: var(--danger); border-color: #f4c3c3; }
+
+/* دکمه ویرایش روی ردیف آگهی (فقط صاحب نمایشگاه) */
+.listing-row { position: relative; }
+.lr-edit { position: absolute; bottom: 10px; inset-inline-end: 10px; z-index: 2; display: inline-flex; align-items: center; gap: 4px; padding: 5px 12px; border-radius: var(--r-pill); background: var(--primary); color: #fff; font-weight: 700; font-size: 12.5px; box-shadow: var(--shadow-1); }
+.lr-edit:hover { color: #fff; background: var(--primary-hover); }

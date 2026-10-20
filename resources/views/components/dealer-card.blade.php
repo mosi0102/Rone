@@ -1,6 +1,6 @@
 {{--
   کارت نمایشگاه ویژه.
-  $dealer: id, name, manager, address, cover, url, verified, has_instant, stats[{value,unit,label}]
+  $dealer: id, name, manager, address, cover, url, verified, featured, stats[{value,unit,label}]
 --}}
 @props(['dealer'])
 @php $d = (object) $dealer; @endphp
@@ -8,7 +8,7 @@
   <a href="{{ $d->url ?? '#' }}" class="dc-link">
     <div class="dc-media">
       @if(!empty($d->cover))<img src="{{ $d->cover }}" alt="{{ $d->name }}" loading="lazy">@else<x-icon name="store" />@endif
-      @if(!empty($d->has_instant))<span class="dc-flash"><x-icon name="bolt" class="icon-sm" /> فروش فوری</span>@endif
+      @if(!empty($d->featured))<span class="dc-flash"><x-icon name="crown" class="icon-sm" /> ویژه</span>@endif
       @if(!empty($d->verified))<span class="dc-verified"><x-icon name="shield" class="icon-sm" /> هویت و مجوز تأییدشده</span>@endif
     </div>
     <div class="dc-body">

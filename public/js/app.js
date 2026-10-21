@@ -16,6 +16,12 @@
     if (withTime) { opt.hour = '2-digit'; opt.minute = '2-digit'; }
     return new Intl.DateTimeFormat('fa-IR-u-ca-persian', opt).format(new Date(d));
   };
+  // قالب عددی شمسی: 1405/07/20 • 18:00  (data-jfmt="date|time|datetime" + data-jdate="ISO")
+  App.jfmt = function (d, kind) {
+    var dt = new Date(d), dd = new Intl.DateTimeFormat('fa-IR-u-ca-persian', { year: 'numeric', month: '2-digit', day: '2-digit' }).format(dt),
+        tt = new Intl.DateTimeFormat('fa-IR', { hour: '2-digit', minute: '2-digit', hour12: false }).format(dt);
+    return kind === 'date' ? dd : (kind === 'time' ? tt : dd + ' • ' + tt);
+  };
   App.relative = function (d) {
     var s = Math.round((new Date(d) - Date.now()) / 1000), rtf = new Intl.RelativeTimeFormat('fa', { numeric: 'auto' });
     var u = [['day', 86400], ['hour', 3600], ['minute', 60], ['second', 1]];
@@ -83,6 +89,7 @@
   App.hydrate = function (root) {
     $(root || document).find('[data-money]').each(function () { $(this).text(App.money($(this).data('money'))); });
     $(root || document).find('[data-jdate]').each(function () { $(this).text(App.jdate($(this).data('jdate'), $(this).is('[data-time]'))); });
+    $(root || document).find('[data-jfmt]').each(function () { $(this).text(App.jfmt($(this).data('jdate'), $(this).data('jfmt'))); });
     $(root || document).find('[data-fa]').each(function () { $(this).text(App.toFa($(this).text())); });
   };
 
@@ -92,6 +99,10 @@
   function tickCountdowns() {
     $('[data-countdown]').each(function () {
       var $el = $(this), end = new Date($el.data('countdown')).getTime(), diff = Math.max(0, Math.floor((end - Date.now()) / 1000));
+      var win = Number($el.data('window')) || 0, off = win && diff > win;
+      $el.closest('[data-cd-wrap]').toggleClass('is-off', !!off); // بیشتر از «window» مانده: شمارنده خاموش، متن جایگزین نمایش داده شود
+      if (off) { $el.empty().addClass('is-off'); return; }
+      $el.removeClass('is-off');
       var hms = $el.data('units') === 'hms'; // فقط ساعت:دقیقه:ثانیه (ساعت کل، بدون روز)
       var d = hms ? 0 : Math.floor(diff / 86400), h = hms ? Math.floor(diff / 3600) : Math.floor(diff % 86400 / 3600), m = Math.floor(diff % 3600 / 60), s = diff % 60;
       var inline = $el.hasClass('countdown-inline');

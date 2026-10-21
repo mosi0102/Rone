@@ -189,3 +189,7 @@
 .listing-row { position: relative; }
 .lr-edit { position: absolute; bottom: 10px; inset-inline-end: 10px; z-index: 2; display: inline-flex; align-items: center; gap: 4px; padding: 5px 12px; border-radius: var(--r-pill); background: var(--primary); color: #fff; font-weight: 700; font-size: 12.5px; box-shadow: var(--shadow-1); }
 .lr-edit:hover { color: #fff; background: var(--primary-hover); }
+
+.countdown.is-off { display: none; }
+[data-cd-wrap] .cd-off { display: none; }
+[data-cd-wrap].is-off .cd-off { display: block; } [data-cd-wrap].is-off .cd-on { display: none; }

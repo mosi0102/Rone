@@ -1,0 +1,147 @@
+/* ==========================================================================
+   auction.css — مزایده‌ها (لیست، جزئیات، پرداخت ورودی، پیشنهاد زنده)
+   ========================================================================== */
+.muted { color: var(--ink-2); font-weight: 600; }
+.green { color: #15803d; }
+
+/* ---------- لیست ---------- */
+.auc-h { margin: 6px 0 4px; font-size: 28px; font-weight: 900; }
+.auc-sum { margin: 0 0 16px; color: var(--muted); font-size: 15px; }
+.auc-cats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.auc-cats button { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; min-height: 90px; padding: 12px 4px; border: 0; border-radius: 16px; background: var(--surface); color: var(--ink); font: inherit; font-weight: 700; font-size: 14px; box-shadow: var(--shadow-1); transition: background var(--t-fast), color var(--t-fast), transform var(--t-fast); }
+.auc-cats button .icon { width: 28px; height: 28px; color: var(--primary); stroke-width: 1.6; }
+.auc-cats button:active { transform: scale(.96); }
+.auc-cats button.on { background: var(--primary); color: #fff; } .auc-cats button.on .icon { color: #fff; }
+.seg-tabs { display: flex; gap: 4px; margin: 14px 0 18px; padding: 6px; border-radius: 18px; background: #e6eefb; }
+.seg-tabs button { flex: 1; padding: 13px 6px; border: 0; border-radius: 14px; background: transparent; color: var(--primary); font: inherit; font-weight: 700; font-size: 14.5px; transition: background var(--t-fast), color var(--t-fast); }
+.seg-tabs button.on { background: var(--primary); color: #fff; box-shadow: 0 4px 10px rgba(27, 77, 158, .25); }
+.auc-list { display: grid; gap: 16px; }
+@media (min-width: 992px) { .auc-list { grid-template-columns: repeat(2, 1fr); } .auc-cats { max-width: 640px; } .seg-tabs { max-width: 640px; } }
+
+.auc-card { padding: 16px; background: var(--surface); border: 1px solid var(--line); border-radius: 24px; box-shadow: var(--shadow-1); display: flex; flex-direction: column; gap: 12px; }
+.auc-main { display: flex; gap: 14px; color: inherit; }
+.auc-main:hover { color: inherit; }
+.auc-media { flex: 0 0 36%; max-width: 150px; aspect-ratio: 150 / 168; border-radius: 14px; overflow: hidden; background: #dbe4f3; display: grid; place-items: center; color: #8ea0c0; }
+.auc-media img { width: 100%; height: 100%; object-fit: cover; }
+.auc-info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
+.auc-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+.auc-badge { display: inline-block; padding: 3px 12px; border-radius: 8px; font-size: 13px; font-weight: 800; white-space: nowrap; }
+.auc-badge.live { background: #e3f4e8; color: #15803d; } .auc-badge.soon { background: var(--primary-soft); color: var(--primary); }
+.auc-dealer { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; color: var(--ink-2); }
+.auc-dealer .icon { color: var(--primary); }
+.auc-title { margin: 2px 0 0; font-size: 22px; font-weight: 900; }
+.auc-meta { font-size: 14px; color: var(--muted); }
+.auc-start { font-size: 14.5px; color: var(--muted); } .auc-start small { font-size: 12.5px; }
+.auc-topbid { margin-top: 2px; font-size: 17px; font-weight: 800; color: var(--primary); } .auc-topbid small { font-size: 13px; }
+.auc-timer { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; padding: 12px 14px; border-radius: 16px; background: #eaf1fc; font-weight: 800; font-size: 15px; color: var(--primary); }
+.auc-date { font-weight: 700; color: var(--ink); direction: ltr; }
+.auc-cta { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; min-height: 58px; padding: 10px 14px; border: 0; border-radius: 16px; font-weight: 800; font-size: 16px; text-align: center; transition: transform var(--t-fast), background var(--t-fast); }
+.auc-cta:active { transform: scale(.98); }
+.auc-cta.solid { background: var(--primary); color: #fff; } .auc-cta.solid:hover { background: var(--primary-hover); color: #fff; }
+.auc-cta.soft { background: #e8effb; color: var(--primary); } .auc-cta.soft:hover { background: #dbe6f8; color: var(--primary); }
+.auc-cta.outline { background: #fff; color: var(--primary); border: 1.5px solid #c9d6ee; }
+.auc-cta.done { background: #e3f4e8; color: #15803d; font-size: 14.5px; }
+.auc-cta small { font-weight: 700; }
+
+.note-card, .warn-card { display: flex; gap: 12px; align-items: flex-start; margin-top: 20px; padding: 16px; border-radius: 20px; background: #eaf1fc; }
+.note-card h3, .warn-card h3 { margin: 0 0 4px; font-size: 16px; }
+.note-card p, .warn-card p { margin: 0; font-size: 14px; color: var(--muted); line-height: 1.9; }
+.nc-ic, .wc-ic { width: 44px; height: 44px; flex-shrink: 0; display: grid; place-items: center; color: var(--primary); }
+.warn-card { margin-top: 0; background: #fff3dc; } .wc-ic { color: #b45309; }
+.au-right .note-card { margin-top: 0; }
+
+/* ---------- پرداخت ورودی ---------- */
+.entry-wrap { display: grid; gap: 14px; }
+@media (min-width: 992px) { .entry-wrap { max-width: 620px; margin-inline: auto; } }
+.entry-car { display: flex; gap: 14px; padding: 14px; }
+.ec-media { flex: 0 0 132px; aspect-ratio: 1; border-radius: 14px; overflow: hidden; background: #dbe4f3; } .ec-media img { width: 100%; height: 100%; object-fit: cover; }
+.ec-body { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; min-width: 0; } .ec-body h3 { margin: 0; font-size: 20px; }
+.entry-sum h2, .entry-scope h2 { margin: 0 0 12px; font-size: 20px; }
+.kv { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 11px 0; }
+.kv-k { color: var(--muted); font-size: 14.5px; } .kv-v { font-weight: 800; font-size: 14.5px; }
+.es-note { margin: 4px 0 12px; font-size: 14px; color: var(--muted); }
+.es-total { display: flex; align-items: center; justify-content: space-between; padding-top: 14px; border-top: 1px solid var(--line); color: var(--primary); font-weight: 900; font-size: 17px; }
+.entry-scope p { margin: 0 0 8px; font-size: 14.5px; color: var(--muted); line-height: 2; } .es-red { color: #b91c1c !important; }
+.terms-link { display: inline-flex; align-items: center; gap: 6px; color: var(--primary); font-weight: 700; font-size: 14.5px; }
+.pay-row.wallet { background: #f3f6fb; border-radius: 14px; }
+
+/* ---------- جزئیات ---------- */
+.au-grid { display: flex; flex-direction: column; gap: 14px; }
+.au-left, .au-right { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+@media (min-width: 992px) { .au-grid { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 24px; align-items: start; } .au-right { position: sticky; top: 92px; } }
+.au-title h1 { margin: 6px 0 4px; font-size: 30px; font-weight: 900; } .au-title p { margin: 0; color: var(--muted); font-size: 15px; }
+.car-link { display: flex; align-items: center; gap: 14px; padding: 14px 16px; background: var(--surface); border: 1px solid var(--line); border-radius: 16px; color: inherit; transition: border-color var(--t-fast), transform var(--t-fast); }
+.car-link:hover { color: inherit; border-color: #a9c0e6; } .car-link:active { transform: scale(.985); }
+.car-link div { display: flex; flex-direction: column; } .car-link b { font-size: 16px; } .car-link span { display: inline-flex; align-items: center; gap: 4px; color: var(--primary); font-size: 14px; font-weight: 700; }
+.cl-ic { color: var(--primary); display: grid; place-items: center; } .cl-ic .icon { width: 30px; height: 30px; stroke-width: 1.6; }
+
+.cdcard { padding: 24px 16px 20px; border-radius: 24px; text-align: center; }
+.cdcard.blue { background: var(--primary); color: #fff; } .cdcard.green { background: #e3f4e8; color: #15803d; }
+.cdcard h2 { margin: 0 0 16px; font-size: 26px; font-weight: 900; color: inherit; }
+.cdcard .countdown { gap: 12px; justify-content: center; }
+.cdcard .countdown .cd-unit { min-width: 84px; padding: 12px 6px; border-radius: 16px; background: #fff; color: var(--ink); border: 0; font-size: 36px; font-weight: 900; line-height: 1.3; }
+.cdcard .countdown .cd-unit small { color: var(--muted); font-size: 14px; font-weight: 600; }
+.cdc-off { margin: 0 0 4px; font-size: 15px; opacity: .92; }
+.cdc-date { margin-top: 14px; font-size: 15px; font-weight: 700; direction: rtl; opacity: .95; }
+
+.info-card { padding: 18px 16px; } .bc-t { margin: 0 0 12px; font-size: 20px; font-weight: 900; }
+.kv-list-plain .kv + .kv { border-top: 1px solid #eef1f7; } .kv-v.blue { color: var(--primary); font-size: 16px; }
+.info-note { margin: 10px 0 0; font-size: 14px; color: var(--ink-2); line-height: 1.9; }
+.paid-card { display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-radius: 18px; background: #e3f4e8; color: #15803d; } .paid-card .icon { width: 30px; height: 30px; }
+.paid-card div { display: flex; flex-direction: column; } .paid-card span { font-size: 13.5px; color: var(--ink-2); }
+.btn-locked { display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 58px; border: 0; border-radius: 16px; background: #e8edf5; color: #7b88a3 !important; font-weight: 800; font-size: 16px; }
+
+/* ---------- پیشنهاد ---------- */
+.bid-box { padding: 18px 16px; }
+.bid-input { height: 62px; font-size: 22px; font-weight: 900; direction: ltr; text-align: right; border-radius: 16px; }
+.bid-chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
+.bid-chips button { padding: 8px 14px; border: 0; border-radius: var(--r-pill); background: var(--primary-soft); color: var(--primary); font: inherit; font-weight: 800; font-size: 13.5px; transition: transform var(--t-fast), background var(--t-fast); }
+.bid-chips button:active { transform: scale(.94); background: #dbe6f8; }
+.bid-hint, .bid-mine { margin: 0 0 8px; font-size: 14.5px; color: var(--ink-2); } .bid-mine b { font-weight: 900; }
+.bid-card { padding: 18px 16px; }
+.bid-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 14px 4px; border-bottom: 1px solid #eef1f7; }
+.bid-row:last-child { border-bottom: 0; }
+.br-main { display: flex; flex-direction: column; } .br-main b { font-size: 16.5px; font-weight: 800; } .br-main b small { font-size: 12.5px; font-weight: 700; } .br-main > span { font-size: 13.5px; color: var(--muted); }
+.br-time { font-size: 13.5px; color: var(--muted); direction: ltr; }
+.bid-row.top .br-main b { color: var(--primary); font-size: 20px; font-weight: 900; } .bid-row.top .br-main b small { font-size: 13px; }
+.bid-row.mine { margin-inline: -4px; padding-inline: 12px; background: #e8effb; border-inline-start: 4px solid var(--primary); border-radius: 4px 0 0 4px; }
+.bid-row.new { animation: bidIn 1.4s var(--ease); }
+@keyframes bidIn { 0% { background: #fff3c4; } 100% { background-color: transparent; } }
+.bid-empty { margin: 8px 0 0; color: var(--muted); }
+
+/* قفل */
+.locked-wrap { position: relative; }
+.lock-body { display: grid; gap: 14px; filter: blur(5px); opacity: .55; pointer-events: none; user-select: none; }
+.sk-input, .sk-btn { height: 58px; border-radius: 16px; background: #e8edf5; margin-bottom: 12px; }
+.lock-overlay { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: 22px; text-align: center; border-radius: 24px; background: rgba(243, 245, 250, .6); }
+.lock-overlay h3 { margin: 0; font-size: 20px; } .lock-overlay p { margin: 0 0 8px; font-size: 14.5px; color: var(--ink-2); }
+.lo-ic { width: 60px; height: 60px; border-radius: 50%; display: grid; place-items: center; background: #fff; color: var(--primary); box-shadow: var(--shadow-2); } .lo-ic .icon { width: 28px; height: 28px; }
+
+/* نتیجه و صاحب مزایده */
+.result-card { text-align: center; display: grid; gap: 10px; }
+.rc-ic { width: 72px; height: 72px; margin: 0 auto; border-radius: 50%; display: grid; place-items: center; background: var(--primary-soft); color: var(--primary); } .rc-ic .icon { width: 36px; height: 36px; }
+.result-card.won .rc-ic { background: #fff3dc; color: #b45309; }
+.result-card h2 { margin: 0; font-size: 24px; } .rc-sub { margin: 0; color: var(--ink-2); }
+.rc-win { padding: 14px; border-radius: 16px; background: #e3f4e8; color: #15803d; text-align: start; } .rc-win p { margin: 4px 0 0; font-size: 14px; color: var(--ink-2); }
+.owner-auc { padding: 16px; display: grid; gap: 14px; }
+.op-stats4 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+.op-stats4 div { display: flex; flex-direction: column; padding: 10px 12px; border-radius: 14px; background: #f3f6fb; }
+.op-stats4 b { color: var(--primary); font-size: 17px; font-weight: 900; } .op-stats4 span { font-size: 12.5px; color: var(--muted); }
+
+/* ---------- فرم ساخت مزایده ---------- */
+.pick-list { display: grid; gap: 10px; }
+.pick { margin: 0; cursor: pointer; } .pick input { position: absolute; opacity: 0; }
+.pk-body { display: flex; align-items: center; gap: 12px; padding: 10px; border: 1.5px solid var(--line); border-radius: 16px; transition: border-color var(--t-fast), background var(--t-fast); }
+.pk-body img { width: 76px; height: 64px; border-radius: 12px; object-fit: cover; flex-shrink: 0; background: #dbe4f3; }
+.pk-t { flex: 1; min-width: 0; display: flex; flex-direction: column; } .pk-t small { color: var(--muted); font-size: 12.5px; }
+.pk-ck { width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; background: #e8edf5; color: transparent; flex-shrink: 0; }
+.pick input:checked + .pk-body { border-color: var(--primary); background: var(--primary-soft); } .pick input:checked + .pk-body .pk-ck { background: var(--primary); color: #fff; }
+.pick input:focus-visible + .pk-body { outline: 3px solid rgba(245, 158, 11, .55); }
+.quick-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+.quick-chips button { padding: 7px 13px; border: 0; border-radius: var(--r-pill); background: var(--primary-soft); color: var(--primary); font: inherit; font-weight: 700; font-size: 13px; }
+.quick-chips button:active { transform: scale(.95); }
+
+/* ردیف‌های پرداخت (صفحه پرداخت ورودی — مستقل از listing-detail.css) */
+.pay-rows { border: 1px solid var(--line); border-radius: var(--r-md); overflow: hidden; }
+.pay-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 14px; }
+.pay-row + .pay-row { border-top: 1px solid var(--line); } .pay-row b { display: inline-flex; gap: 6px; align-items: center; font-size: 14px; }

@@ -110,6 +110,7 @@
       <div class="pl-list">
         @foreach($auctions as $a)
           <article class="pl-row">
+            <a href="{{ route('auctions.show', $a['id']) }}" class="stretched-link" aria-label="{{ $a['title'] }}"></a>
             <div class="pl-media">@if($a['image'])<img src="{{ $a['image'] }}" alt="" loading="lazy">@else<x-icon name="car" />@endif</div>
             <div class="pl-body">
               <div class="pl-top"><h3>{{ $a['title'] }}</h3><x-status-badge :status="$a['status']" /></div>

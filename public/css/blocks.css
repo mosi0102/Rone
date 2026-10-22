@@ -168,7 +168,7 @@
 @media (min-width: 992px) { .search-card { max-width: 760px; margin-inline: auto; } }
 
 /* ---------- بنر تبلیغاتی (عکس با گرادیان تیره سمت راست) ---------- */
-.ad-banner { position: relative; display: block; margin-top: 24px; aspect-ratio: 824 / 344; min-height: 170px; overflow: hidden; border-radius: 20px; background: #0f1d3d; color: #fff; }
+.ad-banner { position: relative; display: block; width: 100%; max-width: 100%; margin-top: 24px; aspect-ratio: 824 / 380; overflow: hidden; border-radius: 20px; background: #0f1d3d; color: #fff; }
 .ad-banner:hover { color: #fff; }
 .ad-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: left center; }
 .ad-body { position: absolute; inset-block: 0; inset-inline-start: 0; width: 58%; padding: 18px 20px; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; gap: 4px; }
@@ -178,6 +178,9 @@
 .ad-cta { margin-top: 8px; display: inline-flex; align-items: center; gap: 6px; font-weight: 800; font-size: 14px; }
 .ad-cta .icon { transition: transform var(--t-med) var(--ease); }
 .ad-banner:hover .ad-cta .icon { transform: translateX(-4px); }
+/* گوشی‌های باریک: بنر کمی بلندتر تا متن کامل جا شود */
+@media (max-width: 420px) { .ad-banner { aspect-ratio: 824 / 440; } .ad-body { padding: 12px 16px; width: 62%; } .ad-body h3 { font-size: 18px; margin-top: 4px; } .ad-body p { font-size: 12.5px; } }
+@media (max-width: 340px) { .ad-banner { aspect-ratio: 824 / 540; } .ad-body h3 { font-size: 16px; } .ad-cta { font-size: 13px; } }
 @media (min-width: 992px) { .ad-banner { aspect-ratio: auto; height: 300px; } .ad-body { width: 46%; padding: 32px 44px; } .ad-body h3 { font-size: 28px; } }
 
 /* ---------- شمارنده روشن (کارت مزایده) ---------- */

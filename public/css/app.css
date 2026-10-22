@@ -73,6 +73,8 @@
 /* ---------- ۲) پایه ---------- */
 *, *::before, *::after { -webkit-tap-highlight-color: transparent; }
 html { scroll-behavior: smooth; }
+/* شبکه ایمنی: هیچ المانی نباید صفحه را از عرض صفحه‌نمایش پهن‌تر کند (clip برخلاف hidden با sticky مشکلی ندارد) */
+html, body { max-width: 100%; overflow-x: clip; }
 body {
   font-size: 16px;
   line-height: 1.8;

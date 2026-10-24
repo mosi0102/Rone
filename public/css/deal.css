@@ -1,0 +1,137 @@
+/* ==========================================================================
+   deal.css — بیعانه امانی: پرداخت، رسید، هماهنگی، تعیین وضعیت، معاملات من
+   ========================================================================== */
+.dl-wrap { display: grid; gap: 14px; }
+@media (min-width: 992px) { .dl-wrap { max-width: 680px; margin-inline: auto; } }
+.dl-card { padding: 18px 16px; }
+.dl-card h2 { margin: 0 0 10px; font-size: 20px; font-weight: 900; }
+.dl-card p { margin: 0 0 10px; font-size: 14.5px; color: var(--muted); line-height: 2; }
+.dl-foot { margin: 2px 0 0; text-align: center; font-size: 13.5px; color: var(--muted); }
+.more-link { display: inline-flex; align-items: center; gap: 4px; color: var(--primary); font-weight: 800; font-size: 14px; }
+.req { color: var(--danger); }
+.mt-0 { margin-top: 0 !important; }
+
+/* کارت وضعیت */
+.dl-hero { padding: 26px 18px 24px; border-radius: 28px; text-align: center; }
+.dl-hero.info { background: #e8effb; color: var(--primary); }
+.dl-hero.green { background: #e6f4ea; color: #15803d; }
+.dl-hero.amber { background: #fff3dc; color: #b45309; }
+.dl-ic { width: 92px; height: 92px; margin: 0 auto 16px; border-radius: 26px; background: #fff; display: grid; place-items: center; }
+.dl-ic .icon { width: 44px; height: 44px; stroke-width: 1.6; }
+.dl-hero h1 { margin: 0 0 8px; font-size: 24px; font-weight: 900; color: inherit; }
+.dl-hero p { margin: 0 0 12px; font-size: 14.5px; color: var(--ink-2); line-height: 1.9; }
+.dl-amt { font-size: 32px; font-weight: 900; line-height: 1.5; } .dl-amt small { font-size: 18px; font-weight: 800; }
+
+/* مراحل */
+.dl-steps { display: flex; justify-content: space-between; gap: 4px; margin: 0; padding: 0; list-style: none; }
+.dl-steps li { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px; font-size: 12px; font-weight: 700; color: var(--muted); text-align: center; position: relative; }
+.dl-steps li i { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; background: #e2e8f0; color: var(--ink-2); font-style: normal; font-size: 13px; position: relative; z-index: 1; }
+.dl-steps li::after { content: ""; position: absolute; top: 14px; inset-inline-start: 50%; width: 100%; height: 3px; background: #e2e8f0; }
+.dl-steps li:last-child::after { display: none; }
+.dl-steps li.done i { background: var(--success); color: #fff; } .dl-steps li.done::after { background: var(--success); }
+.dl-steps li.cur i { background: var(--primary); color: #fff; box-shadow: 0 0 0 4px rgba(27, 77, 158, .15); } .dl-steps li.cur { color: var(--primary); }
+
+.dl-deadline { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; padding: 14px 16px; border-radius: 18px; background: #fff3dc; }
+.dl-deadline div { display: flex; flex-direction: column; } .dl-deadline b { font-size: 15px; } .dl-deadline span { font-size: 12.5px; color: var(--ink-2); }
+
+/* رسید */
+.rcpt .rc-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 11px 0; }
+.rc-k { color: var(--muted); font-size: 14.5px; } .rc-v { font-weight: 800; font-size: 14.5px; text-align: end; }
+.rc-v.blue { color: var(--primary); font-size: 16px; } .rc-v.blue small { font-size: 12.5px; font-weight: 700; }
+.rc-row.big .rc-k { color: var(--primary); font-weight: 900; font-size: 17px; } .rc-row.big .rc-v { font-size: 20px; }
+.rc-sep { margin: 6px 0; border: 0; border-top: 1px solid var(--line); opacity: 1; }
+.rc-note, .rc-inline-note { margin: 6px 0 0 !important; font-size: 13.5px !important; color: var(--muted) !important; }
+
+/* خودرو */
+.car-mini { display: flex; gap: 14px; padding: 12px; }
+.car-mini:hover { color: inherit; }
+.cm-media { flex: 0 0 140px; aspect-ratio: 1.05; border-radius: 14px; overflow: hidden; background: #dbe4f3; } .cm-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.cm-body { display: flex; flex-direction: column; gap: 4px; min-width: 0; justify-content: center; } .cm-body h3 { margin: 0; font-size: 18px; }
+.cm-meta { font-size: 13.5px; color: var(--muted); }
+.cm-dealer { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; color: var(--ink-2); } .cm-dealer .icon { color: var(--primary); }
+.cm-price { font-size: 13.5px; color: var(--primary); font-weight: 700; } .cm-price small { font-size: 12px; }
+
+/* پرداخت */
+.pay-hero { padding: 18px 18px 16px; border-radius: 24px; background: var(--primary); color: #fff; }
+.ph-line { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 14.5px; }
+.ph-ic { width: 42px; height: 42px; border-radius: 50%; border: 2px solid rgba(255, 255, 255, .85); display: grid; place-items: center; flex-shrink: 0; } .ph-ic .icon { width: 22px; height: 22px; }
+.ph-amt { margin: 12px 0 8px; font-size: 34px; font-weight: 900; text-align: start; line-height: 1.4; } .ph-amt small { font-size: 18px; }
+.pay-hero p { margin: 0; font-size: 14px; color: #c9d9f3; }
+.how-card .how-lead { margin-bottom: 6px; }
+.how-card h3 { margin: 12px 0 2px; font-size: 15.5px; font-weight: 800; } .how-ok { color: #15803d; } .how-no { color: #b91c1c; }
+.how-card p { margin: 0; font-size: 14px; }
+.contract-card { display: flex; gap: 14px; align-items: flex-start; }
+.contract-card h2 { margin-bottom: 4px; font-size: 18px; } .contract-card p { margin-bottom: 6px; }
+.cc-ic { width: 52px; height: 52px; border-radius: 16px; display: grid; place-items: center; background: var(--primary-soft); color: var(--primary); flex-shrink: 0; } .cc-ic .icon { width: 28px; height: 28px; }
+.pm-list { display: grid; gap: 8px; }
+.pm { margin: 0; cursor: pointer; } .pm input { position: absolute; opacity: 0; }
+.pm-b { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border: 1.5px solid var(--line); border-radius: 16px; color: var(--primary); transition: border-color var(--t-fast), background var(--t-fast); }
+.pm-t { display: flex; flex-direction: column; color: var(--ink); } .pm-t small { color: var(--muted); font-size: 12.5px; }
+.pm input:checked + .pm-b { border-color: var(--primary); background: var(--primary-soft); } .pm input:disabled + .pm-b { opacity: .5; }
+.pm input:focus-visible + .pm-b { outline: 3px solid rgba(245, 158, 11, .55); }
+.terms-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+.tr-ck { display: inline-flex; align-items: center; gap: 10px; margin: 0; cursor: pointer; font-weight: 700; font-size: 14px; border-radius: 12px; }
+.tr-ck input { position: absolute; opacity: 0; }
+.tr-ck i { width: 30px; height: 30px; border-radius: 9px; border: 2px solid #b7cbec; background: #fff; display: grid; place-items: center; color: transparent; transition: all var(--t-fast); flex-shrink: 0; }
+.tr-ck input:checked + i { background: var(--primary); border-color: var(--primary); color: #fff; }
+.tr-ck input:focus-visible + i { outline: 3px solid rgba(245, 158, 11, .55); }
+.tr-ck.is-invalid { animation: shakeX .4s; } .tr-ck.is-invalid i { border-color: var(--danger); }
+@keyframes shakeX { 0%, 100% { transform: none; } 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
+.clauses { padding-inline-start: 18px; display: grid; gap: 10px; margin-bottom: 16px; font-size: 14.5px; line-height: 2; }
+
+/* هماهنگی */
+.coord .co-row { display: flex; align-items: center; gap: 12px; padding: 7px 0; font-size: 14.5px; color: var(--ink-2); }
+.co-ic { width: 38px; height: 38px; border-radius: 12px; display: grid; place-items: center; background: var(--primary-soft); color: var(--primary); flex-shrink: 0; }
+.co-actions { display: grid; grid-template-columns: 1fr 1.5fr; gap: 10px; margin-top: 12px; }
+.co-actions .btn { min-height: 54px; font-size: 15px; }
+
+/* یادداشت و دکمه‌ها */
+.note-card { display: flex; gap: 12px; align-items: flex-start; padding: 16px; border-radius: 20px; background: #eaf1fc; }
+.note-card h3 { margin: 0 0 4px; font-size: 16px; } .note-card p { margin: 0; font-size: 14px; color: var(--muted); line-height: 1.9; }
+.nc-ic { width: 40px; height: 40px; flex-shrink: 0; display: grid; place-items: center; color: var(--primary); }
+.btn-light-outline { background: #fff; color: var(--primary); border: 1.5px solid #c9d6ee; font-weight: 800; }
+.btn-light-outline:hover { background: var(--primary-soft); color: var(--primary); }
+.sticky-cta { gap: 10px; }
+
+/* تعیین وضعیت */
+.big-opts { display: grid; gap: 12px; }
+.big-opt { margin: 0; cursor: pointer; display: block; border: 2px solid var(--line); border-radius: 22px; background: var(--surface); overflow: hidden; transition: border-color var(--t-fast), box-shadow var(--t-fast); }
+.big-opt input { position: absolute; opacity: 0; }
+.bo-body { display: flex; align-items: center; gap: 14px; padding: 16px; }
+.bo-ic { width: 54px; height: 54px; border-radius: 16px; display: grid; place-items: center; flex-shrink: 0; } .bo-ic .icon { width: 30px; height: 30px; }
+.big-opt.ok .bo-ic { background: #e3f4e8; color: #15803d; } .big-opt.no .bo-ic { background: #fde8e8; color: #b91c1c; }
+.bo-t { flex: 1; display: flex; flex-direction: column; } .bo-t b { font-size: 17px; } .bo-t small { font-size: 13.5px; color: var(--muted); }
+.bo-ck { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; background: #e8edf5; color: transparent; flex-shrink: 0; }
+.bo-more { display: none; align-items: flex-start; gap: 8px; padding: 12px 16px 14px; border-top: 1px dashed var(--line); font-size: 13.5px; color: var(--ink-2); line-height: 1.9; } .bo-more .icon { margin-top: 5px; color: var(--muted); }
+.big-opt:has(input:checked) { box-shadow: 0 0 0 4px rgba(27, 77, 158, .1); } .big-opt:has(input:checked) .bo-more { display: flex; }
+.big-opt.ok:has(input:checked) { border-color: #16a34a; } .big-opt.ok:has(input:checked) .bo-ck { background: #16a34a; color: #fff; }
+.big-opt.no:has(input:checked) { border-color: #dc2626; } .big-opt.no:has(input:checked) .bo-ck { background: #dc2626; color: #fff; }
+.big-opt:has(input:focus-visible) { outline: 3px solid rgba(245, 158, 11, .55); }
+.reasons { display: grid; gap: 8px; }
+.reason { margin: 0; cursor: pointer; } .reason input { position: absolute; opacity: 0; }
+.reason span { display: block; padding: 12px 14px; border: 1.5px solid var(--line); border-radius: 14px; font-weight: 600; font-size: 14.5px; transition: all var(--t-fast); }
+.reason input:checked + span { border-color: var(--primary); background: var(--primary-soft); color: var(--primary); font-weight: 800; }
+.proof { display: flex; align-items: center; gap: 8px; margin: 12px 0 0; padding: 12px 14px; border: 1.5px dashed #b7cbec; border-radius: 14px; color: var(--primary); font-weight: 700; font-size: 14px; cursor: pointer; background: var(--primary-soft); }
+
+/* لیست معاملات */
+.deal-list { display: grid; gap: 14px; margin-top: 14px; }
+@media (min-width: 992px) { .deal-list { grid-template-columns: repeat(2, 1fr); } }
+.deal-row { padding: 14px; display: grid; gap: 12px; }
+.dr-main { display: flex; gap: 14px; } .dr-main:hover { color: inherit; }
+.dr-media { flex: 0 0 104px; aspect-ratio: 1; border-radius: 14px; overflow: hidden; background: #dbe4f3; } .dr-media img { width: 100%; height: 100%; object-fit: cover; }
+.dr-body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
+.dr-top { display: flex; align-items: center; justify-content: space-between; gap: 6px; flex-wrap: wrap; } .dr-id { font-size: 12px; color: var(--muted); }
+.dr-body h3 { margin: 0; font-size: 17px; }
+.dr-who { display: inline-flex; align-items: center; gap: 6px; font-size: 13.5px; color: var(--ink-2); } .dr-who .icon { color: var(--primary); }
+.dr-amt { color: var(--primary); font-weight: 800; font-size: 15px; } .dr-amt small { font-size: 12px; }
+.dr-foot { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; padding: 10px 12px; border-radius: 14px; background: #fff3dc; font-weight: 700; font-size: 13.5px; }
+
+@media print {
+  body * { visibility: hidden; }
+  #receipt, #receipt * { visibility: visible; }
+  #receipt { position: absolute; inset: 0 0 auto 0; border: 0; box-shadow: none; }
+}
+
+/* اسکرول خودکار (کلیک/فوکوس) زیر نوار ثابت پایین نماند */
+.terms-row, .reasons, #disputeBox { scroll-margin-block: 110px; }
+.dl-wrap .btn-soft { --bs-btn-bg: #e8effb; --bs-btn-color: var(--primary); --bs-btn-hover-bg: #dbe6f8; --bs-btn-hover-color: var(--primary); --bs-btn-active-bg: #dbe6f8; --bs-btn-active-color: var(--primary); font-weight: 800; }

@@ -6,14 +6,14 @@
 
 @section('content')
   {{-- سرتیتر + هیرو (سفید، تمام‌عرض) --}}
-  <div class="home-top">
-    <div class="masthead">
-      <div>
-        <h1>{{ config('app.name') }}</h1>
-        <p>بازار تخصصی نمایشگاه‌های خودرو</p>
-      </div>
-      <img src="{{ asset('img/logo.png') }}" alt="{{ config('app.name') }}">
+  <header class="masthead sticky-head">
+    <div>
+      <h1>{{ config('app.name') }}</h1>
+      <p>بازار تخصصی نمایشگاه‌های خودرو</p>
     </div>
+    <img src="{{ asset('img/logo.png') }}" alt="{{ config('app.name') }}">
+  </header>
+  <div class="home-top">
     <section class="hero" aria-label="معرفی">
       <img class="hero-img" src="{{ asset('img/hero.jpg') }}" srcset="{{ asset('img/hero-sm.jpg') }} 412w, {{ asset('img/hero.jpg') }} 824w" sizes="(min-width: 992px) 1200px, 100vw" width="824" height="400" alt="نمایشگاه خودرو" fetchpriority="high">
       <h2 class="hero-text"><span>با خیال راحت</span><span>خودرو انتخاب کن</span></h2>

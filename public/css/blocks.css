@@ -196,3 +196,81 @@
 .countdown.is-off { display: none; }
 [data-cd-wrap] .cd-off { display: none; }
 [data-cd-wrap].is-off .cd-off { display: block; } [data-cd-wrap].is-off .cd-on { display: none; }
+
+
+/* ===== فروش فوری (کروسل) ===== */
+.fl { position: relative; }
+.fl-track { display: flex; gap: 12px; overflow-x: auto; padding: 2px 16px 6px; margin-inline: -16px; scroll-padding-inline: 16px; scroll-snap-type: x mandatory; scrollbar-width: none; overscroll-behavior-x: contain; outline: none; }
+.fl-track::-webkit-scrollbar { display: none; }
+.fl-slide { flex: 0 0 90%; max-width: 440px; scroll-snap-align: start; transition: opacity .3s var(--ease); }
+.fl-slide:not(.is-active) { opacity: .88; }
+
+.fl-card { height: 100%; overflow: hidden; background: var(--surface); border: 1px solid var(--line); border-radius: 20px; box-shadow: var(--shadow-1); }
+.fl-media { position: relative; aspect-ratio: 16 / 10; display: grid; place-items: center; background: #dbe4f3; color: #8ea0c0; overflow: hidden; }
+.fl-media > img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.fl-badge { position: absolute; top: 12px; inset-inline-start: 12px; display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; border-radius: 10px; background: rgba(255, 255, 255, .95); border: 1px solid #c9d6ee; color: var(--primary); font-weight: 800; font-size: 13px; }
+.fl-save { position: absolute; top: 12px; inset-inline-end: 12px; width: 46px; height: 46px; padding: 0; border: 0; border-radius: 14px; background: #fff; color: var(--primary); display: grid; place-items: center; box-shadow: var(--shadow-1); transition: transform var(--t-fast); }
+.fl-save:active { transform: scale(.9); }
+.fl-save.is-on .icon { fill: var(--primary); animation: pop .3s var(--ease); }
+
+.fl-body { display: block; padding: 14px 16px 16px; color: inherit; }
+.fl-body:hover { color: inherit; }
+.fl-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.fl-title { margin: 0; font-size: 19px; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.fl-dealer { display: inline-flex; align-items: center; gap: 6px; flex-shrink: 0; font-size: 13.5px; color: var(--ink-2); }
+.fl-dealer .icon { color: var(--primary); }
+.fl-meta { display: block; margin-top: 2px; font-size: 14px; color: var(--muted); }
+.fl-prices { margin-top: 8px; }
+.fl-price { color: var(--primary); font-size: 22px; font-weight: 900; line-height: 1.5; }
+.fl-price small { font-size: 14px; font-weight: 700; margin-inline-start: 4px; }
+.fl-old { font-size: 14px; color: var(--muted); } .fl-old small { font-size: 13px; }
+.fl-loc { margin-top: 6px; font-size: 13.5px; color: var(--muted); }
+
+.fl-dots { display: flex; justify-content: center; gap: 8px; margin-top: 12px; }
+.fl-dots button { width: 9px; height: 9px; padding: 0; border: 0; border-radius: 5px; background: #cbd5e1; transition: width .25s var(--ease), background .25s; }
+.fl-dots button.is-active { width: 26px; background: var(--primary); }
+
+@media (min-width: 992px) {
+  .fl-track { margin-inline: 0; padding-inline: 0; scroll-padding-inline: 0; }
+  .fl-slide { flex-basis: 380px; }
+}
+
+/* تب‌های کپسولی (فیلتر وضعیت: مزایده‌ها، معاملات من) */
+.seg-tabs { display: flex; gap: 4px; margin: 14px 0 18px; padding: 6px; border-radius: 18px; background: #e6eefb; }
+.seg-tabs button { flex: 1; padding: 13px 6px; border: 0; border-radius: 14px; background: transparent; color: var(--primary); font: inherit; font-weight: 700; font-size: 14.5px; transition: background var(--t-fast), color var(--t-fast); }
+.seg-tabs button.on { background: var(--primary); color: #fff; box-shadow: 0 4px 10px rgba(27, 77, 158, .25); }
+@media (min-width: 992px) { .seg-tabs { max-width: 640px; } }
+
+
+/* ===== کلاس‌های مشترک بین صفحه‌ها (قبلاً فقط در یک فایل صفحه‌ای بودند) ===== */
+.wz-done { text-align: center; padding: 28px 12px; }
+.wz-done .ok-ring { width: 84px; height: 84px; margin: 0 auto 14px; border-radius: 50%; display: grid; place-items: center; background: var(--success-soft); color: var(--success); animation: pop .5s var(--ease); }
+.wz-done .ok-ring .icon { width: 42px; height: 42px; }
+
+.plan-pick { display: grid; gap: 8px; }
+.plan { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border: 1.5px solid var(--line); border-radius: var(--r-md); cursor: pointer; transition: border-color var(--t-fast), background var(--t-fast); }
+.plan input { width: 20px; height: 20px; accent-color: var(--primary); flex-shrink: 0; }
+.plan span { flex: 1; display: flex; flex-direction: column; } .plan small { color: var(--muted); font-size: 12px; }
+.plan:has(input:checked) { border-color: var(--primary); background: var(--primary-soft); }
+
+.pay-rows { border: 1px solid var(--line); border-radius: var(--r-md); overflow: hidden; }
+.pay-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 14px; }
+.pay-row + .pay-row { border-top: 1px solid var(--line); }
+.pay-row b { font-size: 14px; display: inline-flex; gap: 6px; align-items: center; }
+.pay-row small { display: block; color: var(--muted); font-size: 12px; }
+.pay-row.total { background: var(--primary-soft); font-weight: 900; color: var(--primary); }
+.pay-row.total b { font-size: 15px; }
+.pay-row.wallet { background: #f8fafc; }
+
+.pay-row.wallet { background: #f3f6fb; border-radius: 14px; }
+
+.pay-row + .pay-row { border-top: 1px solid var(--line); } .pay-row b { display: inline-flex; gap: 6px; align-items: center; font-size: 14px; }
+
+.dropzone { position: relative; display: block; overflow: hidden; border: 2px dashed #b7cbec; border-radius: var(--r-lg); background: var(--primary-soft); aspect-ratio: 2 / 1; cursor: pointer; transition: border-color var(--t-fast); }
+.dropzone:hover { border-color: var(--primary); }
+.dropzone img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.dz-hint { position: absolute; inset: auto 0 0 0; display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 10px; background: rgba(14, 26, 54, .65); color: #fff; font-weight: 700; font-size: 13px; }
+.dz-hint small { font-weight: 500; font-size: 11px; opacity: .85; }
+.ar-chip { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: var(--r-pill); background: #fff; border: 1px solid #d5e1f5; font-size: 12px; font-weight: 700; color: var(--ink-2); }
+.ar-chip .icon { color: var(--primary); } .ar-chip .countdown-inline { color: #dc2626; }
+.dm-ic { width: 54px; height: 54px; border-radius: 16px; display: grid; place-items: center; flex-shrink: 0; background: var(--primary-soft); color: var(--primary); }

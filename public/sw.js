@@ -1,5 +1,5 @@
 /* Service Worker — کش استاتیک + صفحه آفلاین. با هر تغییر فایل‌های استاتیک، VERSION را بالا ببرید. */
-const VERSION = 'v8';
+const VERSION = 'v9';
 const STATIC = 'static-' + VERSION;
 const PRECACHE = [
   '/offline',
@@ -24,10 +24,15 @@ self.addEventListener('fetch', e => {
     e.respondWith(fetch(req).catch(() => caches.match('/offline')));
     return;
   }
-  // استاتیک: اول کش، همزمان به‌روزرسانی در پس‌زمینه
-  if (/\.(css|js|woff2|png|svg|jpg|jpeg|webp)$/.test(url.pathname)) {
+  // CSS/JS: اول شبکه (همیشه آخرین نسخه)، اگر آفلاین بود از کش
+  if (/\.(css|js)$/.test(url.pathname)) {
+    e.respondWith(fetch(req).then(res => { if (res.ok) { const c = res.clone(); caches.open(STATIC).then(x => x.put(req, c)); } return res; }).catch(() => caches.match(req)));
+    return;
+  }
+  // فونت و تصویر: اول کش، همزمان به‌روزرسانی پس‌زمینه
+  if (/\.(woff2|png|svg|jpg|jpeg|webp)$/.test(url.pathname)) {
     e.respondWith(caches.match(req).then(hit => {
-      const net = fetch(req).then(res => { if (res.ok) caches.open(STATIC).then(c => c.put(req, res.clone())); return res; }).catch(() => hit);
+      const net = fetch(req).then(res => { if (res.ok) { const c = res.clone(); caches.open(STATIC).then(x => x.put(req, c)); } return res; }).catch(() => hit);
       return hit || net;
     }));
   }

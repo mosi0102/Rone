@@ -28,7 +28,7 @@
   --primary-hover: #153e82;
   --primary-soft: #e8effb;
   --primary-ink: #0e2f66;
-  
+
   --accent: #f59e0b;
   --accent-hover: #d97706;
   --accent-soft: #fef3c7;
@@ -96,7 +96,7 @@ h1, h2, h3, h4, h5, h6 { font-weight: 800; line-height: 1.45; letter-spacing: 0;
 .app-main {
   width: 100%;
   padding: 16px 0 calc(var(--bottomnav-h) + var(--safe-bottom) + 20px);
-  animation: pageFade .2s ease both;
+  animation: pageFade .2s ease backwards;
 }
 .page-container { width: 100%; max-width: var(--container); margin-inline: auto; padding-inline: 16px; }
 
@@ -348,7 +348,8 @@ html[dir="rtl"] .skeleton::after { transform: translateX(-100%); animation-name:
 .sticky-cta { position: fixed; z-index: 1035; inset-inline: 0; bottom: 0; padding: 12px 16px calc(12px + var(--safe-bottom)); background: rgba(255, 255, 255, .94); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); border-top: 1px solid var(--line); display: flex; gap: 12px; align-items: center; }
 @media (min-width: 992px) { .sticky-cta { position: static; padding: 0; background: none; border: 0; backdrop-filter: none; } }
 
-/* ⚠️ روی .app-main فقط opacity انیمیت می‌شود: هر transform (حتی با fill-mode) باعث می‌شود المان‌های fixed داخل صفحه (offcanvas/modal)
+/* ⚠️ fill-mode باید backwards باشد (نه both/forwards): در غیر این صورت بعد از پایان انیمیشن هم main یک stacking context می‌ماند
+   و مودال/آفکنوس‌های داخل صفحه زیر backdrop می‌روند. روی .app-main فقط opacity انیمیت می‌شود: هر transform (حتی با fill-mode) باعث می‌شود المان‌های fixed داخل صفحه (offcanvas/modal)
    نسبت به main موقعیت بگیرند و زیر صفحه فضای خالی بسازند. */
 @keyframes pageFade { from { opacity: 0; } to { opacity: 1; } }
 @keyframes pageIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
@@ -394,3 +395,21 @@ html[dir="rtl"] .skeleton::after { transform: translateX(-100%); animation-name:
 .btn-square:active { transform: scale(.9); }
 .btn-square.is-on { background: var(--primary-soft); }
 .btn-square.is-on .icon { fill: var(--primary); animation: pop .32s var(--ease); }
+
+/* ---------- هدر هوشمند: با اسکرول به پایین پنهان، با اسکرول به بالا ظاهر می‌شود ---------- */
+html { scroll-padding-top: 76px; }
+.page-head, .masthead.sticky-head { position: sticky; top: 0; z-index: 1030; transition: transform .28s var(--ease), box-shadow .28s; will-change: transform; }
+.masthead.sticky-head { margin: -16px -16px 0; padding-inline: 20px; background: #fff; }
+.desk-header { transition: transform .28s var(--ease); }
+.page-head.is-hidden-up, .masthead.is-hidden-up, .desk-header.is-hidden-up { transform: translateY(-105%); }
+.page-head.is-stuck, .masthead.is-stuck, .desk-header.is-stuck { box-shadow: 0 2px 12px rgba(15, 23, 42, .08); }
+@media (min-width: 992px) { html { scroll-padding-top: 90px; } }
+.offcanvas-header
+{
+    justify-content: space-between;
+}
+.offcanvas-header .btn-close
+{
+    margin-right: auto !important;
+    margin-left: 0 !important;
+}

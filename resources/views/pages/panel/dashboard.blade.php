@@ -4,7 +4,7 @@
 @section('page_subtitle', $dealer->name)
 @section('body_class', 'panel-page')
 
-@push('styles')<link rel="stylesheet" href="{{ asset('css/panel.css') }}">@endpush
+@push('styles')<link rel="stylesheet" href="{{ asset('css/panel.css') }}"><link rel="stylesheet" href="{{ asset('css/deal.css') }}">@endpush
 @push('scripts')<script src="{{ asset('js/panel.js') }}"></script>@endpush
 
 @section('content')
@@ -34,6 +34,7 @@
     <button type="button" class="pill-tab" data-tab="overview" role="tab"><x-icon name="chart" class="icon-sm" /> آمار و ارقام</button>
     <button type="button" class="pill-tab" data-tab="listings" role="tab"><x-icon name="car" class="icon-sm" /> آگهی‌ها</button>
     <button type="button" class="pill-tab" data-tab="auctions" role="tab"><x-icon name="gavel" class="icon-sm" /> مزایده‌ها</button>
+    <button type="button" class="pill-tab" data-tab="deals" role="tab"><x-icon name="shield" class="icon-sm" /> معاملات</button>
     <button type="button" class="pill-tab" data-tab="finance" role="tab"><x-icon name="receipt" class="icon-sm" /> مالی</button>
     <button type="button" class="pill-tab" data-tab="settings" role="tab"><x-icon name="settings" class="icon-sm" /> تنظیمات</button>
   </div>
@@ -127,6 +128,20 @@
             </div>
           </article>
         @endforeach
+      </div>
+    </section>
+
+    {{-- ===== معاملات (بیعانه‌های امانی) ===== --}}
+    <section data-pane="deals" class="pane d-none">
+      @php $dl = collect($deals); $heldSum = $dl->where('status', 'held')->sum('amount'); $doneSum = $dl->where('status', 'completed')->sum('amount'); @endphp
+      <div class="kpi-grid kpi-3">
+        <x-kpi icon="clock" label="در انتظار تعیین وضعیت" :value="$dl->where('status', 'held')->count()" />
+        <x-kpi icon="shield" label="بیعانه در امانت (تومان)" :value="$heldSum" />
+        <x-kpi icon="check-circle" label="منتقل‌شده به شما (تومان)" :value="$doneSum" />
+      </div>
+      <p class="small text-muted-s"><x-icon name="info" class="icon-sm" /> بیعانه فقط پس از تأیید خریدار به کیف پول شما منتقل می‌شود؛ تا آن زمان نزد پلتفرم امانت است.</p>
+      <div class="deal-list">
+        @forelse($deals as $deal)<x-deal-row :deal="$deal" seller />@empty<x-empty-state icon="shield" title="هنوز بیعانه‌ای دریافت نکرده‌اید" />@endforelse
       </div>
     </section>
 

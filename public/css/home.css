@@ -1,8 +1,8 @@
 /* home.css — فقط صفحه خانه (طبق طرح نهایی). بلوک‌های مشترک در blocks.css هستند. */
 
 /* سرتیتر + هیرو: سفید و تمام‌عرض */
-.home-top { margin: -16px -16px 0; background: #fff; }
-.masthead { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: calc(var(--safe-top) + 16px) 20px 14px; }
+.home-top { margin: 0 -16px; background: #fff; }
+.masthead { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: calc(var(--safe-top) + 16px) 20px 14px; background: #fff; }
 .masthead h1 { margin: 0; font-size: 22px; font-weight: 900; }
 .masthead p { margin: 0; font-size: 14px; color: var(--muted); }
 .masthead img { display: block; height: 48px; width: auto; }

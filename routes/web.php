@@ -110,7 +110,7 @@ Route::get('/listings/{id}', function ($id) use ($img) {
         'car' => (object) [
             'id' => $id, 'code' => 24817, 'title' => 'پژو ۲۰۷ اتوماتیک', 'subtitle' => 'مدل ۱۴۰۲ • سقف شیشه‌ای • بدون رنگ', 'sale_type' => 'instant',
             'price' => 985000000, 'price_note' => 'قیمت نقدی • قابل مذاکره', 'location' => 'تهران، سعادت‌آباد', 'views' => 326, 'favorited' => false,
-            'deposit_percent' => 3, 'service_fee' => 150000,
+            'deposit_percent' => 2, 'deposit_amount' => 20000000, 'service_fee' => 200000,
             'images' => [
                 ['src' => $img('detail-main.jpg'), 'thumb' => $img('detail-t1.jpg')],
                 ['src' => $img('detail-t1.jpg'), 'thumb' => $img('detail-t2.jpg')],
@@ -196,6 +196,7 @@ Route::get('/panel', function () {
         ['id' => 24821, 'title' => 'سمند سورن', 'image' => null, 'price' => 610000000, 'status' => 'expired', 'sale_type' => null, 'views' => 97, 'saves' => 4, 'reserves' => 1, 'expires' => 'منقضی شده'],
     ];
     return view('pages.panel.dashboard', [
+        'deals' => collect($GLOBALS['__dealStore']())->only([101, 104, 105])->values()->all(),
         'tab' => request('tab', 'overview'),
         'kpis' => [
             ['icon' => 'eye', 'label' => 'بازدید ۷ روز اخیر', 'value' => 1240, 'delta' => 12, 'up' => true],
@@ -317,6 +318,61 @@ Route::get('/panel/auctions/create', function () {
     ]);
 })->name('auctions.create');
 
+
+/*
+|--------------------------------------------------------------------------
+| بیعانه امانی و معاملات (Mock)
+|--------------------------------------------------------------------------
+| وضعیت معامله: held (پول نزد پلتفرم امانت است) | completed (به نمایشگاه منتقل شد) | refunded (به خریدار برگشت) | review (اختلاف در حال بررسی)
+| پیش‌نمایش:  /deals/101?state=completed   |  /deals/101?state=review   |  as=dealer برای دید فروشنده
+*/
+$GLOBALS['__dealStore'] = $dealStore = function () {
+    $img = fn ($f) => asset('img/mock/' . $f);
+    $hw = ['id' => 8, 'name' => 'اتوگالری هالیوود', 'area' => 'تهران، سعادت‌آباد', 'verified' => true, 'url' => route('dealers.show', 8),
+        'address' => 'تهران، سعادت‌آباد، بین سعادتی ۲۰ و ۲۲، جنب بانک شهر', 'hours' => 'شنبه تا پنجشنبه ۹ تا ۲۰', 'phone' => '۰۹۱۲۴۵۶۸۹۲۳', 'map_url' => 'https://maps.google.com/?q=35.78,51.37'];
+    $base = ['listing_id' => 24817, 'title' => 'پژو ۲۰۷ اتوماتیک', 'listing_url' => route('listings.show', 24817), 'image' => $img('dealer-stock-1.jpg'), 'year' => 1402, 'km' => 24000, 'extra' => 'سفید', 'price' => 985000000,
+        'amount' => 20000000, 'fee' => 200000, 'tx' => '۸۶۴۲۱۹۷۳', 'dealer' => $hw, 'buyer' => ['name' => 'علی محمدی', 'phone' => '۰۹۱۲۳۴۵۶۷۸۹'],
+        'paid_at' => now()->subHours(26), 'decide_by' => now()->addHours(46), 'decided_at' => null, 'reason' => null, 'reason_note' => null];
+    return [
+        101 => array_merge($base, ['id' => 101, 'status' => 'held']),
+        102 => array_merge($base, ['id' => 102, 'status' => 'completed', 'listing_id' => 24819, 'title' => 'یاماها NMAX 155', 'image' => $img('dealer-stock-3.jpg'), 'year' => 1403, 'km' => 4500, 'extra' => 'آبی', 'price' => 385000000, 'amount' => 10000000, 'tx' => '۷۳۱۵۴۰۶۲', 'dealer' => array_merge($hw, ['id' => 21, 'name' => 'آریا موتور']), 'paid_at' => now()->subDays(6), 'decided_at' => now()->subDays(3)]),
+        103 => array_merge($base, ['id' => 103, 'status' => 'refunded', 'listing_id' => 24818, 'title' => 'ولوو FH500 کشنده', 'image' => $img('dealer-stock-2.jpg'), 'year' => 1399, 'km' => 320000, 'extra' => 'دیزل', 'price' => 9800000000, 'amount' => 100000000, 'tx' => '۵۵۲۰۹۱۱۸', 'dealer' => array_merge($hw, ['id' => 22, 'name' => 'آریا خودروهای تجاری']), 'paid_at' => now()->subDays(9), 'decided_at' => now()->subDays(6), 'reason' => 'خودرو با توضیحات آگهی تفاوت داشت']),
+        104 => array_merge($base, ['id' => 104, 'status' => 'review', 'listing_id' => 24820, 'title' => 'پژو ۲۰۶ تیپ ۲', 'image' => $img('dealer-stock-1.jpg'), 'year' => 1400, 'km' => 61000, 'price' => 540000000, 'amount' => 12000000, 'tx' => '۹۹۱۲۰۳۴۵', 'paid_at' => now()->subDays(3), 'decided_at' => now()->subHours(5), 'reason' => 'نمایشگاه پاسخ نداد / در دسترس نبود', 'reason_note' => 'دو روز تماس گرفتم و کسی پاسخ نداد.']),
+        105 => array_merge($base, ['id' => 105, 'status' => 'completed', 'listing_id' => 24821, 'title' => 'سمند سورن', 'image' => $img('dealer-stock-1.jpg'), 'year' => 1401, 'km' => 38000, 'extra' => 'نقره‌ای', 'price' => 610000000, 'amount' => 15000000, 'tx' => '۴۴۱۸۷۲۰۶', 'paid_at' => now()->subDays(8), 'decided_at' => now()->subDays(5)]),
+    ];
+};
+
+/* پرداخت بیعانه (کاربر) */
+Route::get('/listings/{id}/deposit', function ($id) {
+    $img = fn ($f) => asset('img/mock/' . $f);
+    return view('pages.deals.deposit', ['car' => (object) [
+        'id' => $id, 'title' => 'پژو ۲۰۷ اتوماتیک', 'image' => $img('dealer-stock-1.jpg'), 'year' => 1402, 'km' => 24000, 'extra' => 'سفید', 'price' => 985000000,
+        'amount' => 20000000, 'fee' => 200000, 'url' => route('listings.show', $id),
+        'dealer' => ['id' => 8, 'name' => 'اتوگالری هالیوود', 'verified' => true],
+    ]]);
+})->whereNumber('id')->name('listings.deposit');
+
+Route::get('/deals/{id}', function ($id) use ($dealStore) {
+    $all = $dealStore(); $d = $all[(int) $id] ?? $all[101];
+    if ($st = request('state')) {
+        $d['status'] = $st; if ($st !== 'held') $d['decided_at'] = now()->subHours(2);
+        if ($st === 'review') { $d['reason'] = 'خودرو با توضیحات آگهی تفاوت داشت'; $d['reason_note'] = 'رنگ و وضعیت بدنه با آگهی فرق داشت.'; }
+        if ($st === 'refunded') $d['reason'] = 'خودرو با توضیحات آگهی تفاوت داشت';
+    }
+    return view('pages.deals.show', ['deal' => (object) $d]);
+})->whereNumber('id')->name('deals.show');
+
+Route::get('/deals/{id}/decide', function ($id) use ($dealStore) {
+    $all = $dealStore(); $d = $all[(int) $id] ?? $all[101];
+    return view('pages.deals.decide', ['deal' => (object) $d]);
+})->whereNumber('id')->name('deals.decide');
+
+/* معاملات من (خریدار) */
+Route::get('/account/deals', function () use ($dealStore) {
+    $all = collect($dealStore())->only([101, 102, 103, 104])->values()->all();
+    return view('pages.deals.index', ['deals' => $all]);
+})->name('account.reservations');
+
 // صفحات بعدی — فعلاً صفحه «به‌زودی»
 foreach ([
     'listings.index'   => ['/listings', 'آگهی‌ها'],
@@ -324,7 +380,6 @@ foreach ([
     'account.wallet'   => ['/account/wallet', 'کیف پول'],
     'favorites'        => ['/favorites', 'نشان‌شده‌ها'],
     'help'             => ['/help', 'راهنما'],
-    'account.reservations' => ['/account/reservations', 'رزروهای من'],
     'notifications'    => ['/notifications', 'اعلان‌ها'],
 ] as $name => [$uri, $title]) {
     Route::get($uri, fn () => view('pages.soon', ['title' => $title]))->name($name);

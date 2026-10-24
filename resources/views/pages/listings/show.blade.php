@@ -8,8 +8,6 @@
 @php
   $map = array_combine(['0','1','2','3','4','5','6','7','8','9'], ['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹']);
   $fa = fn ($n) => strtr(number_format((float) $n), $map + [',' => '٬']);
-  $deposit = (int) round($car->price * $car->deposit_percent / 100);
-  $total = $deposit + $car->service_fee;
   // نمایشگاه‌دارِ صاحب آگهی «مدیریت» می‌بیند؛ بقیه (حتی نمایشگاه‌دار دیگر) مثل خریدار.
   $isOwner = $auth->dealer && $auth->dealer->id === $car->dealer['id'];
   $loginUrl = route('login', ['next' => url()->current()]);
@@ -96,9 +94,7 @@
       @elseif(!$auth->check)
         <a href="{{ $loginUrl }}" class="btn btn-primary btn-lg w-100 cd-cta-desktop"><x-icon name="user" /> ورود برای پرداخت بیعانه</a>
       @else
-        <button type="button" class="btn btn-primary btn-lg w-100 cd-cta-desktop" data-bs-toggle="offcanvas" data-bs-target="#reserveSheet">
-          <x-icon name="shield" /> پرداخت بیعانه و ادامه فرایند
-        </button>
+        <a href="{{ route('listings.deposit', $car->id) }}" class="btn btn-primary btn-lg w-100 cd-cta-desktop"><x-icon name="shield" /> پرداخت بیعانه و ادامه فرایند</a>
       @endif
     </div>
   </aside>
@@ -111,9 +107,7 @@
   @elseif(!$auth->check)
     <a href="{{ $loginUrl }}" class="btn btn-primary btn-lg flex-fill"><x-icon name="user" /> ورود برای پرداخت بیعانه</a>
   @else
-    <button type="button" class="btn btn-primary btn-lg flex-fill" data-bs-toggle="offcanvas" data-bs-target="#reserveSheet">
-      <x-icon name="shield" /> پرداخت بیعانه و ادامه فرایند
-    </button>
+    <a href="{{ route('listings.deposit', $car->id) }}" class="btn btn-primary btn-lg flex-fill"><x-icon name="shield" /> پرداخت بیعانه و ادامه فرایند</a>
   @endif
 </div>
 
@@ -145,33 +139,6 @@
     <button type="button" class="btn btn-danger btn-lg" id="deleteListing">حذف دائمی آگهی</button>
   </div>
 </div>
-@elseif($auth->check)
-{{-- شیت پرداخت بیعانه --}}
-<div class="offcanvas offcanvas-bottom sheet" tabindex="-1" id="reserveSheet" aria-labelledby="reserveTitle">
-  <div class="sheet-handle"></div>
-  <div class="offcanvas-header">
-    <h5 class="offcanvas-title" id="reserveTitle">پرداخت بیعانه امانی</h5>
-    <button type="button" class="btn-close ms-0 me-auto" data-bs-dismiss="offcanvas" aria-label="بستن"></button>
-  </div>
-  <div class="offcanvas-body pt-0">
-    <div class="pay-rows">
-      <div class="pay-row"><div><b>بیعانه ({{ strtr((string) $car->deposit_percent, $map) }}٪ قیمت خودرو)</b><small>قابل انتقال یا بازگشت</small></div><x-price :value="$deposit" /></div>
-      <div class="pay-row"><div><b>کارمزد خدمات {{ config('app.name') }}</b><small>غیرقابل بازگشت</small></div><x-price :value="$car->service_fee" /></div>
-      <div class="pay-row total"><b>مبلغ قابل پرداخت</b><x-price :value="$total" /></div>
-      <div class="pay-row wallet"><div><b><x-icon name="wallet" class="icon-sm" /> موجودی کیف پول</b></div><x-price :value="$wallet" /></div>
-    </div>
-    <label class="form-check d-flex align-items-start gap-2 my-3 p-0">
-      <input class="form-check-input mt-1 mx-0" type="checkbox" id="agreeTerms" style="flex-shrink:0;width:20px;height:20px">
-      <span class="small">شرایط رزرو و قوانین بیعانه امانی را می‌پذیرم.</span>
-    </label>
-    <p class="small text-muted-s"><x-icon name="info" class="icon-sm" /> پس از پرداخت، اطلاعات تماس نمایشگاه‌دار نمایش داده می‌شود و تا ۳ روز برای هماهنگی و بازدید فرصت دارید.</p>
-    @if($wallet >= $total)
-      <button type="button" class="btn btn-accent btn-lg w-100" id="payDeposit" data-total="{{ $total }}" disabled>پرداخت از کیف پول</button>
-    @else
-      <a href="{{ route('account.wallet') }}" class="btn btn-accent btn-lg w-100"><x-icon name="plus" /> شارژ کیف پول (کمبود موجودی)</a>
-    @endif
-  </div>
-</div>
 @endif
 
 @if(!empty($similar))
@@ -185,12 +152,5 @@
   $('#payInstant').on('click', function () { var $b = $(this); App.loading($b); $(document).trigger('app:instant', [{{ $car->id }}, $('input[name=inst]:checked').val()]); setTimeout(function () { App.loading($b, false); App.sheet('instantSheet', 'hide'); App.toast('فروش فوری فعال شد (نمایشی)', 'success'); }, 1100); });
   $('#deactivateListing').on('click', function () { $(document).trigger('app:listing-deactivate', [{{ $car->id }}]); App.toast('آگهی غیرفعال شد (نمایشی)', 'info'); });
   $('#deleteListing').on('click', function () { $(document).trigger('app:listing-delete', [{{ $car->id }}]); App.toast('درخواست حذف ارسال شد (نمایشی)', 'warn'); App.sheet('removeSheet', 'hide'); });
-  $('#agreeTerms').on('change', function () { $('#payDeposit').prop('disabled', !this.checked); });
-  // بک‌اندکار: به‌جای دمو، درخواست پرداخت را POST کند و پاسخ را مدیریت کند.
-  $('#payDeposit').on('click', function () {
-    var $b = $(this); App.loading($b);
-    $(document).trigger('app:reserve', [{{ $car->id }}, $b.data('total')]);
-    setTimeout(function () { App.loading($b, false); App.sheet('reserveSheet', 'hide'); App.toast('بیعانه پرداخت شد (نمایشی)', 'success'); }, 1200);
-  });
 </script>
 @endpush

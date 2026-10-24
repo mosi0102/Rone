@@ -22,7 +22,7 @@
 .dp-actions { display: flex; gap: 10px; margin-top: 4px; }
 .dp-actions .btn { height: 48px; }
 
-.dp-verified-note { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 16px; border-radius: var(--r-lg); background: #e8f6ed; border: 1px solid #c3e8cf; }
+.dp-verified-note { display: flex; align-items: center; justify-content: start; gap: 12px; padding: 14px 16px; border-radius: var(--r-lg); background: #e8f6ed; border: 1px solid #c3e8cf; }
 .dp-verified-note h3 { margin: 0 0 2px; font-size: 14.5px; color: #15803d; }
 .dp-verified-note p { margin: 0; font-size: 13px; color: var(--ink-2); }
 .dp-vi { width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center; background: #fff; color: #16a34a; flex-shrink: 0; }

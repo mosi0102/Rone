@@ -413,3 +413,7 @@ html { scroll-padding-top: 76px; }
     margin-right: auto !important;
     margin-left: 0 !important;
 }
+.no-bottom-nav .app-main
+{
+    padding-bottom: 90px;
+}

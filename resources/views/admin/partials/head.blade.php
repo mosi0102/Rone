@@ -3,7 +3,7 @@
 <meta name="robots" content="noindex, nofollow">
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <title>@yield('title', 'پنل مدیریت') | {{ config('app.name') }}</title>
-<meta name="theme-color" content="#f6f2ea">
+<meta name="theme-color" content="#f3f5fa">
 <link rel="stylesheet" href="{{ asset('vendor/bootstrap/bootstrap.rtl.min.css') }}">
 <link rel="stylesheet" href="{{ asset('admin-assets/css/admin.css') }}">
 {{-- جلوگیری از پرش چیدمان: وضعیت سایدبار قبل از رندر اعمال می‌شود --}}

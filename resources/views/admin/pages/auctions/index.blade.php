@@ -5,7 +5,7 @@
 
 @section('content')
 @php
-  $cats = ['car' => ['سواری', 'car'], 'heavy' => ['سنگین', 'truck'], 'bike' => ['موتور', 'bike']];
+  $cats = ['car' => ['سواری', 'car'], 'heavy' => ['سنگین', 'truck'], 'bike' => ['موتور', 'bike'], 'bicycle' => ['دوچرخه', 'bicycle']];
   $tabs = ['all' => 'همه', 'live' => 'زنده', 'scheduled' => 'زمان‌بندی‌شده', 'awaiting_pay' => 'منتظر پرداخت', 'defaulted' => 'عدم پرداخت', 'ended' => 'پایان‌یافته', 'cancelled' => 'لغوشده'];
   $counts = array_count_values(array_column($auctions, 'status'));
   $overdue = count(array_filter($auctions, fn ($a) => $a['pay'] === 'overdue'));

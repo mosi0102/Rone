@@ -244,7 +244,9 @@
   var STATUS = {
     active: ['ok', 'فعال'], pending: ['warn', 'در انتظار تأیید'], rejected: ['bad', 'ردشده'], suspended: ['bad', 'تعلیق‌شده'],
     expired: ['', 'منقضی'], sold: ['info', 'فروخته‌شده'], normal: ['', 'فروش عادی'], instant: ['warn', 'فروش فوری'], auction: ['info', 'مزایده'],
-    live: ['bad live', 'زنده'], scheduled: ['info', 'زمان‌بندی‌شده'], ended: ['', 'پایان‌یافته'], awaiting_pay: ['warn', 'منتظر پرداخت برنده'], defaulted: ['bad', 'عدم پرداخت'], cancelled: ['', 'لغوشده']
+    live: ['bad live', 'زنده'], scheduled: ['info', 'زمان‌بندی‌شده'], ended: ['', 'پایان‌یافته'], awaiting_pay: ['warn', 'منتظر پرداخت برنده'], defaulted: ['bad', 'عدم پرداخت'], cancelled: ['', 'لغوشده'],
+    held: ['info', 'در امانت'], flagged: ['bad', 'پرچم‌شده'], reviewed: ['ok', 'بررسی‌شده'], unpaid: ['warn', 'در انتظار پرداخت'], paid: ['ok', 'پرداخت‌شده'], released: ['ok', 'آزادشده'], refunded: ['', 'برگشت‌خورده'], dispute: ['bad', 'اختلاف'],
+    open: ['bad', 'باز'], review: ['warn', 'در حال بررسی'], resolved: ['ok', 'حل‌شده']
   };
   Admin.statusHtml = function (st) { var m = STATUS[st] || ['', st]; return '<span class="badge-s ' + m[0] + '">' + m[1] + '</span>'; };
 

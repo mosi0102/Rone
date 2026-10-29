@@ -33,6 +33,13 @@
     </form>
 
     <a href="{{ route('home') }}" class="auth-skip">فعلاً فقط می‌خواهم ببینم</a>
+    @if(config('app.debug'))
+      <div class="demo-login">
+        <small>ورود نمایشی (فقط APP_DEBUG)</small>
+        <a href="{{ $next }}{{ str_contains($next, '?') ? '&' : '?' }}as=user" class="btn btn-soft btn-sm">ورود به‌عنوان کاربر</a>
+        <a href="{{ $next }}{{ str_contains($next, '?') ? '&' : '?' }}as=dealer&mode=dealer" class="btn btn-soft btn-sm">ورود به‌عنوان نمایشگاه‌دار</a>
+      </div>
+    @endif
   </div>
 </div>
 @endsection

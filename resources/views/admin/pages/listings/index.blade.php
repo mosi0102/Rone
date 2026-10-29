@@ -5,7 +5,7 @@
 
 @section('content')
 @php
-  $cats = ['car' => ['سواری', 'car'], 'heavy' => ['سنگین', 'truck'], 'bike' => ['موتور', 'bike']];
+  $cats = ['car' => ['سواری', 'car'], 'heavy' => ['سنگین', 'truck'], 'bike' => ['موتور', 'bike'], 'bicycle' => ['دوچرخه', 'bicycle']];
   $tabs = ['all' => 'همه', 'pending' => 'در انتظار تأیید', 'active' => 'فعال', 'rejected' => 'ردشده', 'suspended' => 'تعلیق‌شده', 'sold' => 'فروخته‌شده', 'expired' => 'منقضی'];
   $counts = array_count_values(array_column($listings, 'status'));
 @endphp

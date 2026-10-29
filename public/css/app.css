@@ -28,7 +28,7 @@
   --primary-hover: #153e82;
   --primary-soft: #e8effb;
   --primary-ink: #0e2f66;
-
+  
   --accent: #f59e0b;
   --accent-hover: #d97706;
   --accent-soft: #fef3c7;
@@ -404,16 +404,15 @@ html { scroll-padding-top: 76px; }
 .page-head.is-hidden-up, .masthead.is-hidden-up, .desk-header.is-hidden-up { transform: translateY(-105%); }
 .page-head.is-stuck, .masthead.is-stuck, .desk-header.is-stuck { box-shadow: 0 2px 12px rgba(15, 23, 42, .08); }
 @media (min-width: 992px) { html { scroll-padding-top: 90px; } }
-.offcanvas-header
-{
-    justify-content: space-between;
-}
-.offcanvas-header .btn-close
-{
-    margin-right: auto !important;
-    margin-left: 0 !important;
-}
-.no-bottom-nav .app-main
-{
-    padding-bottom: 90px;
-}
+
+/* ---------- کلید نقش (فقط APP_DEBUG) — دایره کوچک وسط لبه صفحه تا روی دکمه‌ها نیفتد ---------- */
+.dev-fab { position: fixed; z-index: 1025; inset-inline-end: 8px; top: 46%; font-size: 13px; }
+.dev-btn { width: 40px; height: 40px; padding: 0; display: grid; place-items: center; border: 2px solid #fbbf24; border-radius: 50%; background: #111827; color: #fbbf24; box-shadow: var(--shadow-3); opacity: .8; }
+.dev-btn:hover { opacity: 1; }
+.dev-panel { position: absolute; top: 50%; transform: translateY(-50%); inset-inline-end: calc(100% + 8px); width: 270px; padding: 12px; display: grid; gap: 6px; border-radius: 16px; background: #111827; color: #fff; box-shadow: var(--shadow-3); }
+.dev-panel[hidden] { display: none; }
+.dev-panel strong { font-size: 13px; padding: 2px 4px 6px; } .dev-now { color: #fbbf24; }
+.dev-panel button { padding: 10px 12px; border: 1px solid rgba(255, 255, 255, .15); border-radius: 12px; background: transparent; color: #fff; font: inherit; text-align: start; }
+.dev-panel button:hover { background: rgba(255, 255, 255, .1); } .dev-panel button.on { background: #fbbf24; border-color: #fbbf24; color: #111827; font-weight: 800; }
+.dev-panel small { color: #9ca3af; padding: 2px 4px; }
+@media (min-width: 992px) { .dev-fab { top: auto; bottom: 18px; inset-inline-end: auto; inset-inline-start: 18px; } .dev-panel { top: auto; bottom: calc(100% + 8px); transform: none; inset-inline-end: auto; inset-inline-start: 0; } }

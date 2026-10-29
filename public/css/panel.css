@@ -191,3 +191,5 @@
 
 .kpi-grid.kpi-3 { grid-template-columns: repeat(3, 1fr); } .kpi-3 .kpi b { font-size: 18px; } .kpi-3 .kpi-l { font-size: 11.5px; }
 @media (max-width: 420px) { .kpi-grid.kpi-3 { grid-template-columns: 1fr; } }
+
+.demo-login { display: grid; gap: 8px; margin-top: 18px; padding: 12px; border: 1px dashed #b7cbec; border-radius: 14px; } .demo-login small { color: var(--muted); }

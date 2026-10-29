@@ -92,8 +92,8 @@
           @endforeach
         </div>
         <div class="chart-side">
-          <div><div class="cs-n"><span data-count="{{ $revTotal }}">{{ $fa($revTotal) }}</span> <small>میلیون</small></div><div class="cs-l"><i style="background:#8bbd68"></i> فروش اشتراک</div></div>
-          <div><div class="cs-n"><span data-count="{{ $revAuction }}">{{ $fa($revAuction) }}</span> <small>میلیون</small></div><div class="cs-l"><i style="background:#f5a85b"></i> مزایده و فروش فوری</div></div>
+          <div><div class="cs-n"><span data-count="{{ $revTotal }}">{{ $fa($revTotal) }}</span> <small>میلیون</small></div><div class="cs-l"><i style="background:#1b4d9e"></i> فروش اشتراک</div></div>
+          <div><div class="cs-n"><span data-count="{{ $revAuction }}">{{ $fa($revAuction) }}</span> <small>میلیون</small></div><div class="cs-l"><i style="background:#f59e0b"></i> مزایده و فروش فوری</div></div>
         </div>
       </div>
     </section>
@@ -149,6 +149,17 @@
           </a></li>
         @endforeach
       </ul>
+    </section>
+
+    <section class="card-a rise" style="--d:4" aria-labelledby="demTitle">
+      <div class="card-head"><h2 id="demTitle">تقاضای بازار</h2><a href="{{ route('admin.requests.index') }}" class="more">درخواست‌ها</a></div>
+      @php $dem = [['سواری', 46, 'car'], ['موتور', 22, 'bike'], ['سنگین', 14, 'truck'], ['دوچرخه', 8, 'bicycle']]; $demMax = max(array_column($dem, 1)); @endphp
+      <ul class="dm-list">
+        @foreach($dem as [$l, $n, $ic])
+          <li><x-admin.icon :name="$ic" class="icon-sm" /><span class="dm-l">{{ $l }}</span><span class="dm-bar"><i style="width:{{ round($n / $demMax * 100) }}%"></i></span><b data-fa>{{ $n }}</b></li>
+        @endforeach
+      </ul>
+      <small class="text-muted d-block mt-2">درخواست‌های خرید فعال کاربران، به تفکیک دسته</small>
     </section>
 
     <section class="card-a rise" style="--d:4">

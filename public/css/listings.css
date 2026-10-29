@@ -1,0 +1,98 @@
+/* ==========================================================================
+   listings.css — جست‌وجو، فیلتر و لیست آگهی‌ها
+   ========================================================================== */
+.ls-layout { display: block; }
+@media (min-width: 992px) {
+  .ls-layout { display: grid; grid-template-columns: 330px minmax(0, 1fr); gap: 24px; align-items: start; }
+  .ls-aside { position: sticky; top: 92px; max-height: calc(100dvh - 110px); overflow-y: auto; padding: 18px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg); box-shadow: var(--shadow-1); }
+}
+
+/* تب دسته (لینک) */
+.ls-tabs { margin: 0 0 14px; }
+.seg-tabs a { flex: 1; display: block; padding: 13px 6px; border-radius: 14px; background: transparent; color: var(--primary); font-weight: 700; font-size: 14.5px; text-align: center; transition: background var(--t-fast), color var(--t-fast); }
+.seg-tabs a:hover { color: var(--primary-hover); }
+.seg-tabs a.on { background: var(--primary); color: #fff; box-shadow: 0 4px 10px rgba(27, 77, 158, .25); }
+
+/* جست‌وجو */
+.ls-search { position: relative; display: flex; align-items: center; height: 64px; background: var(--surface); border: 1px solid var(--line); border-radius: 20px; box-shadow: var(--shadow-1); transition: border-color var(--t-fast), box-shadow var(--t-fast); }
+.ls-search:focus-within { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(27, 77, 158, .12); }
+.ls-go { flex-shrink: 0; width: 56px; height: 56px; margin-inline-start: 4px; padding: 0; border: 0; background: transparent; color: var(--primary); display: grid; place-items: center; border-radius: 50%; }
+.ls-go .icon { width: 28px; height: 28px; stroke-width: 2; }
+.ls-search .ls-input { flex: 1; min-width: 0; height: 100%; padding: 0 4px; border: 0; outline: 0; box-shadow: none; background: transparent; font: inherit; font-size: 15px; color: var(--ink); -webkit-appearance: none; appearance: none; }
+.ls-search .ls-input::placeholder { color: #8a94ab; opacity: 1; }
+.ls-x { flex-shrink: 0; width: 40px; height: 40px; margin-inline-end: 8px; display: grid; place-items: center; border-radius: 50%; color: var(--muted); }
+.ls-x:hover { background: var(--bg); color: var(--ink); }
+.ls-suggest { position: absolute; z-index: 40; top: calc(100% + 8px); inset-inline: 0; padding: 8px; background: var(--surface); border: 1px solid var(--line); border-radius: 18px; box-shadow: var(--shadow-3); max-height: 60dvh; overflow-y: auto; }
+.sg-h { display: flex; align-items: center; justify-content: space-between; padding: 8px 10px 4px; font-size: 13px; font-weight: 800; color: var(--muted); }
+.sg-h button { border: 0; background: none; color: var(--primary); font: inherit; font-size: 12.5px; font-weight: 700; }
+.sg-item { display: flex; align-items: center; gap: 10px; width: 100%; padding: 11px 10px; border: 0; border-radius: 12px; background: transparent; font: inherit; font-size: 14.5px; text-align: start; color: var(--ink); }
+.sg-item:hover, .sg-item:focus-visible { background: var(--primary-soft); }
+.sg-item .icon { color: var(--muted); flex-shrink: 0; }
+.sg-chips { display: flex; flex-wrap: wrap; gap: 8px; padding: 6px 10px 10px; }
+.sg-chips button { padding: 7px 14px; border: 0; border-radius: var(--r-pill); background: var(--primary-soft); color: var(--primary); font: inherit; font-weight: 700; font-size: 13.5px; }
+
+/* فیلتر / مرتب‌سازی */
+.ls-bar { display: flex; gap: 12px; margin: 14px 0; }
+.ls-filter-btn { display: inline-flex; align-items: center; gap: 8px; height: 58px; padding: 0 18px; border-radius: 18px; background: #e6eefb; color: var(--primary); font-weight: 800; font-size: 15px; white-space: nowrap; }
+.ls-filter-btn:hover { color: var(--primary-hover); background: #dbe6f8; }
+.ls-filter-btn .cnt { min-width: 22px; height: 22px; padding: 0 6px; border-radius: 11px; background: var(--primary); color: #fff; font-size: 12px; line-height: 22px; text-align: center; }
+.ls-sort { flex: 1; margin: 0; }
+.ls-sort select { width: 100%; height: 58px; padding: 0 16px; border: 1px solid var(--line); border-radius: 18px; background-color: var(--surface); font: inherit; font-weight: 700; font-size: 14.5px; color: var(--ink); }
+
+/* چیپ‌ها */
+.ls-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+.ls-chip { display: inline-flex; align-items: center; gap: 8px; padding: 7px 14px; border-radius: 12px; background: #e6eefb; color: var(--primary); font-weight: 700; font-size: 14px; transition: background var(--t-fast); }
+.ls-chip:hover { background: #d3e1f8; color: var(--primary); } .ls-chip span { font-size: 17px; line-height: 1; }
+.ls-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin: 6px 0 14px; }
+.ls-head h2 { margin: 0; font-size: 18px; font-weight: 800; }
+.ls-reset { color: var(--primary); font-weight: 700; font-size: 14px; }
+
+/* نتایج */
+.ls-list { display: grid; gap: 14px; }
+@media (min-width: 992px) { .ls-list { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-flow: row dense; } .ls-list .lf-card, .ls-list > .empty-state { grid-column: 1 / -1; } .lf-card .fl-media { aspect-ratio: 16 / 5.2; } }
+.lf-card { position: relative; }
+.lf-card .fl-media { aspect-ratio: 16 / 9.5; }
+.lf-edit { bottom: auto; top: auto; inset-inline-end: 12px; inset-block-end: 12px; }
+.ls-more { margin-top: 16px; min-height: 54px; }
+
+/* ---------- فرم فیلتر ---------- */
+.ff-page { max-width: 680px; margin-inline: auto; }
+.ff-sec { margin-bottom: 24px; }
+.ff-sec h2 { margin: 6px 0 14px; font-size: 21px; font-weight: 900; }
+.ff .form-label { font-weight: 700; font-size: 14.5px; margin: 12px 0 6px; color: var(--ink); }
+.ff .form-select, .ff .form-control { min-height: 56px; border-radius: 16px; background-color: #fff; font-weight: 700; font-size: 15px; }
+.ff-row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.ff-hint { margin: -6px 0 6px; color: var(--muted); font-size: 14px; }
+.ff-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 12px; }
+.ff-field.full { grid-column: 1 / -1; }
+
+/* اسلایدر دوسر قیمت */
+.rng { position: relative; height: 44px; margin-top: 18px; --a: 0; --b: 100; }
+.rng-track { position: absolute; top: 50%; inset-inline: 16px; height: 6px; margin-top: -3px; border-radius: 3px; background: #dfe7f3; }
+.rng-fill { position: absolute; top: 0; bottom: 0; inset-inline-start: calc(100% * var(--a) / 100); width: calc(100% * (var(--b) - var(--a)) / 100); border-radius: 3px; background: var(--primary); }
+.rng input[type=range] { position: absolute; inset: 0; width: 100%; height: 44px; margin: 0; padding: 0; background: transparent; pointer-events: none; -webkit-appearance: none; appearance: none; }
+.rng input[type=range]::-webkit-slider-runnable-track { background: transparent; height: 44px; }
+.rng input[type=range]::-moz-range-track { background: transparent; height: 44px; }
+.rng input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; pointer-events: auto; width: 32px; height: 32px; margin-top: 6px; border-radius: 50%; background: #fff; border: 4px solid var(--primary); box-shadow: 0 2px 6px rgba(15, 23, 42, .25); cursor: grab; }
+.rng input[type=range]::-moz-range-thumb { pointer-events: auto; width: 24px; height: 24px; border-radius: 50%; background: #fff; border: 4px solid var(--primary); box-shadow: 0 2px 6px rgba(15, 23, 42, .25); cursor: grab; }
+.rng input[type=range]:focus-visible::-webkit-slider-thumb { outline: 3px solid rgba(245, 158, 11, .6); }
+
+/* ترجیحات */
+.ff-switch { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 0 0 12px; padding: 16px; background: #fff; border-radius: 18px; font-weight: 700; font-size: 15px; cursor: pointer; }
+.ff-switch input { position: absolute; opacity: 0; }
+.ff-switch i { position: relative; width: 58px; height: 32px; border-radius: 16px; background: #cbd5e1; flex-shrink: 0; transition: background var(--t-med); }
+.ff-switch i::after { content: ""; position: absolute; top: 4px; inset-inline-start: 4px; width: 24px; height: 24px; border-radius: 50%; background: #fff; box-shadow: var(--shadow-1); transition: transform var(--t-med) var(--ease); }
+.ff-switch input:checked + i { background: var(--primary); } .ff-switch input:checked + i::after { transform: translateX(-26px); }
+.ff-switch input:focus-visible + i { outline: 3px solid rgba(245, 158, 11, .55); outline-offset: 2px; }
+.ff-seg { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 12px; }
+.ff-seg label { margin: 0; } .ff-seg input { position: absolute; opacity: 0; }
+.ff-seg span { display: block; padding: 13px 6px; border: 1.5px solid var(--line); border-radius: 14px; background: #fff; text-align: center; font-weight: 700; font-size: 14px; cursor: pointer; transition: all var(--t-fast); }
+.ff-seg input:checked + span { border-color: var(--primary); background: var(--primary-soft); color: var(--primary); }
+.ff-seg input:focus-visible + span { outline: 3px solid rgba(245, 158, 11, .55); }
+.ff-note { display: flex; align-items: center; justify-content: center; gap: 8px; margin: 0; padding: 11px; border-radius: 12px; background: #e8f5ec; color: #15803d; font-weight: 700; font-size: 14px; }
+.ff-actions { margin-top: 8px; }
+.ff-actions.is-sticky { position: fixed; z-index: 1035; inset-inline: 0; bottom: 0; padding: 12px 16px calc(12px + var(--safe-bottom)); background: rgba(255, 255, 255, .95); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); border-top: 1px solid var(--line); }
+.ff-actions .btn:disabled { opacity: .55; }
+.ff-clear { display: block; width: 100%; margin-top: 14px; padding: 10px; border: 0; background: none; color: var(--primary); font: inherit; font-weight: 800; font-size: 15.5px; }
+@media (min-width: 992px) { .ff-actions.is-sticky { position: static; padding: 0; background: none; border: 0; backdrop-filter: none; } .ff-sec h2 { font-size: 18px; } }
+.ff-clear, .ff-actions { scroll-margin-block: 120px; }

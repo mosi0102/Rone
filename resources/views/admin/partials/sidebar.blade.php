@@ -8,6 +8,7 @@
     ['label' => 'محتوا', 'items' => [
       ['admin.listings.index', 'آگهی‌ها', 'list-checks', 'admin.listings.*'],
       ['admin.auctions.index', 'مزایده‌ها', 'gavel', 'admin.auctions.*'],
+      ['admin.requests.index', 'درخواست‌های خرید', 'target', 'admin.requests.*'],
     ]],
     ['label' => 'معاملات', 'items' => [
       ['admin.deposits.index', 'بیعانه‌ها و رزروها', 'shield-check', 'admin.deposits.*'],

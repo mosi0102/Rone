@@ -4,7 +4,8 @@
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <title>@yield('title', 'پنل مدیریت') | {{ config('app.name') }}</title>
 <meta name="theme-color" content="#f3f5fa">
+<link rel="preload" href="{{ asset('fonts/Vazirmatn-Variable.woff2') }}" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="{{ asset('vendor/bootstrap/bootstrap.rtl.min.css') }}">
-<link rel="stylesheet" href="{{ asset('admin-assets/css/admin.css') }}">
+<link rel="stylesheet" href="{{ asset('admin-assets/css/admin.css') }}?v={{ @filemtime(public_path('admin-assets/css/admin.css')) ?: 1 }}">
 {{-- جلوگیری از پرش چیدمان: وضعیت سایدبار قبل از رندر اعمال می‌شود --}}
 <script>try { if (localStorage.getItem('adm-sb') === '1') document.documentElement.classList.add('sb-collapsed'); } catch (e) {}</script>

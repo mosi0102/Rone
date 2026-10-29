@@ -19,7 +19,7 @@
   /* متن */
   --ink: #0e1a36;
   --ink-2: #3b4768;
-  --muted: #7a8196;
+  --muted: #5b6580;
 
   /* برند (هم‌رنگ سایت کاربران) */
   --primary: #1b4d9e;
@@ -32,9 +32,9 @@
 
   /* رنگ‌های معنایی پاستلی */
   --ok: #15803d;      --ok-soft: #dcfce7;
-  --warn: #b45309;    --warn-soft: #fef3c7;
-  --bad: #dc2626;     --bad-soft: #fee2e2;
-  --info: #2563eb;    --info-soft: #e0eaff;
+  --warn: #a3470a;    --warn-soft: #fef3c7;
+  --bad: #b91c1c;     --bad-soft: #fee2e2;
+  --info: #1d4ed8;    --info-soft: #e0eaff;
   --sage: #dcf3e4;    --peach: #fef3c7;   --sand: #e9eef8;
 
   /* شعاع و سایه */
@@ -72,7 +72,8 @@ a { text-decoration: none; transition: color var(--t-fast); }
 h1, h2, h3, h4, h5, h6 { font-weight: 800; line-height: 1.45; letter-spacing: 0; margin: 0; }
 img, svg { max-width: 100%; }
 .tnum { font-feature-settings: "tnum"; font-variant-numeric: tabular-nums; }
-:focus-visible { outline: 3px solid rgba(27, 77, 158, .35); outline-offset: 2px; border-radius: 6px; }
+:focus-visible { outline: 3px solid var(--primary); outline-offset: 2px; border-radius: 6px; }
+.sidebar-dark :focus-visible, .toast-s :focus-visible, .bulk-bar :focus-visible, .sticky-save :focus-visible { outline-color: #fff; }
 ::selection { background: var(--accent-soft); }
 
 .icon { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
@@ -85,11 +86,11 @@ img, svg { max-width: 100%; }
 .adm-scroll::-webkit-scrollbar-thumb { background: var(--line); border-radius: 6px; }
 
 /* ---------- ۳) شل: سایدبار و تاپ‌بار ---------- */
-.adm-shell { display: grid; grid-template-columns: var(--sb-w) minmax(0, 1fr); min-height: 100vh; transition: grid-template-columns var(--t-med) var(--ease); }
+.adm-shell { display: grid; grid-template-columns: var(--sb-w) minmax(0, 1fr); min-height: 100vh; min-height: 100dvh; transition: grid-template-columns var(--t-med) var(--ease); }
 .sb-collapsed .adm-shell { grid-template-columns: var(--sb-w-collapsed) minmax(0, 1fr); }
 
 .adm-sidebar {
-  position: sticky; top: 0; height: 100vh; display: flex; flex-direction: column;
+  position: sticky; top: 0; height: 100vh; height: 100dvh; display: flex; flex-direction: column;
   padding: 22px 16px 16px; background: var(--bg); border-inline-end: 1px solid var(--line); z-index: 1040;
 }
 .sb-brand { display: flex; align-items: center; gap: 12px; padding: 0 8px 22px; color: var(--ink); min-height: 60px; }
@@ -358,7 +359,7 @@ a.list-row:hover { background: var(--bg); color: inherit; }
 .dash-aside .card-a { background: var(--surface); }
 
 /* ---------- ۶) ورود ---------- */
-.auth-page { min-height: 100vh; display: grid; place-items: center; padding: 24px 16px; background: var(--bg); position: relative; overflow: hidden; }
+.auth-page { min-height: 100vh; min-height: 100dvh; display: grid; place-items: center; padding: 24px 16px; background: var(--bg); position: relative; overflow: hidden; }
 .auth-page::before, .auth-page::after { content: ""; position: absolute; border-radius: 50%; pointer-events: none; filter: blur(2px); }
 .auth-page::before { width: 420px; height: 420px; background: radial-gradient(circle at 30% 30%, #9bb9ea, #3d6fc0 70%); top: -140px; inset-inline-start: -110px; opacity: .55; }
 .auth-page::after { width: 360px; height: 360px; background: radial-gradient(circle at 30% 30%, #fcd277, #f59e0b 70%); bottom: -130px; inset-inline-end: -90px; opacity: .55; }
@@ -463,11 +464,6 @@ a.list-row:hover { background: var(--bg); color: inherit; }
 .tbl td.td-chk { width: 44px; padding-inline-end: 0; }
 .row-actions .icon-btn { width: 38px; height: 38px; box-shadow: none; background: var(--surface); border: 1px solid var(--line); }
 
-.bulk-bar { position: sticky; bottom: calc(14px + var(--safe-bottom)); z-index: 20; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; width: fit-content; max-width: 100%; margin: 14px auto 0; padding: 10px 12px 10px 16px; background: var(--dark); color: #fff; border-radius: var(--r-pill); box-shadow: var(--shadow-3); transform: translateY(24px); opacity: 0; pointer-events: none; transition: transform var(--t-med) var(--ease), opacity var(--t-med); }
-.bulk-bar.show { transform: none; opacity: 1; pointer-events: auto; }
-.bulk-bar b { font-feature-settings: "tnum"; }
-.bulk-bar .btn { min-height: 38px; }
-.bulk-bar .btn-ok { --bs-btn-bg: #dff1e3; } .bulk-bar .btn-bad { --bs-btn-bg: #fde3e0; }
 
 .pager { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-top: 16px; color: var(--muted); font-size: 13.5px; }
 .pager ul { display: flex; gap: 4px; list-style: none; margin: 0; padding: 0; }
@@ -553,7 +549,7 @@ a.list-row:hover { background: var(--bg); color: inherit; }
 .seg-btn.active { background: var(--btn-ink); color: #fff; box-shadow: 0 6px 16px rgba(27, 77, 158, .22); }
 .seg-btn.active .n { background: rgba(255, 255, 255, .18); color: #fff; }
 .seg-btn[data-value="pending"] .n { background: var(--accent-soft); color: var(--warn); }
-.seg-btn[data-value="pending"].active .n { background: var(--accent); color: #fff; }
+.seg-btn[data-value="pending"].active .n { background: var(--accent); color: #3b1d03; }
 
 .tbl .td-chk { width: 1%; padding-inline-end: 0; }
 .tbl .chk { width: 1.15rem; height: 1.15rem; margin: 0; cursor: pointer; }
@@ -745,7 +741,7 @@ a.list-row:hover { background: var(--bg); color: inherit; }
 /* ==========================================================================
    ۱۱) گفتگوها (نمای فقط‌خواندنی)
    ========================================================================== */
-.chat-shell { display: grid; grid-template-columns: 360px minmax(0, 1fr); padding: 0; overflow: hidden; height: calc(100vh - 230px); min-height: 520px; }
+.chat-shell { display: grid; grid-template-columns: 360px minmax(0, 1fr); padding: 0; overflow: hidden; height: calc(100vh - 230px); height: calc(100dvh - 230px); min-height: 520px; }
 .chat-list-pane { display: flex; flex-direction: column; min-height: 0; border-inline-end: 1px solid var(--line); }
 .chat-tools { padding: 16px; display: flex; flex-direction: column; gap: 10px; border-bottom: 1px solid var(--line-soft); }
 .chat-list { list-style: none; margin: 0; padding: 8px; flex: 1; overflow-y: auto; }
@@ -773,7 +769,7 @@ a.list-row:hover { background: var(--bg); color: inherit; }
 .hit-tag { display: flex; align-items: center; gap: 4px; margin-top: 4px; color: var(--bad); font-size: 12px; font-weight: 800; }
 .thread-foot { padding: 10px 18px; border-top: 1px solid var(--line-soft); color: var(--muted); font-size: 12.5px; display: flex; align-items: center; gap: 6px; }
 @media (max-width: 991.98px) {
-  .chat-shell { grid-template-columns: 1fr; height: calc(100vh - 190px); }
+  .chat-shell { grid-template-columns: 1fr; height: calc(100vh - 190px); height: calc(100dvh - 190px); }
   .chat-thread-pane { display: none; }
   .chat-shell.show-thread .chat-list-pane { display: none; }
   .chat-shell.show-thread .chat-thread-pane { display: flex; }
@@ -789,7 +785,7 @@ a.list-row:hover { background: var(--bg); color: inherit; }
 .set-nav a { padding: 10px 14px; border-radius: var(--r-md); font-weight: 700; color: var(--ink-2); transition: background var(--t-fast), color var(--t-fast); }
 .set-nav a:hover { background: var(--primary-soft); color: var(--primary); }
 #settingsForm section[id] { scroll-margin-top: 90px; }
-.form-label { font-weight: 700; font-size: 13.5px; } .form-text { font-size: 12.5px; }
+.form-text { font-size: 12.5px; }
 .input-group-text { background: var(--surface-warm); border-color: var(--line); color: var(--muted); font-weight: 700; font-size: 13px; }
 .input-group .form-control { font-feature-settings: "tnum"; }
 .weights { display: flex; flex-direction: column; gap: 6px; }
@@ -805,3 +801,7 @@ a.list-row:hover { background: var(--bg); color: inherit; }
 .form-range::-webkit-slider-thumb { background: var(--primary); } .form-range::-moz-range-thumb { background: var(--primary); }
 .form-range:focus::-webkit-slider-thumb { box-shadow: 0 0 0 4px var(--primary-soft); }
 .card-a[hidden], .thread[hidden], [data-none][hidden] { display: none !important; }
+
+/* پرش به محتوا (دسترسی‌پذیری کیبورد) */
+.skip-link { position: fixed; top: 8px; inset-inline-start: 8px; z-index: 2000; padding: 10px 16px; border-radius: var(--r-pill); background: var(--primary); color: #fff; font-weight: 700; transform: translateY(-200%); transition: transform var(--t-fast); }
+.skip-link:focus { transform: none; color: #fff; }

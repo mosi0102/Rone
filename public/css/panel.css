@@ -92,7 +92,7 @@
 .price-words { color: var(--primary); font-weight: 700; min-height: 20px; }
 
 .seg { display: grid; gap: 8px; }
-.seg-2 { grid-template-columns: 1fr 1fr; } .seg-3 { grid-template-columns: repeat(3, 1fr); }
+.seg-2 { grid-template-columns: 1fr 1fr; } .seg-3 { grid-template-columns: repeat(3, 1fr); } .seg-4 { grid-template-columns: repeat(4, 1fr); gap: 6px; }
 .seg label { margin: 0; cursor: pointer; }
 .seg input { position: absolute; opacity: 0; pointer-events: none; }
 .seg span { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; padding: 12px 6px; border: 1.5px solid var(--line); border-radius: var(--r-md); font-weight: 700; font-size: 13.5px; text-align: center; transition: all var(--t-fast); }

@@ -18,7 +18,8 @@
   <button type="button" class="on" data-cat="all" role="tab"><span>همه</span></button>
   <button type="button" data-cat="car" role="tab"><x-icon name="car" />سواری</button>
   <button type="button" data-cat="heavy" role="tab"><x-icon name="truck" />سنگین</button>
-  <button type="button" data-cat="bike" role="tab"><x-icon name="bike" />موتورسیکلت</button>
+  <button type="button" data-cat="bike" role="tab"><x-icon name="bike" />موتور</button>
+  <button type="button" data-cat="bicycle" role="tab"><x-icon name="bicycle" />دوچرخه</button>
 </div>
 
 {{-- وضعیت --}}

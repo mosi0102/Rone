@@ -28,7 +28,15 @@
     <a href="{{ route('listings.create') }}" class="btn btn-primary"><x-icon name="plus" class="icon-sm" /> افزودن آگهی</a>
     <a href="{{ route('auctions.create') }}" class="btn btn-outline-primary"><x-icon name="gavel" class="icon-sm" /> ساخت مزایده</a>
     <a href="{{ route('dealers.show', $auth->dealer->id) }}" class="btn btn-soft"><x-icon name="eye" class="icon-sm" /> پروفایل عمومی</a>
+    <a href="{{ route('panel.radar') }}" class="btn btn-soft"><x-icon name="sparkles" class="icon-sm" /> درخواست خریداران</a>
   </div>
+
+  @if(!empty($radarRelated))
+    <a href="{{ route('panel.radar') }}" class="note-card text-reset" style="text-decoration:none">
+      <span class="nc-ic"><x-icon name="bell-ring" /></span>
+      <div><h3><span data-fa>{{ $radarRelated }}</span> خریدار دنبال خودرویی شبیه آگهی‌های شماست</h3><p>درخواست‌ها را ببینید و آگهی مناسب را پیشنهاد دهید.</p></div>
+    </a>
+  @endif
 
   <div class="pill-tabs scroll-tabs mt-3" data-tabs="#panes" data-initial="{{ $tab }}" role="tablist">
     <button type="button" class="pill-tab" data-tab="overview" role="tab"><x-icon name="chart" class="icon-sm" /> آمار و ارقام</button>

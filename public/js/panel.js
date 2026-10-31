@@ -131,3 +131,15 @@
     $(window).on('panel:tab', function () { setTimeout(function () { [].forEach.call(document.querySelectorAll('[data-animate-in]:not(.in)'), function (e) { var r = e.getBoundingClientRect(); if (r.width) animateIn(e); }); }, 60); });
   });
 })(jQuery);
+
+
+/* فرم آگهی: نمایش فیلدهای مخصوص هر دسته (سوخت/گیربکس برای دوچرخه پنهان؛ نوع و سایز طوقه فقط دوچرخه) */
+(function ($) {
+  'use strict';
+  var $f = $('#listingForm'); if (!$f.length) return;
+  function sync() {
+    var cat = $f.find('[name=category]:checked').val() || 'car';
+    $f.find('[data-cats]').each(function () { var on = ($(this).data('cats') + '').split(',').indexOf(cat) > -1; $(this).prop('hidden', !on); });
+  }
+  $f.on('change', '[name=category]', sync); sync();
+})(jQuery);

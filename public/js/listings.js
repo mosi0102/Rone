@@ -22,6 +22,9 @@
 
   /* پیشنهاد جست‌وجو */
   var $form = $('#lsSearch'), $in = $('#lsInput'), $box = $('#lsSuggest'); if (!$box.length) return;
+  /* آمده از کادر صفحه‌ی اول (?focus=1): فوراً فوکوس + پیشنهادها، و پارامتر از آدرس برداشته می‌شود */
+  var arrive = new URL(location.href);
+  if (arrive.searchParams.get('focus')) { arrive.searchParams.delete('focus'); history.replaceState(null, '', arrive.pathname + arrive.search); setTimeout(function () { $in.trigger('focus'); }, 50); }
   var KEY = 'recentSearches', popular = $box.data('popular') || [];
   function recents() { try { return JSON.parse(localStorage.getItem(KEY) || '[]'); } catch (e) { return []; } }
   function save(q) { q = $.trim(q); if (!q) return; var r = recents().filter(function (x) { return x !== q; }); r.unshift(q); try { localStorage.setItem(KEY, JSON.stringify(r.slice(0, 6))); } catch (e) {} }

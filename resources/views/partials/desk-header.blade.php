@@ -6,6 +6,7 @@
       <a href="{{ route('listings.index') }}" class="{{ request()->routeIs('listings.*') ? 'active' : '' }}">آگهی‌ها</a>
       <a href="{{ route('auctions.index') }}" class="{{ request()->routeIs('auctions.*') ? 'active' : '' }}">مزایده‌ها</a>
       <a href="{{ route('dealers.index') }}" class="{{ request()->routeIs('dealers.*') ? 'active' : '' }}">نمایشگاه‌ها</a>
+      <a href="{{ route('radar.index') }}" class="{{ request()->routeIs('radar.*') ? 'active' : '' }}">رادار خودرو</a>
     </nav>
     <form class="desk-search" action="{{ route('search') }}" role="search">
       <x-icon name="search" />

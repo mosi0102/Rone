@@ -48,6 +48,13 @@
     @endforeach
   </nav>
 
+  {{-- رادار خودرو --}}
+  <a href="{{ route('radar.index') }}" class="rd-cta text-reset">
+    <span class="rd-cta-ic"><x-icon name="sparkles" /></span>
+    <div><h3>ماشین دلخواهتان را پیدا نکردید؟</h3><p>مشخصاتش را ثبت کنید؛ مشابه‌ها را با درصد تطابق نشان می‌دهیم و اگر بعداً آگهی شد، خبرتان می‌کنیم.</p></div>
+    <x-icon name="chevron-left" />
+  </a>
+
   {{-- تبلیغات --}}
   <x-ad-banner :ad="$ad" />
 

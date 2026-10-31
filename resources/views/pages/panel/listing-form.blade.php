@@ -18,8 +18,8 @@
   {{-- ۱) نوع --}}
   <section class="card-s fcard">
     <h3><span class="fc-n">۱</span> نوع وسیله</h3>
-    <div class="seg seg-3">
-      @foreach([['car','سواری','car'],['heavy','سنگین','truck'],['bike','موتورسیکلت','bike']] as [$v,$t,$ic])
+    <div class="seg seg-4">
+      @foreach([['car','سواری','car'],['heavy','سنگین','truck'],['bike','موتور','bike'],['bicycle','دوچرخه','bicycle']] as [$v,$t,$ic])
         <label><input type="radio" name="category" value="{{ $v }}" {{ ($l->category ?? 'car') === $v ? 'checked' : '' }}><span><x-icon :name="$ic" />{{ $t }}</span></label>
       @endforeach
     </div>
@@ -37,13 +37,21 @@
       <div><label class="form-label" for="km">کارکرد (کیلومتر) <b class="req">*</b></label><input class="form-control ltr" id="km" inputmode="numeric" required data-money-input value="{{ isset($l->km) ? number_format($l->km) : '' }}" placeholder="0"></div>
       <div><label class="form-label" for="color">رنگ</label>
         <select class="form-select" id="color"><option value="">انتخاب کنید</option>@foreach($opt['colors'] as $c)<option {{ ($l->color ?? '') === $c ? 'selected' : '' }}>{{ $c }}</option>@endforeach</select></div>
-      <div><label class="form-label" for="fuel">سوخت</label>
+      <div data-cats="car,heavy,bike"><label class="form-label" for="fuel">سوخت</label>
         <select class="form-select" id="fuel">@foreach(['بنزین','دیزل','دوگانه‌سوز','هیبرید','برقی'] as $f)<option {{ ($l->fuel ?? 'بنزین') === $f ? 'selected' : '' }}>{{ $f }}</option>@endforeach</select></div>
     </div>
-    <label class="form-label mt-3">گیربکس</label>
-    <div class="seg seg-2">
-      <label><input type="radio" name="gearbox" value="auto" {{ ($l->gearbox ?? 'auto') === 'auto' ? 'checked' : '' }}><span>اتوماتیک</span></label>
-      <label><input type="radio" name="gearbox" value="manual" {{ ($l->gearbox ?? '') === 'manual' ? 'checked' : '' }}><span>دنده‌ای</span></label>
+    <div class="mt-3" data-cats="car,heavy">
+      <label class="form-label mt-3">گیربکس</label>
+      <div class="seg seg-2">
+        <label><input type="radio" name="gearbox" value="auto" {{ ($l->gearbox ?? 'auto') === 'auto' ? 'checked' : '' }}><span>اتوماتیک</span></label>
+        <label><input type="radio" name="gearbox" value="manual" {{ ($l->gearbox ?? '') === 'manual' ? 'checked' : '' }}><span>دنده‌ای</span></label>
+      </div>
+    </div>
+    <div class="fgrid mt-3" data-cats="bicycle" hidden>
+      <div><label class="form-label" for="btype">نوع دوچرخه</label>
+        <select class="form-select" id="btype">@foreach(['کوهستان','جاده','شهری','برقی'] as $t)<option {{ ($l->btype ?? '') === $t ? 'selected' : '' }}>{{ $t }}</option>@endforeach</select></div>
+      <div><label class="form-label" for="wheel">سایز طوقه (اینچ)</label>
+        <select class="form-select" id="wheel">@foreach(['۲۶','۲۷٫۵','۲۹'] as $t)<option {{ ($l->wheel ?? '') === $t ? 'selected' : '' }}>{{ $t }}</option>@endforeach</select></div>
     </div>
   </section>
 

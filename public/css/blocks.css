@@ -3,10 +3,16 @@
 @keyframes goRing { 0% { transform: scale(1); opacity: .5; } 70%, 100% { transform: scale(1.5); opacity: 0; } }
 
 /* دسته‌بندی */
-.cat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 16px; }
+.cat-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin-top: 16px; }
+@media (max-width: 359px) { .cat-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .cat-card { white-space: nowrap; display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 16px 6px 14px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg); box-shadow: var(--shadow-1); color: var(--ink); font-weight: 800; transition: transform var(--t-med) var(--ease), box-shadow var(--t-med), border-color var(--t-med); font-size: 13.5px; }
 .cat-card:hover { color: var(--ink); transform: translateY(-3px); box-shadow: var(--shadow-2); border-color: #b7cbec; }
 .cat-card:active { transform: scale(.96); }
+/* دعوت به رادار خودرو (صفحه‌ی اول) */
+.rd-cta { display: flex; align-items: center; gap: 12px; margin-top: 16px; padding: 14px 16px; border-radius: var(--r-lg); background: linear-gradient(135deg, var(--primary) 0%, #2a63c2 100%); color: #fff !important; text-decoration: none; box-shadow: var(--shadow-2); }
+.rd-cta > div { flex: 1; min-width: 0; } .rd-cta h3 { margin: 0 0 2px; font-size: 15px; font-weight: 800; } .rd-cta p { margin: 0; font-size: 12px; line-height: 1.8; opacity: .9; }
+.rd-cta-ic { flex: none; width: 42px; height: 42px; border-radius: 13px; background: rgba(255, 255, 255, .16); display: grid; place-items: center; } .rd-cta .icon { width: 22px; height: 22px; flex: none; }
+@media (max-width: 430px) { .cat-card { font-size: 12.5px; padding: 14px 4px 12px; } .cat-ic { width: 50px; height: 50px; } .cat-ic .icon { width: 26px; height: 26px; } }
 .cat-ic { width: 58px; height: 58px; border-radius: 18px; display: grid; place-items: center; background: var(--primary-soft); color: var(--primary); transition: background var(--t-med), color var(--t-med), transform var(--t-med) var(--ease); }
 .cat-ic .icon { width: 30px; height: 30px; stroke-width: 1.6; }
 .cat-card:hover .cat-ic { background: var(--primary); color: #fff; }

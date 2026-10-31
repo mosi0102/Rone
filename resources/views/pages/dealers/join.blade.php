@@ -34,6 +34,7 @@
     <div class="card-s pad text-center mt-3">
       <p class="mb-3">برای ثبت‌نام نمایشگاه ابتدا وارد حساب خود شوید.</p>
       <a href="{{ route('login', ['next' => url()->current()]) }}" class="btn btn-primary btn-lg w-100">ورود / ثبت‌نام با شماره موبایل</a>
+      <a href="{{ route('dealer.register') }}" class="btn btn-outline-primary btn-lg w-100 mt-2">ثبت‌نام نمایشگاه با شماره‌ی جدید</a>
     </div>
   @else
   <section class="wizard card-s pad" data-wizard id="joinWizard">
@@ -55,6 +56,7 @@
         <label><input type="checkbox" checked><span><x-icon name="car" class="icon-sm" /> سواری</span></label>
         <label><input type="checkbox"><span><x-icon name="truck" class="icon-sm" /> سنگین</span></label>
         <label><input type="checkbox"><span><x-icon name="bike" class="icon-sm" /> موتورسیکلت</span></label>
+        <label><input type="checkbox"><span><x-icon name="bicycle" class="icon-sm" /> دوچرخه</span></label>
       </div>
       <label class="form-label mt-3">آدرس نمایشگاه <b class="req">*</b></label>
       <input class="form-control" required placeholder="خیابان، پلاک، نزدیک‌ترین نشانی">

@@ -50,6 +50,7 @@ Route::get('/', function () {
             ['slug' => 'car', 'title' => 'سواری', 'icon' => 'car', 'count' => 1240],
             ['slug' => 'heavy', 'title' => 'سنگین', 'icon' => 'truck', 'count' => 182],
             ['slug' => 'bike', 'title' => 'موتورسیکلت', 'icon' => 'bike', 'count' => 246],
+            ['slug' => 'bicycle', 'title' => 'دوچرخه', 'icon' => 'bicycle', 'count' => 98],
         ],
         'ad' => ['image' => $img('ad-1.jpg'), 'label' => 'تبلیغات', 'title' => 'همراه مسیر زندگی شما', 'subtitle' => 'لیزینگ • فروش انواع ماشین سنگین', 'cta' => 'بازدید از نمایشگاه', 'url' => '#'],
         'instant' => $instant,
@@ -74,6 +75,7 @@ Route::get('/dealers', function () use ($cities, $img) {
             ['slug' => 'car', 'title' => 'نمایشگاه سواری', 'icon' => 'car', 'count' => 50],
             ['slug' => 'heavy', 'title' => 'نمایشگاه سنگین', 'icon' => 'truck', 'count' => 16],
             ['slug' => 'bike', 'title' => 'نمایشگاه موتور', 'icon' => 'bike', 'count' => 23],
+            ['slug' => 'bicycle', 'title' => 'نمایشگاه دوچرخه', 'icon' => 'bicycle', 'count' => 11],
         ],
         'featured' => [$hasht, array_merge($hasht, ['id' => 9, 'name' => 'اتوگالری آرش', 'manager' => 'عباس آرمانجو', 'featured' => false, 'url' => route('dealers.show', 9)])],
         'latest' => collect([
@@ -95,11 +97,12 @@ Route::get('/dealers/{id}', function ($id) use ($img) {
             'map_url' => 'https://maps.google.com/?q=35.78,51.37', 'active_count' => 12,
             'stats' => [['value' => 12, 'unit' => 'آگهی', 'label' => 'موجودی فعال'], ['value' => 5, 'unit' => 'سال', 'label' => 'سابقه فعالیت'], ['value' => 3, 'unit' => 'شعبه', 'label' => 'در تهران']],
         ],
-        'tabs' => [['slug' => 'all', 'title' => 'همه', 'count' => 12], ['slug' => 'car', 'title' => 'سواری', 'count' => 7], ['slug' => 'heavy', 'title' => 'سنگین', 'count' => 2], ['slug' => 'bike', 'title' => 'موتور', 'count' => 3]],
+        'tabs' => [['slug' => 'all', 'title' => 'همه', 'count' => 12], ['slug' => 'car', 'title' => 'سواری', 'count' => 7], ['slug' => 'heavy', 'title' => 'سنگین', 'count' => 2], ['slug' => 'bike', 'title' => 'موتور', 'count' => 3], ['slug' => 'bicycle', 'title' => 'دوچرخه', 'count' => 2]],
         'stock' => [
             $row(1, 'پژو ۲۰۷ اتوماتیک', 985000000, 1402, 24000, 'سفید', 'نمایشگاه آریا', 'dealer-stock-1.jpg', 'car', 'instant'),
             $row(2, 'ولوو FH500 کشنده', 9800000000, 1399, 320000, 'دیزل', 'آریا خودروهای تجاری', 'dealer-stock-2.jpg', 'heavy'),
             $row(3, 'یاماها NMAX 155', 385000000, 1403, 4500, 'آبی', 'آریا موتور', 'dealer-stock-3.jpg', 'bike', 'auction'),
+            $row(4, 'دوچرخه کوهستان جاینت ATX', 28000000, 1403, 800, 'مشکی', 'آریا موتور', 'dealer-stock-3.jpg', 'bicycle', 'instant'),
         ],
     ]);
 })->whereNumber('id')->name('dealers.show');
@@ -182,7 +185,8 @@ Route::get('/switch-mode/{mode}', function ($mode) {
     return redirect($mode === 'dealer' ? route('panel') : route('home'));
 })->name('mode.switch');
 
-Route::get('/login', fn() => view('pages.auth.login', ['next' => request('next', route('home'))]))->name('login');
+// ورود، ثبت‌نام، اسپلش و ثبت‌نام نمایشگاه‌دار: routes/auth.php (login، welcome، dealer.register)
+require __DIR__ . '/auth.php';
 Route::get('/logout', fn() => redirect('/?as=guest'))->name('logout');
 Route::get('/dealers/join', fn() => view('pages.dealers.join'))->name('dealer.join');
 
@@ -271,6 +275,11 @@ $auctionStore = function () {
             'start_price' => 350000000, 'original_price' => 385000000, 'entry_fee' => 50000, 'min_step' => 5000000, 'top_bid' => 370000000, 'bids_count' => 9, 'participants' => 7,
             'starts_at' => now()->subHours(1), 'ends_at' => now()->addHours(2)->addMinutes(11)->addSeconds(36), 'paid' => false,
             'bids' => [['amount' => 370000000, 'user' => 'کاربر ۴۲۰۰۰', 'time' => '۱۹:۱۰', 'mine' => false], ['amount' => 365000000, 'user' => 'شما', 'time' => '۱۹:۰۸', 'mine' => true], ['amount' => 360000000, 'user' => 'کاربر ۶۷۰۰۰', 'time' => '۱۹:۰۵', 'mine' => false]], 'my_last_bid' => 365000000],
+        15 => ['id' => 15, 'status' => 'live', 'category' => 'bicycle', 'title' => 'دوچرخه کوهستان جاینت ATX', 'short_title' => 'جاینت ATX', 'subtitle' => 'مدل ۱۴۰۳ • مشکی • فریم آلومینیوم', 'year' => 1403, 'km' => 800, 'extra' => 'مشکی',
+            'image' => $img('dealer-stock-3.jpg'), 'images' => $gallery, 'listing_id' => 24830, 'listing_url' => route('listings.show', 24830), 'dealer' => array_merge($hollywood, ['id' => 21, 'name' => 'آریا موتور', 'url' => route('dealers.show', 21)]), 'dealer_name' => 'آریا موتور', 'verified' => true,
+            'start_price' => 24000000, 'original_price' => 28000000, 'entry_fee' => 50000, 'min_step' => 500000, 'top_bid' => 26500000, 'bids_count' => 9, 'participants' => 7,
+            'starts_at' => now()->subHours(1), 'ends_at' => now()->addHours(2)->addMinutes(11)->addSeconds(36), 'paid' => false,
+            'bids' => [['amount' => 26500000, 'user' => 'کاربر ۴۲۰۰۰', 'time' => '۱۹:۱۰', 'mine' => false], ['amount' => 26000000, 'user' => 'شما', 'time' => '۱۹:۰۸', 'mine' => true], ['amount' => 25500000, 'user' => 'کاربر ۶۷۰۰۰', 'time' => '۱۹:۰۵', 'mine' => false]], 'my_last_bid' => 26000000],
         14 => ['id' => 14, 'status' => 'ended', 'category' => 'car', 'title' => 'پژو ۲۰۶ تیپ ۲', 'short_title' => 'پژو ۲۰۶', 'subtitle' => 'مدل ۱۴۰۰ • سفید', 'year' => 1400, 'km' => 61000, 'extra' => 'سفید',
             'image' => $img('dealer-stock-1.jpg'), 'images' => $gallery, 'listing_id' => 24820, 'listing_url' => route('listings.show', 24820), 'dealer' => $hollywood, 'dealer_name' => 'اتوگالری هالیوود', 'verified' => true,
             'start_price' => 500000000, 'original_price' => 540000000, 'entry_fee' => 50000, 'min_step' => 5000000, 'top_bid' => 562000000, 'bids_count' => 11, 'participants' => 11,
@@ -416,27 +425,30 @@ Route::get('/account/deals', function () use ($dealStore) {
 | بک‌اندکار همین پارامترها را با کوئری واقعی جایگزین کند؛ خروجی View همان ساختار $items/$chips/... است.
 */
 $lf = [
-    'categories' => ['car' => 'سواری', 'heavy' => 'سنگین', 'bike' => 'موتورسیکلت'],
+    'categories' => ['car' => 'سواری', 'heavy' => 'سنگین', 'bike' => 'موتورسیکلت', 'bicycle' => 'دوچرخه'],
     'brands' => [
         'car' => ['پژو' => ['۲۰۷', '۲۰۶', 'پارس'], 'سمند' => ['LX', 'سورن'], 'تیبا' => ['۱', '۲'], 'هیوندای' => ['النترا', 'سوناتا'], 'کیا' => ['سراتو', 'اپتیما']],
         'heavy' => ['ولوو' => ['FH500', 'FH460', 'FM'], 'بنز' => ['اکتروس', 'آتگو'], 'اسکانیا' => ['R450', 'G410']],
         'bike' => ['یاماها' => ['NMAX', 'MT-07'], 'هوندا' => ['CBR 250', 'PCX'], 'سوزوکی' => ['جیکسر']],
+        'bicycle' => ['جاینت' => ['ATX', 'Escape'], 'مریدا' => ['Big Nine', 'Scultura'], 'اسکات' => ['Aspect', 'Speedster'], 'المپیا' => ['۲۶ کوهستان', '۲۸ شهری']],
     ],
     'cities' => ['تهران', 'مشهد', 'اصفهان', 'شیراز', 'تبریز', 'کرج', 'سبزوار', 'قم', 'اهواز', 'رشت'],
-    'max_price' => ['car' => 5000000000, 'heavy' => 15000000000, 'bike' => 1000000000, '' => 15000000000],
+    'max_price' => ['car' => 5000000000, 'heavy' => 15000000000, 'bike' => 1000000000, 'bicycle' => 200000000, '' => 15000000000],
     // فیلدهای فنی؛ cats = دسته‌هایی که فیلد برایشان نمایش داده می‌شود (خالی = همه)
     'specs' => [
         ['name' => 'year_from', 'label' => 'از سال', 'type' => 'year', 'half' => true],
         ['name' => 'year_to', 'label' => 'تا سال', 'type' => 'year', 'half' => true],
-        ['name' => 'km_max', 'label' => 'حداکثر کارکرد (کیلومتر)', 'type' => 'number', 'ph' => '۵۰۰,۰۰۰', 'cats' => ['car', 'heavy', 'bike']],
+        ['name' => 'km_max', 'label' => 'حداکثر کارکرد (کیلومتر)', 'type' => 'number', 'ph' => '۵۰۰,۰۰۰', 'cats' => ['car', 'heavy', 'bike', 'bicycle']],
         ['name' => 'axle', 'label' => 'آرایش محور', 'type' => 'select', 'half' => true, 'cats' => ['heavy'], 'options' => ['۴×۲', '۶×۲', '۶×۴', '۸×۴']],
         ['name' => 'gearbox', 'label' => 'گیربکس', 'type' => 'select', 'half' => true, 'cats' => ['car', 'heavy'], 'options' => ['اتوماتیک', 'دنده‌ای']],
         ['name' => 'weight', 'label' => 'وزن ناخالص (تن)', 'type' => 'select', 'half' => true, 'cats' => ['heavy'], 'options' => ['۱۸', '۲۶', '۴۴']],
         ['name' => 'fuel', 'label' => 'سوخت', 'type' => 'select', 'half' => true, 'cats' => ['car', 'heavy'], 'options' => ['بنزین', 'دیزل', 'دوگانه‌سوز', 'هیبرید', 'برقی']],
-        ['name' => 'color', 'label' => 'رنگ', 'type' => 'select', 'half' => true, 'cats' => ['car', 'bike'], 'options' => ['سفید', 'مشکی', 'نقره‌ای', 'خاکستری', 'آبی', 'قرمز']],
+        ['name' => 'color', 'label' => 'رنگ', 'type' => 'select', 'half' => true, 'cats' => ['car', 'bike', 'bicycle'], 'options' => ['سفید', 'مشکی', 'نقره‌ای', 'خاکستری', 'آبی', 'قرمز']],
         ['name' => 'body', 'label' => 'وضعیت بدنه', 'type' => 'select', 'half' => true, 'cats' => ['car'], 'options' => ['سالم و بی‌رنگ', 'رنگ‌شده', 'ضربه‌خورده']],
         ['name' => 'cc', 'label' => 'حجم موتور (سی‌سی)', 'type' => 'select', 'half' => true, 'cats' => ['bike'], 'options' => ['۱۲۵', '۱۵۰', '۲۵۰', '۴۰۰']],
         ['name' => 'type', 'label' => 'نوع موتور', 'type' => 'select', 'half' => true, 'cats' => ['bike'], 'options' => ['اسکوتر', 'اسپرت', 'کلاسیک', 'کویر']],
+        ['name' => 'btype', 'label' => 'نوع دوچرخه', 'type' => 'select', 'half' => true, 'cats' => ['bicycle'], 'options' => ['کوهستان', 'جاده', 'شهری', 'برقی']],
+        ['name' => 'wheel', 'label' => 'سایز طوقه (اینچ)', 'type' => 'select', 'half' => true, 'cats' => ['bicycle'], 'options' => ['۲۶', '۲۷٫۵', '۲۹']],
     ],
 ];
 
@@ -464,23 +476,29 @@ $listingStore = function () {
         ['bike', 'یاماها', 'NMAX', 'یاماها NMAX 155', 385000000, 1403, 4500, '', 'بنزین', 'مشهد', 'آریا موتور', 21, 'dealer-stock-3.jpg', 'آبی', 'instant', true, 420000000],
         ['bike', 'هوندا', 'CBR 250', 'موتور هوندا CBR 250', 390000000, 1399, 18000, '', 'بنزین', 'تبریز', 'موتور سیتی', 27, 'yamaha.jpg', 'قرمز', null, false, null],
         ['bike', 'سوزوکی', 'جیکسر', 'سوزوکی جیکسر ۱۵۰', 210000000, 1400, 22000, '', 'بنزین', 'تهران', 'آریا موتور', 21, 'dealer-stock-3.jpg', 'مشکی', null, false, null],
+        ['bicycle', 'جاینت', 'ATX', 'دوچرخه کوهستان جاینت ATX', 28000000, 1403, 800, '', '', 'تهران', 'آریا موتور', 21, 'dealer-stock-3.jpg', 'مشکی', 'instant', true, 31000000],
+        ['bicycle', 'مریدا', 'Big Nine', 'دوچرخه مریدا Big Nine', 46000000, 1402, 2500, '', '', 'مشهد', 'موتور سیتی', 27, 'yamaha.jpg', 'قرمز', null, false, null],
+        ['bicycle', 'اسکات', 'Speedster', 'دوچرخه جاده اسکات Speedster', 72000000, 1401, 4200, '', '', 'تهران', 'آریا موتور', 21, 'dealer-stock-3.jpg', 'آبی', 'auction', false, null],
     ];
     $axle = ['۴×۲', '۶×۴', '۶×۲', '۸×۴'];
     $weight = ['۱۸', '۲۶', '۴۴'];
     $body = ['سالم و بی‌رنگ', 'رنگ‌شده', 'ضربه‌خورده'];
     $cc = ['۱۲۵', '۱۵۰', '۲۵۰', '۴۰۰'];
     $types = ['اسکوتر', 'اسپرت', 'کلاسیک', 'کویر'];
+    $btype = ['کوهستان', 'جاده', 'شهری', 'برقی'];
+    $wheel = ['۲۶', '۲۷٫۵', '۲۹'];
     $posted = ['۲ ساعت پیش', '۵ ساعت پیش', 'دیروز', '۲ روز پیش', '۳ روز پیش'];
     $cities = ['تهران', 'مشهد', 'کرج', 'اصفهان', 'شیراز'];
     $out = [];
     $id = 31000;
+    $n = count($base);
     foreach ([0, 1, 2] as $v) foreach ($base as $k => $r) {
         $id++;
-        $i = $v * 12 + $k;
+        $i = $v * $n + $k;
         $price = (int)round($r[4] * (1 + 0.035 * $v) / 1000000) * 1000000;
         $out[] = ['id' => $id, 'cat' => $r[0], 'brand' => $r[1], 'model' => $r[2], 'title' => $r[3] . ($v ? ' (' . ['', 'مدل بالاتر', 'کم‌کارکرد'][$v] . ')' : ''), 'price' => $price, 'year' => $r[5] + ($v ? -1 * $v + 1 : 0), 'km' => $r[6] + 12000 * $v, 'gearbox' => $r[7], 'fuel' => $r[8],
             'city' => $v ? $cities[($i) % 5] : $r[9], 'dealer' => $r[10], 'dealer_id' => $r[11], 'image' => $img($r[12]), 'color' => $r[13], 'sale' => $r[14], 'featured' => $v ? false : $r[15], 'old' => $v ? null : $r[16],
-            'axle' => $axle[$i % 4], 'weight' => $weight[$i % 3], 'body' => $body[$i % 3], 'cc' => $cc[$i % 4], 'type' => $types[$i % 4], 'posted' => $posted[$i % 5], 'location' => ($v ? $cities[($i) % 5] : $r[9]) . '، ' . ['سعادت‌آباد', 'جاده مخصوص', 'بلوار وکیل‌آباد', 'چهارراه ولیعصر'][$i % 4]];
+            'axle' => $axle[$i % 4], 'weight' => $weight[$i % 3], 'body' => $body[$i % 3], 'cc' => $cc[$i % 4], 'type' => $types[$i % 4], 'btype' => $btype[$i % 4], 'wheel' => $wheel[$i % 3], 'posted' => $posted[$i % 5], 'location' => ($v ? $cities[($i) % 5] : $r[9]) . '، ' . ['سعادت‌آباد', 'جاده مخصوص', 'بلوار وکیل‌آباد', 'چهارراه ولیعصر'][$i % 4]];
     }
     return $out;
 };
@@ -491,7 +509,7 @@ $listingFilter = function (array $rows, array $q) use ($digits) {
         $t = trim($q['q']);
         $c = $c->filter(fn($r) => mb_stripos($r['title'] . ' ' . $r['brand'] . ' ' . $r['model'] . ' ' . $r['dealer'] . ' ' . $r['city'], $t) !== false);
     }
-    foreach (['category' => 'cat', 'brand' => 'brand', 'model' => 'model', 'city' => 'city', 'gearbox' => 'gearbox', 'fuel' => 'fuel', 'axle' => 'axle', 'weight' => 'weight', 'color' => 'color', 'body' => 'body', 'cc' => 'cc', 'type' => 'type'] as $p => $f)
+    foreach (['category' => 'cat', 'brand' => 'brand', 'model' => 'model', 'city' => 'city', 'gearbox' => 'gearbox', 'fuel' => 'fuel', 'axle' => 'axle', 'weight' => 'weight', 'color' => 'color', 'body' => 'body', 'cc' => 'cc', 'type' => 'type', 'btype' => 'btype', 'wheel' => 'wheel'] as $p => $f)
         if (!empty($q[$p])) $c = $c->filter(fn($r) => $r[$f] === $q[$p]);
     if (!empty($q['price_min'])) $c = $c->filter(fn($r) => $r['price'] >= $digits($q['price_min']));
     if (!empty($q['price_max'])) $c = $c->filter(fn($r) => $r['price'] <= $digits($q['price_max']));
@@ -533,9 +551,10 @@ $listingPage = function (string $mode) use ($lf, $listingStore, $listingFilter, 
     $add = function (string $label, array $keys) use (&$chips, $without) {
         $chips[] = ['label' => $label, 'url' => $without($keys)];
     };
-    foreach (['brand', 'model', 'city', 'gearbox', 'fuel', 'axle', 'color', 'body', 'type'] as $k) if (!empty($q[$k])) $add($q[$k], [$k]);
+    foreach (['brand', 'model', 'city', 'gearbox', 'fuel', 'axle', 'color', 'body', 'type', 'btype'] as $k) if (!empty($q[$k])) $add($q[$k], [$k]);
     if (!empty($q['weight'])) $add($q['weight'] . ' تن', ['weight']);
     if (!empty($q['cc'])) $add($q['cc'] . ' سی‌سی', ['cc']);
+    if (!empty($q['wheel'])) $add('طوقه ' . $q['wheel'], ['wheel']);
     if (!empty($q['price_min']) || !empty($q['price_max'])) $add((!empty($q['price_min']) ? 'از ' . $human($digits($q['price_min'])) : '') . (!empty($q['price_max']) ? ' تا ' . $human($digits($q['price_max'])) : ''), ['price_min', 'price_max']);
     if (!empty($q['year_from']) || !empty($q['year_to'])) $add('سال ' . ($q['year_from'] ?? '…') . ' تا ' . ($q['year_to'] ?? '…'), ['year_from', 'year_to']);
     if (!empty($q['km_max'])) $add('تا ' . $fa(number_format($digits($q['km_max']))) . ' کیلومتر', ['km_max']);
@@ -547,7 +566,7 @@ $listingPage = function (string $mode) use ($lf, $listingStore, $listingFilter, 
     $tabs = [];
     foreach ($lf['categories'] as $k => $t) {
         $on = ($q['category'] ?? '') === $k;
-        $tabs[] = ['title' => $t, 'on' => $on, 'url' => route($name, array_merge(array_diff_key($q, array_flip(['category', 'brand', 'model', 'axle', 'weight', 'cc', 'type', 'body', 'color', 'gearbox', 'fuel', 'page'])), $on ? [] : ['category' => $k]))];
+        $tabs[] = ['title' => $t, 'on' => $on, 'url' => route($name, array_merge(array_diff_key($q, array_flip(['category', 'brand', 'model', 'axle', 'weight', 'cc', 'type', 'btype', 'wheel', 'body', 'color', 'gearbox', 'fuel', 'page'])), $on ? [] : ['category' => $k]))];
     }
     $sorts = ['new' => 'جدیدترین', 'cheap' => 'ارزان‌ترین', 'expensive' => 'گران‌ترین', 'low_km' => 'کم‌کارکردترین', 'new_model' => 'جدیدترین مدل'];
     $nextQ = array_merge($q, ['page' => $page + 1]);
@@ -576,6 +595,9 @@ Route::get('/listings/count', function () use ($listingStore, $listingFilter) { 
     $q = array_filter(request()->query(), fn($v) => $v !== null && $v !== '');
     return response()->json(['count' => $listingFilter($listingStore(), $q)->count()]);
 })->name('listings.count');
+
+// رادار خودرو (درخواست خرید با درصد تطابق): routes/radar.php — باید بعد از $lf و $listingStore و $listingFilter بیاید
+require __DIR__ . '/radar.php';
 
 // صفحات بعدی — فعلاً صفحه «به‌زودی»
 foreach ([
@@ -621,6 +643,7 @@ $auctionData = function () {
         [16, 'هیوندای النترا', 'car', 'نمایشگاه نگین', 'detail-main.jpg', 1700000000, 10000000, 300000, 'awaiting_pay', -2000, -1800, 17, 7, 0, -60, 'overdue'],
         [17, 'موتور هوندا CBR 250', 'bike', 'موتور سیتی', 'dealer-stock-3.jpg', 360000000, 2000000, 100000, 'defaulted', -5000, -4800, 11, 5, 4, -2900, 'banned'],
         [18, 'تیبا ۲ صفر', 'car', 'اتوگالری هالیوود', 'detail-t1.jpg', 370000000, 2000000, 100000, 'ended', -6200, -6000, 19, 8, 1, -5000, 'paid'],
+        [20, 'دوچرخه کوهستان جاینت ATX', 'bicycle', 'آریا موتور', 'dealer-stock-3.jpg', 24000000, 500000, 50000, 'live', -20, 200, 5, 3, null, null, null],
         [19, 'رنو تندر ۹۰', 'car', 'نمایشگاه پارس', 'detail-t3.jpg', 560000000, 3000000, 150000, 'cancelled', -300, -180, 0, 0, null, null, null],
     ];
 

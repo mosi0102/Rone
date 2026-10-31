@@ -1,88 +1,65 @@
-@extends('layouts.app')
+@extends('layouts.auth')
 @section('title', 'ورود / ثبت‌نام')
-@section('no_topbar', '1')
-@section('body_class', 'no-bottom-nav')
-@push('styles')<link rel="stylesheet" href="{{ asset('css/panel.css') }}">@endpush
+
+@push('scripts')<script src="{{ asset('js/auth-login.js') }}"></script>@endpush
 
 @section('content')
 <div class="auth-wrap">
-  <div class="card-s auth-card">
-    <img src="{{ asset('img/logo.png') }}" alt="{{ config('app.name') }}" class="auth-logo">
-    <h1 id="authTitle">ورود یا ثبت‌نام</h1>
-    <p id="authSub">شماره موبایل خود را وارد کنید تا کد تأیید ارسال شود.</p>
+  <div class="card-s auth-card" data-login data-next="{{ $next }}">
+    <header class="auth-head">
+      <button type="button" class="auth-back" data-back data-href="{{ route('welcome') }}" data-always="1" aria-label="بازگشت"><x-icon name="arrow-left" flip /></button>
+      <img src="{{ asset('img/logo.png') }}" alt="{{ config('app.name') }}" class="auth-logo">
+    </header>
+    <h1 data-auth-title>ورود یا ثبت‌نام</h1>
+    <p class="auth-sub" data-auth-sub>شماره موبایل خود را وارد کنید تا کد تأیید ارسال شود.</p>
 
-    {{-- مرحله ۱: شماره --}}
-    <form class="auth-step" id="stepPhone" novalidate>
-      <label class="form-label" for="phone">شماره موبایل</label>
-      <input class="form-control form-control-lg ltr" id="phone" inputmode="numeric" autocomplete="tel" maxlength="11" placeholder="09123456789" autofocus>
-      <div class="invalid-feedback d-block text-danger small" id="phoneErr" style="min-height:20px"></div>
-      <button type="submit" class="btn btn-primary btn-lg w-100 mt-2">دریافت کد تأیید</button>
-      <p class="small mt-3 mb-0 text-center">ورود شما به‌معنی پذیرش <a href="{{ route('help') }}">قوانین و حریم خصوصی</a> است.</p>
-    </form>
-
-    {{-- مرحله ۲: کد --}}
-    <form class="auth-step d-none" id="stepCode" novalidate>
-      <label class="form-label" for="code">کد ۵ رقمی ارسال‌شده به <b class="ltr d-inline-block" id="phoneShow"></b></label>
-      <input class="form-control form-control-lg otp-input" id="code" inputmode="numeric" autocomplete="one-time-code" maxlength="5" placeholder="•••••">
-      <div class="text-danger small" id="codeErr" style="min-height:20px"></div>
-      <button type="submit" class="btn btn-primary btn-lg w-100 mt-2" id="verifyBtn">ورود</button>
-      <div class="auth-meta">
-        <button type="button" class="link-btn" id="editPhone">ویرایش شماره</button>
-        <button type="button" class="link-btn" id="resend" disabled>ارسال مجدد (<span id="timer" data-fa>۶۰</span>)</button>
+    {{-- ۱ و ۲: شماره و کد --}}
+    <x-auth.otp-flow>
+      <div class="auth-alt">
+        <a class="btn btn-outline-secondary w-100" href="{{ route('home') }}?as=guest" data-guest><x-icon name="eye" /> ورود به‌عنوان مهمان</a>
+        <a class="auth-dealer" href="{{ route('dealer.register') }}"><x-icon name="store" /><span><b>نمایشگاه‌دار هستید؟</b> ثبت‌نام نمایشگاه</span><x-icon name="chevron-left" /></a>
       </div>
-    </form>
+      <p class="auth-terms">ورود شما به‌معنی پذیرش <a href="{{ route('help') }}">قوانین و حریم خصوصی</a> است.</p>
+    </x-auth.otp-flow>
 
-    <a href="{{ route('home') }}" class="auth-skip">فعلاً فقط می‌خواهم ببینم</a>
-    @if(config('app.debug'))
-      <div class="demo-login">
-        <small>ورود نمایشی (فقط APP_DEBUG)</small>
-        <a href="{{ $next }}{{ str_contains($next, '?') ? '&' : '?' }}as=user" class="btn btn-soft btn-sm">ورود به‌عنوان کاربر</a>
-        <a href="{{ $next }}{{ str_contains($next, '?') ? '&' : '?' }}as=dealer&mode=dealer" class="btn btn-soft btn-sm">ورود به‌عنوان نمایشگاه‌دار</a>
-      </div>
-    @endif
+    {{-- ۳: ورود با رمز عبور --}}
+    <section class="auth-step" data-step="password" data-title="ورود با رمز عبور" data-sub="شماره‌ی موبایل و رمز عبور خود را وارد کنید." hidden>
+      <form data-form="password" novalidate>
+        <div class="fld">
+          <label class="form-label" for="pwPhone">شماره موبایل</label>
+          <input class="form-control form-control-lg ltr" id="pwPhone" type="tel" inputmode="numeric" autocomplete="username" maxlength="11" placeholder="09123456789" aria-describedby="pwPhoneErr">
+          <div class="fld-err" id="pwPhoneErr" role="alert"></div>
+        </div>
+        <x-auth.password id="loginPw" label="رمز عبور" autocomplete="current-password" />
+        <button type="submit" class="btn btn-primary btn-lg w-100 mt-2">ورود</button>
+        <div class="auth-meta">
+          <button type="button" class="link-btn" data-forgot>رمز را فراموش کرده‌ام</button>
+          <button type="button" class="link-btn" data-use-code>ورود با کد تأیید</button>
+        </div>
+      </form>
+    </section>
+
+    {{-- ۴: تکمیل ثبت‌نام (کاربر جدید) --}}
+    <section class="auth-step" data-step="register" data-title="تکمیل ثبت‌نام" data-sub="فقط یک قدم مانده؛ نام و رمز عبور خود را وارد کنید." hidden>
+      <form data-form="register" novalidate>
+        <div class="row g-2">
+          <div class="col-6 fld"><label class="form-label" for="fn">نام</label><input class="form-control form-control-lg" id="fn" autocomplete="given-name" maxlength="40" aria-describedby="fnErr"><div class="fld-err" id="fnErr" role="alert"></div></div>
+          <div class="col-6 fld"><label class="form-label" for="ln">نام خانوادگی</label><input class="form-control form-control-lg" id="ln" autocomplete="family-name" maxlength="40" aria-describedby="lnErr"><div class="fld-err" id="lnErr" role="alert"></div></div>
+        </div>
+        <x-auth.password id="regPw" label="رمز عبور" :meter="true" autocomplete="new-password" />
+        <label class="form-check auth-check fld"><input class="form-check-input" type="checkbox" id="terms"><span class="form-check-label">با <a href="{{ route('help') }}" target="_blank" rel="noopener">قوانین و حریم خصوصی</a> موافقم.</span></label>
+        <div class="fld-err" id="termsErr" role="alert"></div>
+        <button type="submit" class="btn btn-primary btn-lg w-100 mt-2">ثبت‌نام و ورود</button>
+      </form>
+    </section>
+
+    {{-- ۵: رمز جدید (فراموشی رمز) --}}
+    <section class="auth-step" data-step="reset" data-title="رمز عبور جدید" data-sub="برای حساب <b class='ltr d-inline-block' data-phone-show></b> رمز جدید انتخاب کنید." hidden>
+      <form data-form="reset" novalidate>
+        <x-auth.password id="resetPw" label="رمز عبور جدید" :meter="true" autocomplete="new-password" />
+        <button type="submit" class="btn btn-primary btn-lg w-100 mt-2">ذخیره و ورود</button>
+      </form>
+    </section>
   </div>
 </div>
 @endsection
-
-@push('scripts')
-<script>
-  (function () {
-    var next = @json($next), phone = '', tmr;
-    function en(v) { return String(v).replace(/[۰-۹]/g, function (d) { return '۰۱۲۳۴۵۶۷۸۹'.indexOf(d); }).replace(/[٠-٩]/g, function (d) { return '٠١٢٣٤٥٦٧٨٩'.indexOf(d); }); }
-    function startTimer() {
-      var t = 60, $r = $('#resend').prop('disabled', true); clearInterval(tmr);
-      $('#timer').text(App.toFa(t));
-      tmr = setInterval(function () { t--; $('#timer').text(App.toFa(t)); if (t <= 0) { clearInterval(tmr); $r.prop('disabled', false).text('ارسال مجدد کد'); } }, 1000);
-      $r.html('ارسال مجدد (<span id="timer">' + App.toFa(t) + '</span>)');
-    }
-    function toCode() {
-      $('#stepPhone').addClass('d-none'); $('#stepCode').removeClass('d-none'); $('#phoneShow').text(App.toFa(phone));
-      $('#authTitle').text('کد تأیید را وارد کنید'); $('#authSub').text('پیامک ممکن است چند ثانیه طول بکشد.');
-      $('#code').val('').focus(); startTimer();
-      // پر کردن خودکار کد پیامک در مرورگرهای پشتیبان‌دهنده (WebOTP)
-      if ('OTPCredential' in window) { navigator.credentials.get({ otp: { transport: ['sms'] } }).then(function (o) { if (o) { $('#code').val(o.code).trigger('input'); } }).catch(function () {}); }
-    }
-    $('#stepPhone').on('submit', function (e) {
-      e.preventDefault(); phone = en($('#phone').val()).replace(/\s/g, '');
-      if (!/^09\d{9}$/.test(phone)) { $('#phoneErr').text('شماره موبایل معتبر نیست (مثال: ۰۹۱۲۳۴۵۶۷۸۹)'); $('#phone').addClass('is-invalid'); return; }
-      $('#phoneErr').text(''); $('#phone').removeClass('is-invalid');
-      var $b = $(this).find('button[type=submit]'); App.loading($b);
-      $(document).trigger('app:otp-send', [phone]); // بک‌اند: ارسال پیامک (فعلاً شبیه‌سازی)
-      setTimeout(function () { App.loading($b, false); toCode(); }, 700);
-    });
-    $('#phone').on('input', function () { $(this).removeClass('is-invalid'); $('#phoneErr').text(''); });
-    $('#code').on('input', function () { var v = en(this.value).replace(/\D/g, '').slice(0, 5); this.value = v; $('#codeErr').text(''); if (v.length === 5) $('#stepCode').trigger('submit'); });
-    $('#stepCode').on('submit', function (e) {
-      e.preventDefault(); var c = en($('#code').val());
-      if (c.length !== 5) { $('#codeErr').text('کد ۵ رقمی را کامل وارد کنید'); return; }
-      var $b = $('#verifyBtn'); App.loading($b);
-      $(document).trigger('app:otp-verify', [phone, c]); // بک‌اند: بررسی کد و ورود
-      setTimeout(function () { // نمایشی: هر کدی پذیرفته می‌شود
-        var u = new URL(next, location.origin); u.searchParams.set('as', 'user'); location.href = u.toString();
-      }, 800);
-    });
-    $('#editPhone').on('click', function () { clearInterval(tmr); $('#stepCode').addClass('d-none'); $('#stepPhone').removeClass('d-none'); $('#authTitle').text('ورود یا ثبت‌نام'); $('#authSub').text('شماره موبایل خود را وارد کنید تا کد تأیید ارسال شود.'); $('#phone').focus(); });
-    $('#resend').on('click', function () { $(document).trigger('app:otp-send', [phone]); App.toast('کد جدید ارسال شد', 'success', 1800); startTimer(); });
-  })();
-</script>
-@endpush

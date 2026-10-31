@@ -1,12 +1,13 @@
 {{--
   جستجو + انتخاب شهر (کارت سفید: شهر | کادر جستجو | دکمه ذره‌بین).
   <x-search-bar placeholder="..." scope="listings|dealers" :city="$city" />
+  open=true (پیش‌فرض، فقط scope=listings): با لمس کادر، بلافاصله صفحه‌ی جست‌وجو باز می‌شود (js/search-open.js) و تایپ همان‌جا انجام می‌شود.
   scope به /search?scope=…&city=…&q=… فرستاده می‌شود؛ با action مقصد دیگری بدهید. رویداد JS تغییر شهر: app:city
 --}}
-@props(['placeholder' => 'جست و جو در خودروها', 'scope' => 'listings', 'action' => null, 'city' => 'سبزوار', 'cities' => []])
+@props(['placeholder' => 'جست و جو در خودروها', 'scope' => 'listings', 'action' => null, 'city' => 'سبزوار', 'cities' => [], 'open' => true])
 @php $cities = count($cities) ? $cities : ['تهران', 'مشهد', 'اصفهان', 'شیراز', 'تبریز', 'کرج', 'سبزوار', 'قم', 'اهواز', 'رشت']; @endphp
 @once
-  @push('scripts')<script src="{{ asset('js/city.js') }}"></script>@endpush
+  @push('scripts')<script src="{{ asset('js/city.js') }}"></script><script src="{{ asset('js/search-open.js') }}"></script>@endpush
 @endonce
 <form class="search-card" action="{{ $action ?? route('search') }}" role="search">
   <input type="hidden" name="scope" value="{{ $scope }}">
@@ -15,7 +16,7 @@
     <x-icon name="pin" /> <span id="cityLabel">{{ $city }}</span>
   </button>
   <span class="sc-vr" aria-hidden="true"></span>
-  <input type="text" name="q" class="sc-input" placeholder="{{ $placeholder }}" aria-label="{{ $placeholder }}" enterkeyhint="search" inputmode="search" autocomplete="off" autocapitalize="off" spellcheck="false">
+  <input type="text" name="q" class="sc-input" @if($open && $scope === 'listings') data-open-search="{{ route('search', ['scope' => $scope, 'focus' => 1]) }}" @endif placeholder="{{ $placeholder }}" aria-label="{{ $placeholder }}" enterkeyhint="search" inputmode="search" autocomplete="off" autocapitalize="off" spellcheck="false">
   <button type="submit" class="sc-go" aria-label="جستجو"><x-icon name="search" /></button>
 </form>
 

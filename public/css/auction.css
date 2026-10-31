@@ -7,7 +7,7 @@
 /* ---------- لیست ---------- */
 .auc-h { margin: 6px 0 4px; font-size: 28px; font-weight: 900; }
 .auc-sum { margin: 0 0 16px; color: var(--muted); font-size: 15px; }
-.auc-cats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.auc-cats { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; }
 .auc-cats button { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; min-height: 90px; padding: 12px 4px; border: 0; border-radius: 16px; background: var(--surface); color: var(--ink); font: inherit; font-weight: 700; font-size: 14px; box-shadow: var(--shadow-1); transition: background var(--t-fast), color var(--t-fast), transform var(--t-fast); }
 .auc-cats button .icon { width: 28px; height: 28px; color: var(--primary); stroke-width: 1.6; }
 .auc-cats button:active { transform: scale(.96); }
@@ -16,7 +16,7 @@
 .seg-tabs button { flex: 1; padding: 13px 6px; border: 0; border-radius: 14px; background: transparent; color: var(--primary); font: inherit; font-weight: 700; font-size: 14.5px; transition: background var(--t-fast), color var(--t-fast); }
 .seg-tabs button.on { background: var(--primary); color: #fff; box-shadow: 0 4px 10px rgba(27, 77, 158, .25); }
 .auc-list { display: grid; gap: 16px; }
-@media (min-width: 992px) { .auc-list { grid-template-columns: repeat(2, 1fr); } .auc-cats { max-width: 640px; } .seg-tabs { max-width: 640px; } }
+@media (min-width: 992px) { .auc-list { grid-template-columns: repeat(2, 1fr); } .auc-cats { max-width: 720px; } .seg-tabs { max-width: 640px; } }
 
 .auc-card { padding: 16px; background: var(--surface); border: 1px solid var(--line); border-radius: 24px; box-shadow: var(--shadow-1); display: flex; flex-direction: column; gap: 12px; }
 .auc-main { display: flex; gap: 14px; color: inherit; }

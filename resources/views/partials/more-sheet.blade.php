@@ -29,6 +29,7 @@
         <a href="{{ route('panel', ['tab' => 'listings']) }}"><span class="mg-ic"><x-icon name="car" /></span>آگهی‌های من</a>
         <a href="{{ route('panel', ['tab' => 'auctions']) }}"><span class="mg-ic"><x-icon name="gavel" /></span>مزایده‌های من</a>
         <a href="{{ route('panel.radar') }}"><span class="mg-ic"><x-icon name="sparkles" /></span>درخواست خریداران</a>
+        <a href="{{ route('chat.index') }}"><span class="mg-ic"><x-icon name="message" /></span>پیام‌ها</a>
         <a href="{{ route('panel', ['tab' => 'finance']) }}"><span class="mg-ic"><x-icon name="receipt" /></span>مالی</a>
         <a href="{{ route('dealers.show', $auth->dealer->id) }}"><span class="mg-ic"><x-icon name="store" /></span>پروفایل عمومی</a>
         <a href="{{ route('panel', ['tab' => 'settings']) }}"><span class="mg-ic"><x-icon name="settings" /></span>تنظیمات</a>
@@ -36,6 +37,7 @@
         <a href="{{ route('account') }}"><span class="mg-ic"><x-icon name="user" /></span>حساب من</a>
         <a href="{{ route('account.reservations') }}"><span class="mg-ic"><x-icon name="shield" /></span>رزروهای من</a>
         <a href="{{ route('radar.index') }}"><span class="mg-ic"><x-icon name="sparkles" /></span>رادار خودرو</a>
+        <a href="{{ route('chat.index') }}"><span class="mg-ic"><x-icon name="message" /></span>پیام‌ها</a>
         <a href="{{ route('account.wallet') }}"><span class="mg-ic"><x-icon name="wallet" /></span>کیف پول</a>
         <a href="{{ route('favorites') }}"><span class="mg-ic"><x-icon name="bookmark" /></span>نشان‌شده‌ها</a>
         <a href="{{ route('notifications') }}"><span class="mg-ic"><x-icon name="bell" /></span>اعلان‌ها</a>

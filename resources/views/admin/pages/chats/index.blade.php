@@ -6,7 +6,7 @@
 @section('content')
 @php
   $counts = array_count_values(array_column($chats, 'status'));
-  $hitLabel = ['phone' => 'شماره تماس', 'link' => 'لینک/آیدی بیرونی'];
+  $hitLabel = ['phone' => 'شماره تماس', 'link' => 'لینک/آیدی بیرونی', 'offsite' => 'پرداخت/معامله‌ی بیرونی'];
 @endphp
 
 <x-admin.page-head title="گفتگوها" subtitle="مشاهده‌ی گفتگوی خریدار و نمایشگاه‌دار (فقط خواندنی) و پیگیری تخلف‌ها" />

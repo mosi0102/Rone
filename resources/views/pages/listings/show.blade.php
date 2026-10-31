@@ -95,6 +95,7 @@
         <a href="{{ $loginUrl }}" class="btn btn-primary btn-lg w-100 cd-cta-desktop"><x-icon name="user" /> ورود برای پرداخت بیعانه</a>
       @else
         <a href="{{ route('listings.deposit', $car->id) }}" class="btn btn-primary btn-lg w-100 cd-cta-desktop"><x-icon name="shield" /> پرداخت بیعانه و ادامه فرایند</a>
+        <a href="{{ route('chat.start', ['listing' => $car->id]) }}" class="btn btn-outline-primary btn-lg w-100 mt-2 cd-cta-desktop"><x-icon name="message" /> گفتگو با نمایشگاه</a>
       @endif
     </div>
   </aside>
@@ -107,6 +108,7 @@
   @elseif(!$auth->check)
     <a href="{{ $loginUrl }}" class="btn btn-primary btn-lg flex-fill"><x-icon name="user" /> ورود برای پرداخت بیعانه</a>
   @else
+    <a href="{{ route('chat.start', ['listing' => $car->id]) }}" class="btn btn-outline-primary btn-lg" aria-label="گفتگو با نمایشگاه"><x-icon name="message" /></a>
     <a href="{{ route('listings.deposit', $car->id) }}" class="btn btn-primary btn-lg flex-fill"><x-icon name="shield" /> پرداخت بیعانه و ادامه فرایند</a>
   @endif
 </div>

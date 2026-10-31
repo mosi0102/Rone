@@ -599,6 +599,9 @@ Route::get('/listings/count', function () use ($listingStore, $listingFilter) { 
 // رادار خودرو (درخواست خرید با درصد تطابق): routes/radar.php — باید بعد از $lf و $listingStore و $listingFilter بیاید
 require __DIR__ . '/radar.php';
 
+// گفتگوی خریدار ↔ نمایشگاه‌دار با قوانین سامانه: routes/chat.php
+require __DIR__ . '/chat.php';
+
 // صفحات بعدی — فعلاً صفحه «به‌زودی»
 foreach ([
              'account' => ['/account', 'حساب من'],

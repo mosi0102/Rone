@@ -165,7 +165,7 @@
 .sc-go { flex-shrink: 0; width: 48px; height: 48px; padding: 0; border: 0; border-radius: 50%; background: transparent; color: var(--primary); display: grid; place-items: center; transition: background var(--t-fast), transform var(--t-fast); }
 .sc-go .icon { width: 28px; height: 28px; stroke-width: 2; }
 .sc-go:hover { background: var(--primary-soft); } .sc-go:active { transform: scale(.9); }
-@media (min-width: 992px) { .search-card { max-width: 760px; margin-inline: auto; } }
+@media (min-width: 992px) { .search-card { max-width: 100%; margin-inline: auto; } }
 
 /* ---------- بنر تبلیغاتی (عکس با گرادیان تیره سمت راست) ---------- */
 .ad-banner { position: relative; display: block; width: 100%; max-width: 100%; margin-top: 24px; aspect-ratio: 824 / 380; overflow: hidden; border-radius: 20px; background: #0f1d3d; color: #fff; }

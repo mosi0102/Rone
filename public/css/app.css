@@ -30,7 +30,7 @@
   --primary-hover: #153e82;
   --primary-soft: #e8effb;
   --primary-ink: #0e2f66;
-  
+
   --accent: #f59e0b;
   --accent-hover: #d97706;
   --accent-soft: #fef3c7;
@@ -56,7 +56,7 @@
   --bottomnav-h: 68px;
   --safe-top: env(safe-area-inset-top, 0px);
   --safe-bottom: env(safe-area-inset-bottom, 0px);
-  --container: 1200px;
+  --container: 1500px;
 
   /* حرکت */
   --ease: cubic-bezier(.2, .8, .2, 1);

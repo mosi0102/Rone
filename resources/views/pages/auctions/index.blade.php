@@ -10,7 +10,12 @@
 @php
   $all = collect($auctions); $liveN = $all->where('status', 'live')->count(); $soonN = $all->where('status', 'scheduled')->count();
 @endphp
-<h2 class="auc-h">فرصت‌های مزایده</h2>
+<div class="auc-head">
+  <h2 class="auc-h">فرصت‌های مزایده</h2>
+  @if(!empty($auth->is_dealer))
+    <a href="{{ route('auctions.create') }}" class="btn btn-primary btn-sm auc-new"><x-icon name="plus" />مزایده جدید</a>
+  @endif
+</div>
 <p class="auc-sum"><span data-fa>{{ $all->count() }}</span> مزایده • <span data-fa>{{ $liveN }}</span> در حال برگزاری • <span data-fa>{{ $soonN }}</span> پیش رو</p>
 
 {{-- دسته‌بندی --}}

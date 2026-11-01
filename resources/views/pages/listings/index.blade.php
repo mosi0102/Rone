@@ -2,7 +2,7 @@
 @php
   $isSearch = $mode === 'search';
   $fa = array_combine(['0','1','2','3','4','5','6','7','8','9'], ['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹']);
-  $myDealer = $auth->dealer_mode ? $auth->dealer->id : null;     // نمایشگاه‌دار: دکمه ویرایش روی آگهی‌های خودش
+  $myDealer = $auth->is_dealer ? $auth->dealer->id : null;     // نمایشگاه‌دار: دکمه ویرایش روی آگهی‌های خودش
   $hidden = collect($query)->except(['q', 'page'])->all();
   $popular = ['پژو ۲۰۷', 'ولوو FH500', 'یاماها NMAX', 'سمند', 'تیبا', 'کامیون کشنده', 'هیوندای النترا'];   // جست‌وجوهای پرطرفدار (از بک‌اند)
 @endphp

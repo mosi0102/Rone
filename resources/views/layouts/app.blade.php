@@ -14,6 +14,7 @@
 
   <main class="app-main" id="main">
     <div class="page-container">
+      @include('partials.verify-strip')
       @yield('content')
     </div>
   </main>

@@ -168,6 +168,7 @@
         </div>
       </div>
       <p class="small text-muted-s mt-2"><x-icon name="info" class="icon-sm" /> بیعانه پس از تأیید خریدار یا انقضای مهلت، به موجودی قابل تسویه منتقل می‌شود. کارمزد خدمات سایت برگشت‌ناپذیر است.</p>
+      <p class="mb-2"><a href="{{ route('panel.settlements') }}" class="small fw-bold">سابقه‌ی تسویه‌ها ←</a></p>
       <x-section-head title="تراکنش‌ها" :href="route('account.wallet')" more="همه" />
       <div class="list-s">
         @foreach($finance['tx'] as $t)

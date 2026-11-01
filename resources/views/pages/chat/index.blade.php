@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('title', 'پیام‌ها')
 @section('page_title', 'پیام‌ها')
-@section('page_subtitle', $role === 'dealer' ? 'گفتگو با خریداران' : 'گفتگو با نمایشگاه‌ها')
+@section('page_subtitle', $auth->is_dealer ? 'گفتگو با نمایشگاه‌ها و خریداران' : 'گفتگو با نمایشگاه‌ها')
 @section('back', route('home'))
 
 @push('styles')<link rel="stylesheet" href="{{ asset('css/chat.css') }}">@endpush

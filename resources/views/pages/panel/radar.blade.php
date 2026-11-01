@@ -8,8 +8,8 @@
 @push('scripts')<script src="{{ asset('js/radar.js') }}"></script>@endpush
 
 @section('content')
-@if(!$auth->dealer_mode)
-  <x-empty-state icon="store" title="این بخش مخصوص نمایشگاه‌داران است" text="برای دیدن درخواست‌های خریداران به حالت نمایشگاه بروید." action="ورود به حالت نمایشگاه" :href="route('mode.switch', 'dealer')" />
+@if(!$auth->is_dealer)
+  <x-empty-state icon="store" title="این بخش مخصوص نمایشگاه‌داران است" text="برای دیدن درخواست‌های خریداران، با حساب نمایشگاه‌دار وارد شوید." action="ورود به حالت نمایشگاه" :href="route('mode.switch', 'dealer')" />
 @else
   @if($related)
     <section class="note-card mt-0 mb-3">

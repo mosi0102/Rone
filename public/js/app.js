@@ -237,8 +237,11 @@
 (function ($) {
   $(document).on('click', '#devFab .dev-btn', function () { var $p = $('#devPanel'), open = $p.prop('hidden'); $p.prop('hidden', !open); $(this).attr('aria-expanded', open); });
   $(document).on('click', '#devFab [data-as]', function () {
-    var u = new URL(location.href); u.searchParams.set('as', $(this).data('as'));
-    if ($(this).data('mode')) u.searchParams.set('mode', $(this).data('mode')); else u.searchParams.delete('mode');
+    var u = new URL(location.href); u.searchParams.set('as', $(this).data('as')); u.searchParams.delete('mode');
+    location.href = u.toString();
+  });
+  $(document).on('click', '#devFab [data-profile]', function () {
+    var u = new URL(location.href); u.searchParams.set('profile', $(this).data('profile'));
     location.href = u.toString();
   });
   $(document).on('click', function (e) { if (!$(e.target).closest('#devFab').length) $('#devPanel').prop('hidden', true); });

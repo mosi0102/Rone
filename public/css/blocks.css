@@ -140,10 +140,7 @@
 .bslider.is-full.bs-top { margin-top: -16px; }
 @media (min-width: 992px) { .bslider.is-full.bs-top { margin-top: 0; } }
 
-/* ---------- تعویض حالت و منوی کاربر ---------- */
-.mode-switch { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; padding: 4px; margin-bottom: 12px; border-radius: var(--r-md); background: var(--bg); }
-.mode-switch a { display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 10px 6px; border-radius: 11px; color: var(--ink-2); font-weight: 700; font-size: 13.5px; transition: background var(--t-med), color var(--t-med), box-shadow var(--t-med); }
-.mode-switch a.active { background: var(--surface); color: var(--primary); box-shadow: var(--shadow-1); font-weight: 900; }
+/* ---------- منوی کاربر ---------- */
 .wallet-mini { display: flex; align-items: center; gap: 10px; padding: 10px 12px; margin-bottom: 14px; border-radius: var(--r-md); background: var(--primary-soft); font-size: 13px; }
 .wallet-mini span { display: inline-flex; align-items: center; gap: 6px; color: var(--ink-2); }
 .wallet-mini b { margin-inline-start: auto; color: var(--primary); }
@@ -151,9 +148,6 @@
 .user-menu { min-width: 240px; border-radius: var(--r-md); border-color: var(--line); box-shadow: var(--shadow-3); padding: 8px; }
 .user-menu .dropdown-item { border-radius: 10px; padding: 8px 12px; font-weight: 600; }
 .user-menu .um-wallet { display: flex; align-items: center; gap: 8px; padding: 8px 12px; color: var(--primary); font-weight: 800; }
-.user-menu .um-switch { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; padding: 4px; margin: 4px 0; border-radius: 12px; background: var(--bg); }
-.user-menu .um-switch a { text-align: center; padding: 6px; border-radius: 9px; font-weight: 700; font-size: 13px; color: var(--ink-2); }
-.user-menu .um-switch a.active { background: var(--surface); color: var(--primary); box-shadow: var(--shadow-1); }
 
 
 /* ==========================================================================
@@ -280,3 +274,11 @@
 .ar-chip { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: var(--r-pill); background: #fff; border: 1px solid #d5e1f5; font-size: 12px; font-weight: 700; color: var(--ink-2); }
 .ar-chip .icon { color: var(--primary); } .ar-chip .countdown-inline { color: #dc2626; }
 .dm-ic { width: 54px; height: 54px; border-radius: 16px; display: grid; place-items: center; flex-shrink: 0; background: var(--primary-soft); color: var(--primary); }
+
+/* بخش‌بندی «بیشتر»/منوی کاربر و نوار هشدار احراز هویت */
+.more-sec { grid-column: 1 / -1; margin: 6px 0 0; padding-top: 10px; border-top: 1px solid var(--line); font-size: 12.5px; font-weight: 800; color: var(--muted); }
+.verify-mini { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; padding: 10px 12px; border-radius: var(--r-md); background: var(--warn-soft); color: #7a4a00; font-weight: 700; font-size: 13.5px; text-decoration: none; }
+.user-menu .um-sec { padding: 4px 12px 2px; font-size: 12px; font-weight: 800; color: var(--muted); }
+.um-dot { display: inline-block; width: 8px; height: 8px; margin-inline-start: 4px; border-radius: 50%; background: var(--accent); vertical-align: middle; }
+.verify-strip { display: flex; align-items: center; gap: 10px; margin: 0 0 14px; padding: 10px 14px; border-radius: var(--r-md); background: var(--warn-soft); color: #7a4a00; font-size: 13.5px; font-weight: 600; text-decoration: none; }
+.verify-strip svg { flex: none; } .verify-strip b { margin-inline-start: auto; color: var(--primary); white-space: nowrap; }

@@ -145,3 +145,9 @@
 .pay-rows { border: 1px solid var(--line); border-radius: var(--r-md); overflow: hidden; }
 .pay-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 14px; }
 .pay-row + .pay-row { border-top: 1px solid var(--line); } .pay-row b { display: inline-flex; gap: 6px; align-items: center; font-size: 14px; }
+
+/* دکمه مزایده جدید (نمایشگاه‌دار) */
+.auc-head{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.auc-head .auc-h{margin:0}
+.auc-new{display:inline-flex;align-items:center;gap:6px;white-space:nowrap;flex-shrink:0}
+.auc-new svg{width:16px;height:16px}

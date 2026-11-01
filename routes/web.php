@@ -25,6 +25,7 @@ Route::get('/styleguide', [HomeController::class, 'styleguide'])->name('stylegui
 
 // نمایشگاه‌ها
 Route::get('/dealers', [DealerController::class, 'index'])->name('dealers.index');
+Route::get('/dealers/search', [DealerController::class, 'search'])->name('dealers.search');
 Route::get('/dealers/join', [DealerController::class, 'join'])->name('dealer.join');
 Route::get('/dealers/status', [DealerController::class, 'status'])->name('dealer.status');
 Route::get('/dealers/{id}', [DealerController::class, 'show'])->whereNumber('id')->name('dealers.show');
@@ -37,7 +38,7 @@ Route::get('/listings/count', [ListingController::class, 'count'])->name('listin
 Route::get('/listings/{id}', [ListingController::class, 'show'])->whereNumber('id')->name('listings.show');
 
 // ورود/خروج و حالت کاربر
-Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // پنل نمایشگاه‌دار
 Route::get('/panel', [PanelController::class, 'dashboard'])->name('panel');

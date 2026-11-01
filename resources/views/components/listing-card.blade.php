@@ -8,7 +8,7 @@
 <article class="card-s hoverable listing-card">
   <a href="{{ $i->url ?? '#' }}" class="d-block text-reset">
     <div class="lc-media">
-      @if(!empty($i->image))<img src="{{ $i->image }}" alt="{{ $i->title }}" loading="lazy">@else<x-icon name="car" />@endif
+      @if(!empty($i->image))<img src="{{ $i->image }}" alt="{{ $i->title }}" loading="lazy" decoding="async">@else<x-icon name="car" />@endif
       <div class="lc-badges">
         @if(($i->sale_type ?? null) === 'instant')<span class="badge-s badge-instant"><x-icon name="bolt" /> فروش فوری</span>@endif
         @if(($i->sale_type ?? null) === 'auction')<span class="badge-s badge-auction"><x-icon name="gavel" /> مزایده</span>@endif
@@ -19,7 +19,7 @@
       <div class="lc-meta">
         <span><x-icon name="calendar" class="icon-sm" /> <span data-fa>{{ $i->year }}</span></span>
         <span><x-icon name="gauge" class="icon-sm" /> <span class="num" data-money="{{ $i->km }}">{{ $i->km }}</span> کیلومتر</span>
-        <span><x-icon name="pin" class="icon-sm" /> {{ $i->city }}</span>
+        <span><x-icon name="pin" class="icon-sm" /> {{ $i->city ?? $i->location ?? '' }}</span>
       </div>
       <div class="lc-price">
         @if(($i->sale_type ?? null) === 'auction')<small class="d-block mb-1">قیمت پایه</small>@endif

@@ -11,8 +11,9 @@
       <h1>{{ config('app.name') }}</h1>
       <p>بازار تخصصی نمایشگاه‌های خودرو</p>
     </div>
-    <img src="{{ asset('img/logo.png') }}" alt="{{ config('app.name') }}">
+    <img src="{{ asset('img/logo.png') }}" alt="{{ config('app.name') }}" width="92" height="48" decoding="async">
   </header>
+  <h1 class="visually-hidden d-none d-lg-block">{{ config('app.name') }} | بازار تخصصی نمایشگاه‌های خودرو</h1>
   <div class="home-top">
     <section class="hero" aria-label="معرفی">
       <img class="hero-img" src="{{ asset('img/hero.jpg') }}" srcset="{{ asset('img/hero-sm.jpg') }} 412w, {{ asset('img/hero.jpg') }} 824w" sizes="(min-width: 992px) 1200px, 100vw" width="824" height="400" alt="نمایشگاه خودرو" fetchpriority="high">

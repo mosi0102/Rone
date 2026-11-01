@@ -1,5 +1,6 @@
 @extends('layouts.app')
 @section('title', $car->title)
+@section('own_h1', 1)
 @section('page_title', 'اطلاعات خودرو')
 @section('page_subtitle', $car->dealer['name'])
 @section('back', route('listings.index'))

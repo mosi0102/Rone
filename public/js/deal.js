@@ -20,7 +20,7 @@
       App.loading($b);
       var info = { listing: $b.data('listing'), method: $('input[name=method]:checked').val(), total: $b.data('total') };
       $(document).trigger('app:deposit-pay', [info]); // بک‌اند: کسر از کیف پول یا انتقال به درگاه
-      setTimeout(function () { App.toast('بیعانه با موفقیت در امانت قرار گرفت', 'success', 1800); setTimeout(function () { location.href = $dep.data('next'); }, 900); }, 1100);
+      setTimeout(function () { App.toast('بیعانه با موفقیت در امانت قرار گرفت', 'success', 1800); setTimeout(function () { location.href = App.safeUrl($dep.data('next')); }, 900); }, 1100);
     });
   }
 

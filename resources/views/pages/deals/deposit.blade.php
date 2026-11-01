@@ -56,7 +56,7 @@
       @unless($enough)<p class="form-text text-danger mt-2 mb-0">موجودی کیف پول برای این مبلغ کافی نیست؛ با درگاه بانکی پرداخت کنید یا <a href="{{ route('account.wallet') }}">کیف پول را شارژ کنید</a>.</p>@endunless
     </section>
 
-    <div class="terms-row">
+    <div class="terms-row" style="margin-bottom:40px">
       <label class="tr-ck"><input type="checkbox" id="agreeDeposit"><i><x-icon name="check" class="icon-sm" /></i><span>شرایط بیعانهٔ امانی را خوانده‌ام و می‌پذیریم.</span></label>
       <a href="#" class="more-link" data-bs-toggle="offcanvas" data-bs-target="#termsSheet"><x-icon name="arrow-left" class="icon-sm" /> مشاهدهٔ ضوابط و شرایط</a>
     </div>

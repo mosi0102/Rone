@@ -115,3 +115,5 @@ fieldset.fld legend { float: none; width: auto; padding: 0; }
 
 @media (min-width: 576px) { .auth-card { padding: 28px 28px 24px; } .welcome { padding-top: 28px; } }
 @media (max-width: 360px) { .otp-boxes { gap: 5px; } .otp-box { height: 48px; } }
+
+.auth-terms a { display: inline-block; padding-block: 8px; }   /* هدف لمسی ≥ ۳۶px */

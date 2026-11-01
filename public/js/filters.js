@@ -6,8 +6,9 @@
   var FA = '۰۱۲۳۴۵۶۷۸۹';
   function digits(v) { return String(v || '').replace(/[۰-۹]/g, function (d) { return FA.indexOf(d); }).replace(/\D/g, ''); }
 
-  $('.ff').each(function () {
-    var $f = $(this), cfg = $f.data('config') || {}, countUrl = $f.data('count-url');
+  function init(root) { $(root || document).find('.ff').addBack('.ff').each(function () {
+    var $f = $(this); if ($f.data('ffInit')) return; $f.data('ffInit', 1);
+    var cfg = $f.data('config') || {}, countUrl = $f.data('count-url');
     var $cat = $f.find('[name=category]'), $brand = $f.find('[name=brand]'), $model = $f.find('[name=model]');
     var $pmin = $f.find('[name=price_min]'), $pmax = $f.find('[name=price_max]'), $rng = $f.find('.rng'), $a = $rng.find('.rng-a'), $b = $rng.find('.rng-b');
     var $submit = $f.find('[type=submit]').first(), t;
@@ -59,6 +60,7 @@
     function params() {
       var o = {}; $f.serializeArray().forEach(function (p) { if (p.value !== '') o[p.name] = $f.find('[name="' + p.name + '"][data-money-field]').length ? digits(p.value) : p.value; }); return o;
     }
+    $f.data('ffParams', params);                       /* برای مرورگر آگهی (AJAX) */
     function schedule() { clearTimeout(t); t = setTimeout(recount, 350); }
     function recount() {
       var p = params(); $(document).trigger('filters:change', [p]);
@@ -79,6 +81,7 @@
 
     /* ----- ارسال: فیلدهای خالی و ارقام فارسی ----- */
     $f.on('submit', function () {
+      if ($f.closest('[data-lb]').length) return;      /* داخل مرورگر آگهی: ارسال AJAX است (js/listing-browser.js) */
       $f.find('[data-money-field]').each(function () { this.value = digits(this.value); });
       $f.find('input[name],select[name]').each(function () { if (this.type !== 'hidden' && this.type !== 'checkbox' && !this.value) this.disabled = true; });
     });
@@ -86,5 +89,8 @@
     /* ----- شروع ----- */
     $f.find('[data-money-field]').each(function () { var d = digits(this.value); if (d) this.value = App.money(d); });
     refillBrands($brand.data('sel')); $model.prop('disabled', !$brand.val()); toggleSpecs(); fromInputs();
-  });
+  }); }
+
+  window.Filters = { init: init };
+  init(document);
 })(jQuery);

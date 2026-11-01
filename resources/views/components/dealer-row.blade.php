@@ -4,7 +4,7 @@
 <article class="listing-row dealer-row">
   <a href="{{ $d->url ?? '#' }}" class="lr-link">
     <div class="lr-media">
-      @if(!empty($d->image))<img src="{{ $d->image }}" alt="" loading="lazy">@else<x-icon name="store" />@endif
+      @if(!empty($d->image))<img src="{{ $d->image }}" alt="" loading="lazy" decoding="async">@else<x-icon name="store" />@endif
     </div>
     <div class="lr-body">
       <h3 class="lr-title">{{ $d->name }}</h3>

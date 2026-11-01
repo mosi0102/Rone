@@ -116,7 +116,7 @@
   {{-- ===== توضیح امانت ===== --}}
   @if($st === 'held')
     @if(!$isSeller)<x-escrow-how :dealer="$dl->name" />@endif
-    <section class="note-card">
+    <section class="note-card" style="margin-bottom: 70px">
       <span class="nc-ic"><x-icon name="shield" /></span>
       <div>
         <h3>تا تعیین نتیجه، مبلغ امانی است</h3>

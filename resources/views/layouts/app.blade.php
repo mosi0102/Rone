@@ -24,6 +24,7 @@
   @include('partials.more-sheet')
   @include('partials.install-banner')
   @if(config('app.debug'))@include('partials.dev-switcher')@endif
+  @if($auth->check)<form id="logoutForm" method="POST" action="{{ route('logout') }}" class="d-none">@csrf</form>@endif
   <div class="toast-stack" id="toastStack" aria-live="polite"></div>
 
   <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>

@@ -1,7 +1,7 @@
 {{--
   جستجو + انتخاب شهر (کارت سفید: شهر | کادر جستجو | دکمه ذره‌بین).
   <x-search-bar placeholder="..." scope="listings|dealers" :city="$city" />
-  open=true (پیش‌فرض، فقط scope=listings): با لمس کادر، بلافاصله صفحه‌ی جست‌وجو باز می‌شود (js/search-open.js) و تایپ همان‌جا انجام می‌شود.
+  open=true (پیش‌فرض، scope=listings|dealers): با لمس کادر، لایه‌ی جست‌وجو همان‌جا باز می‌شود (بدون رفتن به آدرس دیگر؛ js/search-overlay.js) و نتایج/فیلتر با AJAX است.
   scope به /search?scope=…&city=…&q=… فرستاده می‌شود؛ با action مقصد دیگری بدهید. رویداد JS تغییر شهر: app:city
 --}}
 @props(['placeholder' => 'جست و جو در خودروها', 'scope' => 'listings', 'action' => null, 'city' => 'سبزوار', 'cities' => [], 'open' => true])
@@ -9,6 +9,7 @@
 @once
   @push('scripts')<script src="{{ asset('js/city.js') }}"></script><script src="{{ asset('js/search-open.js') }}"></script>@endpush
 @endonce
+@if($open && in_array($scope, ['listings', 'dealers']))<x-search-overlay :city="$city" :scope="$scope" />@endif
 <form class="search-card" action="{{ $action ?? route('search') }}" role="search">
   <input type="hidden" name="scope" value="{{ $scope }}">
   <input type="hidden" name="city" id="cityInput" value="{{ $city }}">
@@ -16,7 +17,7 @@
     <x-icon name="pin" /> <span id="cityLabel">{{ $city }}</span>
   </button>
   <span class="sc-vr" aria-hidden="true"></span>
-  <input type="text" name="q" class="sc-input" @if($open && $scope === 'listings') data-open-search="{{ route('search', ['scope' => $scope, 'focus' => 1]) }}" @endif placeholder="{{ $placeholder }}" aria-label="{{ $placeholder }}" enterkeyhint="search" inputmode="search" autocomplete="off" autocapitalize="off" spellcheck="false">
+  <input type="text" name="q" class="sc-input" @if($open && in_array($scope, ['listings', 'dealers'])) data-open-search="{{ $scope === 'dealers' ? route('dealers.index') : route('search', ['scope' => $scope, 'focus' => 1]) }}" @endif placeholder="{{ $placeholder }}" aria-label="{{ $placeholder }}" enterkeyhint="search" inputmode="search" autocomplete="off" autocapitalize="off" spellcheck="false">
   <button type="submit" class="sc-go" aria-label="جستجو"><x-icon name="search" /></button>
 </form>
 
@@ -27,7 +28,7 @@
     <button type="button" class="btn-close ms-0 me-auto" data-bs-dismiss="offcanvas" aria-label="بستن"></button>
   </div>
   <div class="offcanvas-body pt-0">
-    <input type="text" class="form-control" id="cityFilter" placeholder="جستجوی شهر…" autocomplete="off" enterkeyhint="search">
+    <input type="text" class="form-control" id="cityFilter" aria-label="جستجوی شهر" placeholder="جستجوی شهر…" autocomplete="off" enterkeyhint="search">
     <div class="city-list" id="cityList">
       @foreach($cities as $c)
         <button type="button" class="city-item {{ $c === $city ? 'active' : '' }}" data-city="{{ $c }}">{{ $c }} <x-icon name="check" /></button>

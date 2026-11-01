@@ -127,6 +127,8 @@ trait ListingData
     {
         $lf = $this->lf();
         $q = request()->query();
+        $embed = !empty($q['embed']);                       // داخل لایه‌ی جست‌وجو: کادر جست‌وجوی خودش را ندارد
+        unset($q['embed']);
         if (isset($q['type']) && in_array($q['type'], ['instant', 'auction'], true)) {
             $q['sale_type'] = $q['type'];
             unset($q['type']);
@@ -168,13 +170,15 @@ trait ListingData
         }
         $sorts = ['new' => 'جدیدترین', 'cheap' => 'ارزان‌ترین', 'expensive' => 'گران‌ترین', 'low_km' => 'کم‌کارکردترین', 'new_model' => 'جدیدترین مدل'];
         $nextQ = array_merge($q, ['page' => $page + 1]);
-        return view('pages.listings.index', [
-            'mode' => $mode, 'q' => $q['q'] ?? '', 'query' => $q, 'items' => $items, 'total' => $total, 'chips' => $chips, 'tabs' => $tabs, 'sorts' => $sorts, 'sort' => $q['sort'] ?? 'new',
+        $data = [
+            'embed' => $embed, 'mode' => $mode, 'q' => $q['q'] ?? '', 'query' => $q, 'items' => $items, 'total' => $total, 'chips' => $chips, 'tabs' => $tabs, 'sorts' => $sorts, 'sort' => $q['sort'] ?? 'new',
             'filter_count' => count($chips),
             'filters_url' => route('listings.filters', $q), 'clear_url' => route($name, array_intersect_key($q, array_flip(['q', 'category']))),
             'has_more' => $total > $page * $perPage, 'next_url' => route($name, $nextQ), 'lf' => $lf,
             'title' => $mode === 'search' ? 'جست‌وجوی خودرو' : 'آگهی‌ها', 'subtitle' => $mode === 'search' ? 'آگهی‌های مورد نظر خودتان را پیدا کنید.' : 'همه آگهی‌های فعال',
             'city' => 'سبزوار',
-        ]);
+        ];
+        // درخواست AJAX (مرورگر آگهی در js/listing-browser.js): فقط HTML مرورگر، بدون صفحه‌ی کامل
+        return $this->varied(request()->ajax() ? 'pages.listings._browser' : 'pages.listings.index', $data);
     }
 }

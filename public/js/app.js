@@ -30,6 +30,12 @@
 
   /* ---------- توست ---------- */
   var icons = { success: 'check-circle', error: 'alert', info: 'info', warn: 'alert' };
+  /* فقط آدرس همین سایت (جلوگیری از Open Redirect)؛ غیر از آن ← fallback */
+  App.safeUrl = function (u, fallback) {
+    try { var x = new URL(u, location.origin); if (x.origin === location.origin) return x.pathname + x.search + x.hash; } catch (e) {}
+    return fallback || '/';
+  };
+
   App.toast = function (msg, type, ms) {
     type = type || 'info';
     var $stack = $('#toastStack');

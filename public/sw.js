@@ -1,5 +1,5 @@
 /* Service Worker — کش استاتیک + صفحه آفلاین. با هر تغییر فایل‌های استاتیک، VERSION را بالا ببرید. */
-const VERSION = 'v9';
+const VERSION = 'v10';
 const STATIC = 'static-' + VERSION;
 const PRECACHE = [
   '/offline',

@@ -1,5 +1,6 @@
 @extends('layouts.app')
 @section('title', 'ثبت‌نام نمایشگاه')
+@section('own_h1', 1)
 @section('page_title', 'همکاری با ' . config('app.name'))
 @section('page_subtitle', 'نمایشگاه خود را ثبت و احراز هویت کنید')
 @section('back', route('home'))
@@ -46,10 +47,10 @@
 
     <div data-step>
       <div class="fgrid">
-        <div><label class="form-label">نام نمایشگاه <b class="req">*</b></label><input class="form-control" required placeholder="مثلاً اتوگالری هشت"></div>
-        <div><label class="form-label">نام و نام خانوادگی مدیر <b class="req">*</b></label><input class="form-control" required></div>
-        <div><label class="form-label">شهر <b class="req">*</b></label><select class="form-select" required><option value="">انتخاب کنید</option>@foreach(['تهران','مشهد','اصفهان','شیراز','تبریز','کرج','سبزوار','قم'] as $c)<option>{{ $c }}</option>@endforeach</select></div>
-        <div><label class="form-label">تلفن نمایشگاه <b class="req">*</b></label><input class="form-control ltr" inputmode="tel" required placeholder="02122345678"></div>
+        <div><label class="form-label" for="dj_name">نام نمایشگاه <b class="req">*</b></label><input id="dj_name" class="form-control" required autocomplete="organization" placeholder="مثلاً اتوگالری هشت"></div>
+        <div><label class="form-label" for="dj_mgr">نام و نام خانوادگی مدیر <b class="req">*</b></label><input id="dj_mgr" class="form-control" required autocomplete="name"></div>
+        <div><label class="form-label" for="dj_city">شهر <b class="req">*</b></label><select id="dj_city" class="form-select" required><option value="">انتخاب کنید</option>@foreach(['تهران','مشهد','اصفهان','شیراز','تبریز','کرج','سبزوار','قم'] as $c)<option>{{ $c }}</option>@endforeach</select></div>
+        <div><label class="form-label" for="dj_tel">تلفن نمایشگاه <b class="req">*</b></label><input id="dj_tel" class="form-control ltr" autocomplete="tel" inputmode="tel" required placeholder="02122345678"></div>
       </div>
       <label class="form-label mt-3">نوع فعالیت</label>
       <div class="chips-check">
@@ -58,8 +59,8 @@
         <label><input type="checkbox"><span><x-icon name="bike" class="icon-sm" /> موتورسیکلت</span></label>
         <label><input type="checkbox"><span><x-icon name="bicycle" class="icon-sm" /> دوچرخه</span></label>
       </div>
-      <label class="form-label mt-3">آدرس نمایشگاه <b class="req">*</b></label>
-      <input class="form-control" required placeholder="خیابان، پلاک، نزدیک‌ترین نشانی">
+      <label class="form-label mt-3" for="dj_addr">آدرس نمایشگاه <b class="req">*</b></label>
+      <input id="dj_addr" class="form-control" required autocomplete="street-address" placeholder="خیابان، پلاک، نزدیک‌ترین نشانی">
       <div class="wz-nav"><button type="button" class="btn btn-primary btn-lg" data-next>مرحله بعد</button></div>
     </div>
 

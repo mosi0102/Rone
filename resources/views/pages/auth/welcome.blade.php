@@ -16,10 +16,11 @@
 @section('content')
 <div class="welcome" data-welcome data-login="{{ route('login') }}" data-home="{{ route('home') }}" data-next="{{ $next }}">
   <div class="welcome-top">
-    <img src="{{ asset('img/logo.png') }}" alt="{{ config('app.name') }}" class="auth-logo">
+    <img src="{{ asset('img/logo.png') }}" alt="{{ config('app.name') }}" class="auth-logo" width="65" height="34">
     <button type="button" class="link-btn" data-skip>رد کردن</button>
   </div>
 
+  <h1 class="visually-hidden">معرفی {{ config('app.name') }}</h1>
   <div class="slides" data-slides tabindex="0" aria-label="معرفی برنامه" aria-roledescription="carousel">
     @foreach($slides as $k => $s)
       <section class="slide" data-slide aria-roledescription="slide" aria-label="{{ $k + 1 }} از {{ count($slides) }}">

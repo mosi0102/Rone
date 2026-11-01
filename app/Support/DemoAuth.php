@@ -16,10 +16,13 @@ class DemoAuth
         static $auth = null;
         if ($auth) return $auth;
 
-        $as = request('as') ?: session('demo_as', 'user');
+        // پیش‌نمایش (?as / ?profile) فقط در حالت debug؛ در محیط واقعی نادیده گرفته می‌شود (بک‌اندکار کل این کلاس را با کاربر واقعی جایگزین کند)
+        $demo = (bool) config('app.debug');
+        $as = $demo ? (request('as') ?: session('demo_as', 'user')) : 'guest';
+        if (!in_array($as, ['guest', 'user', 'dealer'], true)) $as = 'user';
         session(['demo_as' => $as]);
 
-        $profile = request('profile') ?: session('demo_profile', 'approved');
+        $profile = $demo ? (request('profile') ?: session('demo_profile', 'approved')) : 'none';
         if (!in_array($profile, ['none', 'pending', 'approved', 'rejected'], true)) $profile = 'approved';
         session(['demo_profile' => $profile]);
 

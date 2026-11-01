@@ -1,0 +1,27 @@
+/* favorites.css — شبکه‌ی جمع‌وجور نشان‌شده‌ها: ۲ ستون در موبایل، با فاصله بین کارت‌ها */
+.fav-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-bottom: 16px; }
+@media (min-width: 768px) { .fav-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; } }
+@media (min-width: 1200px) { .fav-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+@media (max-width: 340px) { .fav-grid { grid-template-columns: 1fr; } }
+
+.fav-grid .listing-card { height: auto; border-radius: var(--r-md, 14px); }
+.fav-grid .lc-media { aspect-ratio: 16 / 11; }
+.fav-grid .lc-badges { top: 6px; inset-inline-start: 6px; }
+.fav-grid .lc-badges .badge-s { font-size: 10.5px; padding: 2px 7px; }
+.fav-grid .lc-fav { top: 6px; inset-inline-end: 6px; width: 30px; height: 30px; }
+.fav-grid .lc-fav .icon { width: 16px; height: 16px; }
+.fav-grid .lc-body { padding: 9px 10px 10px; }
+.fav-grid .lc-title { font-size: 13px; margin-bottom: 3px; }
+.fav-grid .lc-meta { font-size: 11px; gap: 2px 8px; }
+.fav-grid .lc-meta span:nth-child(2) { display: none; }          /* کیلومتر؛ در صفحه‌ی آگهی دیده می‌شود */
+.fav-grid .lc-price { margin-top: 6px; font-size: 13.5px; }
+.fav-grid .lc-foot { margin-top: 7px; padding-top: 7px; font-size: 11px; }
+.fav-grid .lc-foot > span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+@media (min-width: 768px) { .fav-grid .lc-meta span:nth-child(2) { display: inline-flex; } .fav-grid .lc-title { font-size: 14px; } }
+/* ارتفاع یکسان عکس‌ها در همه‌ی کارت‌ها */
+.fav-grid .listing-card { height: 100%; }
+.fav-grid .listing-card > a { display: flex; flex-direction: column; height: 100%; }
+.fav-grid .lc-media { flex: none; }
+.fav-grid .lc-media img { position: absolute; inset: 0; }
+.fav-grid .lc-body { flex: 1; display: flex; flex-direction: column; }
+.fav-grid .lc-price { margin-top: auto; padding-top: 6px; }

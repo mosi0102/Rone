@@ -18,7 +18,7 @@ class AccountController extends Controller
         $auth = DemoAuth::get();
         return view('pages.account.profile', [
             'need' => (bool)request('need'),                                   // از عملیات پرداختی به اینجا هدایت شده
-            'next' => request('next') ?: route('home'),
+            'next' => $this->safeNext(request('next')),
             'sent' => (bool)request('sent'),
             'reject_reason' => $auth->profile_status === 'rejected' ? 'تصویر سلفی همراه کارت ملی خوانا نبود. لطفاً دوباره و در نور کافی ارسال کنید.' : null,
             // اطلاعات ثبت‌شده (بک‌اندکار: مقدارهای واقعی؛ کد ملی/شبا/کارت را ماسک‌شده برگرداند)

@@ -1,0 +1,20 @@
+/* errors.css — صفحات خطا (404/403/419/429/500/503) */
+.err-body { min-height: 100vh; min-height: 100dvh; background: var(--bg); }
+.err { min-height: 100vh; min-height: 100dvh; display: grid; place-items: center; padding: calc(var(--safe-top, 0px) + 24px) 16px calc(var(--safe-bottom, 0px) + 24px); }
+.err-card { width: 100%; max-width: 480px; text-align: center; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-xl, 24px); box-shadow: var(--shadow-2); padding: 28px 22px 22px; }
+.err-brand { display: inline-block; margin-bottom: 8px; }
+.err-brand img { display: block; height: 44px; width: auto; }
+.err-art { display: flex; flex-direction: column; align-items: center; gap: 4px; margin: 6px 0 4px; }
+.err-code { order: 2; font-size: 72px; line-height: 1; font-weight: 900; letter-spacing: 3px; color: #c9d7f0; user-select: none; direction: ltr; }
+.err-ic { order: 1; width: 60px; height: 60px; border-radius: 20px; display: grid; place-items: center; background: var(--primary); color: #fff; box-shadow: 0 10px 24px rgba(27, 77, 158, .28); }
+.err-ic .icon { width: 30px; height: 30px; }
+.err h1 { margin: 6px 0 8px; font-size: 22px; font-weight: 900; }
+.err-msg { margin: 0 auto 16px; max-width: 38ch; color: var(--muted); line-height: 1.9; }
+.err-search { display: flex; gap: 8px; margin: 0 0 14px; }
+.err-search .form-control { height: 46px; border-radius: var(--r-pill, 999px); }
+.err-search .btn { width: 46px; padding: 0; border-radius: 50%; display: grid; place-items: center; flex: none; }
+.err-actions { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+.err-actions .btn { min-height: 44px; border-radius: var(--r-pill, 999px); padding-inline: 22px; font-weight: 700; }
+.err-help { margin: 18px 0 0; font-size: 12.5px; color: var(--muted); }
+.err-help a { color: var(--primary); font-weight: 700; text-decoration: underline; }
+@media (prefers-reduced-motion: no-preference) { .err-ic { animation: err-pop .5s cubic-bezier(.2, .9, .3, 1.2) both; } @keyframes err-pop { from { transform: scale(.6); opacity: 0; } } }

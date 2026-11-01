@@ -60,7 +60,7 @@
     <h3><span class="fc-n">۳</span> وضعیت فنی <span class="small text-muted-s fw-normal">(اختیاری، اعتماد خریدار را بالا می‌برد)</span></h3>
     <div class="cond-list">
       @foreach(['بدنه', 'موتور', 'شاسی جلو', 'شاسی عقب', 'گیربکس'] as $part)
-        <div class="cond"><span>{{ $part }}</span><select class="form-select form-select-sm"><option value="">نامشخص</option>@foreach($opt['conditions'] as $c)<option>{{ $c }}</option>@endforeach</select></div>
+        <div class="cond"><span>{{ $part }}</span><select class="form-select form-select-sm" aria-label="وضعیت {{ $part }}"><option value="">نامشخص</option>@foreach($opt['conditions'] as $c)<option>{{ $c }}</option>@endforeach</select></div>
       @endforeach
     </div>
   </section>
@@ -88,7 +88,7 @@
   {{-- ۶) توضیحات --}}
   <section class="card-s fcard">
     <h3><span class="fc-n">۶</span> توضیحات</h3>
-    <textarea class="form-control" rows="5" maxlength="600" data-count="#descCount" placeholder="وضعیت خودرو، سرویس‌ها، بیمه، شرایط بازدید…">{{ $l->description ?? '' }}</textarea>
+    <textarea class="form-control" rows="5" maxlength="600" aria-label="توضیحات آگهی" data-count="#descCount" placeholder="وضعیت خودرو، سرویس‌ها، بیمه، شرایط بازدید…">{{ $l->description ?? '' }}</textarea>
     <div class="form-text text-end" id="descCount"></div>
     <div class="form-text"><x-icon name="lock" class="icon-sm" /> شماره تماس شما در آگهی نمایش داده نمی‌شود؛ ارتباط خریدار فقط بعد از پرداخت بیعانه برقرار می‌شود.</div>
   </section>

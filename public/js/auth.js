@@ -166,7 +166,7 @@
   /* ---------- پایان ورود: رفتن به مقصد ---------- */
   Auth.done = function (next) {
     Auth.markSeen(); Auth.store.sset('rone_dealer_draft', null);
-    var u = new URL(next || '/', location.origin); u.searchParams.set('as', 'user'); location.href = u.toString();
+    var u = new URL(App.safeUrl(next, '/'), location.origin); u.searchParams.set('as', 'user'); location.href = u.toString();
   };
 
   /* ==========================================================================

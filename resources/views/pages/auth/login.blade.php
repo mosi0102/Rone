@@ -8,7 +8,7 @@
   <div class="card-s auth-card" data-login data-next="{{ $next }}">
     <header class="auth-head">
       <button type="button" class="auth-back" data-back data-href="{{ route('welcome') }}" data-always="1" aria-label="بازگشت"><x-icon name="arrow-left" flip /></button>
-      <img src="{{ asset('img/logo.png') }}" alt="{{ config('app.name') }}" class="auth-logo">
+      <img src="{{ asset('img/logo.png') }}" alt="{{ config('app.name') }}" class="auth-logo" width="65" height="34">
     </header>
     <h1 data-auth-title>ورود یا ثبت‌نام</h1>
     <p class="auth-sub" data-auth-sub>شماره موبایل خود را وارد کنید تا کد تأیید ارسال شود.</p>

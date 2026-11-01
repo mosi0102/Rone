@@ -44,3 +44,17 @@ html[dir="rtl"] .city-page { transform: translateX(100%); }
 .city-item:hover { background: var(--bg); }
 .city-item.active { color: var(--primary); font-weight: 800; }
 .city-item .icon { opacity: 0; color: var(--primary); } .city-item.active .icon { opacity: 1; }
+
+/* لایه‌ی جست‌وجوی تمام‌صفحه (روی صفحه‌ی اول، بدون رفتن به آدرس دیگر) */
+.so { position: fixed; inset: 0; z-index: 1035; display: flex; flex-direction: column; background: var(--surface); opacity: 0; visibility: hidden; transform: translateY(14px); transition: opacity .2s, transform .25s var(--ease), visibility 0s .25s; }
+.so.open { opacity: 1; visibility: visible; transform: none; transition: opacity .2s, transform .25s var(--ease); }
+.so .sp-head { position: relative; flex: none; }
+.so-scroll { flex: 1; overflow-y: auto; overscroll-behavior: contain; padding-bottom: 32px; -webkit-overflow-scrolling: touch; }
+.so-results { padding: 14px 16px 0; max-width: 1200px; margin-inline: auto; }
+.so-results.is-loading { opacity: .6; }
+.so .sp-row, .so .sp-chip, .so .sp-cat { font-family: inherit; border: 0; text-align: start; width: 100%; background: transparent; cursor: pointer; }
+.so .sp-chip { width: auto; background: var(--bg); } .so .sp-cat { background: var(--bg); width: auto; }
+.so .ls-sheet { z-index: 30; }
+@media (prefers-reduced-motion: reduce) { .so, .so.open { transition: none; transform: none; } }
+body:has(.so.open) .install-banner { display: none; }
+.so-count { margin: 0 0 10px; font-size: 13px; color: var(--muted); }

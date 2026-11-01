@@ -10,6 +10,7 @@
   $fa = array_combine(['0','1','2','3','4','5','6','7','8','9'], ['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹']);
 @endphp
 @section('title', $a->title . ' | مزایده')
+@section('own_h1', 1)
 @section('page_title', 'جزئیات مزایده')
 @section('page_subtitle', 'مشاهده جزئیات کامل مزایده')
 @section('back', route('auctions.index'))

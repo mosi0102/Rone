@@ -1,6 +1,6 @@
 <header class="desk-header">
   <div class="page-container desk-header-inner">
-    <a href="{{ route('home') }}" class="brand"><img src="{{ asset('img/logo.png') }}" alt="{{ config('app.name') }}" height="34"></a>
+    <a href="{{ route('home') }}" class="brand"><img src="{{ asset('img/logo.png') }}" alt="{{ config('app.name') }}" width="65" height="34"></a>
     <nav class="desk-nav" aria-label="منوی اصلی">
       <a href="{{ route('home') }}" class="{{ request()->routeIs('home') ? 'active' : '' }}">خانه</a>
       <a href="{{ route('listings.index') }}" class="{{ request()->routeIs('listings.*') ? 'active' : '' }}">آگهی‌ها</a>
@@ -10,7 +10,7 @@
     </nav>
     <form class="desk-search" action="{{ route('search') }}" role="search">
       <x-icon name="search" />
-      <input type="search" name="q" class="form-control form-control-sm" placeholder="جستجوی خودرو، برند، نمایشگاه…">
+      <input type="search" name="q" class="form-control form-control-sm" aria-label="جستجوی خودرو، برند، نمایشگاه" placeholder="جستجوی خودرو، برند، نمایشگاه…">
     </form>
     <button type="button" class="btn btn-soft btn-sm d-none" data-install><x-icon name="download" class="icon-sm" /> نصب اپ</button>
     @if($auth->is_dealer)
@@ -41,7 +41,7 @@
           @endif
           <li><a class="dropdown-item" href="{{ route('account.wallet') }}">کیف پول</a></li>
           <li><hr class="dropdown-divider"></li>
-          <li><a class="dropdown-item text-danger" href="{{ route('logout') }}">خروج</a></li>
+          <li><button type="submit" form="logoutForm" class="dropdown-item text-danger">خروج</button></li>
         </ul>
       </div>
     @else

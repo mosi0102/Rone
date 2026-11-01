@@ -96,3 +96,18 @@
 .ff-clear { display: block; width: 100%; margin-top: 14px; padding: 10px; border: 0; background: none; color: var(--primary); font: inherit; font-weight: 800; font-size: 15.5px; }
 @media (min-width: 992px) { .ff-actions.is-sticky { position: static; padding: 0; background: none; border: 0; backdrop-filter: none; } .ff-sec h2 { font-size: 18px; } }
 .ff-clear, .ff-actions { scroll-margin-block: 120px; }
+
+/* مرورگر آگهی (AJAX) */
+[data-lb] .ls-list, [data-lb] .ls-head, [data-lb] .ls-chips { transition: opacity .15s; }
+[data-lb].is-loading .ls-list { opacity: .45; pointer-events: none; }
+[data-lb].is-loading .ls-head h2::after { content: ""; display: inline-block; width: 12px; height: 12px; margin-inline-start: 8px; border: 2px solid var(--line); border-top-color: var(--primary); border-radius: 50%; vertical-align: -1px; animation: lbspin .7s linear infinite; }
+@keyframes lbspin { to { transform: rotate(360deg); } }
+.ls-chips[data-n="0"] { display: none; }
+button.ls-x { border: 0; background: none; cursor: pointer; } button.ls-x[hidden] { display: none; }
+/* فیلتر موبایل: لایه‌ی تمام‌صفحه داخل همین صفحه */
+.ls-sheet { position: fixed; inset: 0; z-index: 1060; display: flex; flex-direction: column; background: var(--surface); transform: translateY(100%); visibility: hidden; transition: transform .3s var(--ease), visibility 0s .3s; }
+.ls-sheet.open { transform: none; visibility: visible; transition: transform .3s var(--ease); }
+.ls-sheet .ff-page { flex: 1; overflow-y: auto; width: 100%; max-width: 680px; margin-inline: auto; padding: 0 16px 24px; overscroll-behavior: contain; }
+.ls-sheet .ff-actions.is-sticky { position: sticky; bottom: 0; }
+@media (min-width: 992px) { .ls-sheet { display: none; } }
+@media (prefers-reduced-motion: reduce) { .ls-sheet, .ls-sheet.open { transition: none; } [data-lb].is-loading .ls-head h2::after { animation: none; } }

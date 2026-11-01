@@ -58,7 +58,7 @@
     <a href="{{ route('dealer.join') }}" class="ac-join"><x-icon name="store" /><div><b>نمایشگاه دارید؟</b><small>با همین حساب نمایشگاه ثبت کنید و آگهی بگذارید</small></div></a>
   @endif
 
-  <a href="{{ route('logout') }}" class="btn btn-outline-danger w-100 mt-3">خروج از حساب</a>
+  <button type="submit" form="logoutForm" class="btn btn-outline-danger w-100 mt-3">خروج از حساب</button>
 </div>
 @endif
 @endsection

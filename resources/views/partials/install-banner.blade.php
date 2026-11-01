@@ -1,5 +1,5 @@
 <div class="install-banner" id="installBanner" role="dialog" aria-label="نصب اپلیکیشن">
-  <img src="{{ asset('icons/icon-192.png') }}" alt="">
+  <img src="{{ asset('icons/icon-192.png') }}" alt="" width="40" height="40" loading="lazy" decoding="async">
   <div class="flex-fill">
     <div class="fw-bold">{{ config('app.name') }} را نصب کنید</div>
     <div class="small text-muted-s">دسترسی سریع‌تر، مثل یک اپلیکیشن واقعی</div>

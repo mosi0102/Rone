@@ -54,7 +54,7 @@
       e.preventDefault(); var $b = $('#rdSubmit'); App.loading($b);
       ajax('POST', $f.data('store-url'), params()).done(function (r) {
         App.toast('رادار فعال شد؛ تا وقتی حذفش نکنید برایتان جست‌وجو می‌کند', 'success', 1800);
-        setTimeout(function () { location.href = r.url || $f.data('after'); }, 700);
+        setTimeout(function () { location.href = App.safeUrl(r.url || $f.data('after')); }, 700);
       }).fail(function () { App.toast('ثبت رادار ناموفق بود؛ دوباره تلاش کنید', 'error'); App.loading($b, false); });
     });
     refill(); preview();
@@ -69,7 +69,7 @@
       if (!target || !target.length) return; var $t = target, $b = $(this); App.loading($b);
       ajax('DELETE', $t.data('delete-url')).done(function () {
         if (modal) modal.hide(); App.toast('رادار حذف شد', 'success', 1600);
-        var after = $t.data('after'); if (after) { setTimeout(function () { location.href = after; }, 600); return; }
+        var after = $t.data('after'); if (after) { setTimeout(function () { location.href = App.safeUrl(after); }, 600); return; }
         $t.fadeOut(180, function () { $t.remove(); if (!$('#rdList [data-radar]').length) $('#rdEmpty').removeClass('d-none'); });
       }).fail(function () { App.toast('حذف ناموفق بود', 'error'); }).always(function () { App.loading($b, false); });
     });

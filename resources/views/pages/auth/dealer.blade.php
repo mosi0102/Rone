@@ -10,7 +10,7 @@
   <div class="card-s auth-card" data-dealer data-login="{{ route('login') }}" data-pending="{{ route('dealer.status') }}">
     <header class="auth-head">
       <button type="button" class="auth-back" data-back data-always="1" data-href="{{ route('welcome') }}" aria-label="بازگشت"><x-icon name="arrow-left" flip /></button>
-      <img src="{{ asset('img/logo.png') }}" alt="{{ config('app.name') }}" class="auth-logo">
+      <img src="{{ asset('img/logo.png') }}" alt="{{ config('app.name') }}" class="auth-logo" width="65" height="34">
     </header>
 
     <div class="wiz" data-wiz role="progressbar" aria-valuemin="1" aria-valuemax="4" aria-valuenow="1" aria-label="مراحل ثبت‌نام">

@@ -70,7 +70,7 @@
 
   <div class="offcanvas offcanvas-bottom sheet" tabindex="-1" id="demoSheet">
     <div class="sheet-handle"></div>
-    <div class="offcanvas-header"><h5 class="offcanvas-title">تأیید رزرو</h5><button class="btn-close ms-0 me-auto" data-bs-dismiss="offcanvas"></button></div>
+    <div class="offcanvas-header"><h5 class="offcanvas-title">تأیید رزرو</h5><button class="btn-close ms-0 me-auto" data-bs-dismiss="offcanvas" aria-label="بستن"></button></div>
     <div class="offcanvas-body pt-0"><p class="text-muted-s">مبلغ بیعانه از کیف پول شما بلوکه می‌شود.</p><button class="btn btn-accent btn-lg w-100">پرداخت بیعانه</button></div>
   </div>
 @endsection

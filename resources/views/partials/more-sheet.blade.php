@@ -52,7 +52,7 @@
       @endif
       <button type="button" class="d-none" data-install><span class="mg-ic"><x-icon name="download" /></span>نصب اپ</button>
       @if($auth->check)
-        <a href="{{ route('logout') }}" class="mg-danger"><span class="mg-ic"><x-icon name="logout" /></span>خروج</a>
+        <button type="submit" form="logoutForm" class="mg-danger"><span class="mg-ic"><x-icon name="logout" /></span>خروج</button>
       @endif
     </div>
   </div>

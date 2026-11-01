@@ -19,12 +19,44 @@ class DealerController extends Controller
                 ['slug' => 'bicycle', 'title' => 'نمایشگاه دوچرخه', 'icon' => 'bicycle', 'count' => 11],
             ],
             'featured' => [$hasht, array_merge($hasht, ['id' => 9, 'name' => 'اتوگالری آرش', 'manager' => 'عباس آرمانجو', 'featured' => false, 'url' => route('dealers.show', 9)])],
-            'latest' => collect([
+            'latest' => collect((request('q') || request('city')) ? $this->dealerFilter($this->dealerStore(), request('q'), request('city')) : [
                 ['id' => 31, 'name' => 'اتوگالری آرش', 'manager' => 'عباس آرمانجو', 'area' => 'تهران، سعادت‌آباد', 'active_count' => 12, 'image' => $this->img('dealer-thumb-1.jpg'), 'url' => route('dealers.show', 9)],
                 ['id' => 32, 'name' => 'اتوگالری کرمی', 'manager' => 'یار رمضانی', 'area' => 'سبزوار، چهل متری', 'active_count' => 21, 'image' => $this->img('dealer-thumb-2.jpg'), 'url' => route('dealers.show', 8)],
                 ['id' => 33, 'name' => 'اتوگالری علیپور', 'manager' => 'علی علیپور', 'area' => 'سبزوار، چهار راه فرودگاه', 'active_count' => 21, 'image' => $this->img('dealer-thumb-3.jpg'), 'url' => route('dealers.show', 8)],
             ]),
         ]);
+    }
+
+    /** جست‌وجوی زنده‌ی نمایشگاه‌ها (AJAX از لایه‌ی جست‌وجو): q، city، category ← فقط HTML فهرست */
+    public function search()
+    {
+        if (!request()->ajax()) return redirect(route('dealers.index', array_filter(['q' => request('q'), 'city' => request('city')])));
+        $items = $this->dealerFilter($this->dealerStore(), request('q'), request('city'), request('category'));
+        return $this->varied('pages.dealers._results', ['items' => $items]);
+    }
+
+    /** نمایشگاه‌های نمونه (از بک‌اند: name, manager, area, city, cat[], active_count, image, url) */
+    protected function dealerStore(): array
+    {
+        $r = fn($id, $n, $m, $city, $area, $cat, $cnt, $im) => ['id' => $id, 'name' => $n, 'manager' => $m, 'city' => $city, 'area' => $city . '، ' . $area, 'cat' => $cat, 'active_count' => $cnt, 'image' => $this->img($im), 'url' => route('dealers.show', $id)];
+        return [
+            $r(8, 'اتوگالری هالیوود', 'ابولفضل پناهی', 'تهران', 'سعادت‌آباد', ['car', 'heavy', 'bike'], 12, 'dealer-thumb-1.jpg'),
+            $r(9, 'اتوگالری آرش', 'عباس آرمانجو', 'تهران', 'سعادت‌آباد', ['car'], 12, 'dealer-thumb-1.jpg'),
+            $r(32, 'اتوگالری کرمی', 'یار رمضانی', 'سبزوار', 'چهل متری', ['car'], 21, 'dealer-thumb-2.jpg'),
+            $r(33, 'اتوگالری علیپور', 'علی علیپور', 'سبزوار', 'چهار راه فرودگاه', ['car', 'bike'], 21, 'dealer-thumb-3.jpg'),
+            $r(22, 'آریا خودروهای تجاری', 'سعید آریایی', 'مشهد', 'بلوار وکیل‌آباد', ['heavy'], 9, 'dealer-thumb-2.jpg'),
+            $r(21, 'آریا موتور', 'مهدی آریایی', 'مشهد', 'احمدآباد', ['bike', 'bicycle'], 14, 'dealer-thumb-3.jpg'),
+            $r(41, 'دوچرخه‌فروشی پدال', 'نیما صالحی', 'اصفهان', 'چهارباغ', ['bicycle'], 8, 'dealer-thumb-1.jpg'),
+        ];
+    }
+
+    protected function dealerFilter(array $rows, $q = null, $city = null, $cat = null): array
+    {
+        $q = trim((string) $q);
+        return array_values(array_filter($rows, fn($d) =>
+            ($q === '' || mb_stripos($d['name'] . ' ' . $d['manager'] . ' ' . $d['area'], $q) !== false)
+            && (!$city || $d['city'] === $city)
+            && (!$cat || in_array($cat, $d['cat'], true))));
     }
 
     public function show($id)

@@ -1,12 +1,12 @@
 {{--
-  کروسل فروش فوری (ساده): کارت‌ها با کشیدن عوض می‌شوند، نقطه‌های پایین جایگاه را نشان می‌دهند.
+  کروسل آگهی‌های فوری (ساده): کارت‌ها با کشیدن عوض می‌شوند، نقطه‌های پایین جایگاه را نشان می‌دهند.
   <x-flash-carousel :items="$instant" :href="route('listings.index', ['type' => 'instant'])" />
   autoplay (میلی‌ثانیه؛ ۰ = خاموش). با لمس یا هاور موقتاً متوقف می‌شود.
   ⚠️ استایل در blocks.css و رفتار در app.js است (فایل جداگانه‌ای لازم نیست).
 --}}
 @props(['items', 'href' => '#', 'autoplay' => 5000])
-<x-section-head title="فروش فوری" :href="$href" />
-<section class="fl" data-flash data-autoplay="{{ $autoplay }}" aria-roledescription="carousel" aria-label="فروش فوری">
+<x-section-head title="آگهی‌های فوری" :href="$href" />
+<section class="fl" data-flash data-autoplay="{{ $autoplay }}" aria-roledescription="carousel" aria-label="آگهی‌های فوری">
   <div class="fl-track" tabindex="0">
     @foreach($items as $item)<x-flash-card :item="$item" />@endforeach
   </div>

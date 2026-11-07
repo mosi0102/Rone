@@ -1,6 +1,6 @@
 @extends('layouts.app')
-@section('title', 'گفتگو با ' . ($role === 'dealer' ? $t['buyer'] : $t['dealer']['name']))
-@section('page_title', $role === 'dealer' ? $t['buyer'] : $t['dealer']['name'])
+@section('title', 'گفتگو با ' . ($role === 'agency' ? $t['buyer'] : $t['agency']['name']))
+@section('page_title', $role === 'agency' ? $t['buyer'] : $t['agency']['name'])
 @section('page_subtitle', $t['listing']['title'])
 @section('back', route('chat.index'))
 @section('body_class', 'no-bottom-nav chat-page')
@@ -9,7 +9,7 @@
 @push('scripts')<script src="{{ asset('js/chat.js') }}"></script>@endpush
 
 @section('content')
-@php $paid = $t['state'] === 'deposit_paid'; @endphp
+@php $paid = true; // شماره‌ی آژانس عمومی است؛ گفتگو همیشه باز است @endphp
 <div class="chat" id="chat" data-id="{{ $t['id'] }}" data-role="{{ $role }}" data-unlocked="{{ $paid ? 1 : 0 }}"
      data-send-url="{{ route('chat.send', $t['id']) }}" data-report-url="{{ route('chat.report', $t['id']) }}">
 
@@ -19,18 +19,13 @@
     <x-icon name="chevron-left" />
   </a>
 
-  @if($paid)
-    <div class="ch-banner ok"><x-icon name="check-circle" /><p><b>بیعانه پرداخت شده است.</b> تبادل شماره‌ی تماس برای هماهنگی بازدید مجاز است؛ لینک، آی‌دی و پرداخت خارج از سامانه همچنان ممنوع است.</p></div>
-  @else
-    <div class="ch-banner"><x-icon name="shield" /><p><b>گفتگو تحت نظارت سامانه است.</b> تا پیش از پرداخت بیعانه، تبادل شماره‌ی تماس، آی‌دی شبکه‌های اجتماعی، لینک و پرداخت خارج از سامانه ممنوع است.
-      @if($role === 'buyer')<a href="{{ $t['listing']['deposit_url'] }}">پرداخت بیعانه</a>@endif</p></div>
-  @endif
+  <div class="ch-banner"><x-icon name="shield" /><p><b>گفتگو تحت نظارت سامانه است.</b> ارسال لینک و آی‌دی شبکه‌های اجتماعی مجاز نیست. پیش از بازدید و قرارداد در آژانس، هیچ پولی واریز نکنید.</p></div>
 
   <div class="ch-msgs" id="chMsgs" role="log" aria-live="polite" aria-label="پیام‌ها">
     @foreach($t['messages'] as $m)
       @php $mine = $m['from'] === $role; @endphp
       <div class="ch-msg {{ $mine ? 'mine' : 'theirs' }} {{ $m['hidden'] ? 'is-hidden' : '' }}" data-mid="{{ $m['id'] }}">
-        <div class="ch-bubble">@if($m['hidden'])<span class="ch-hid"><x-icon name="alert" class="icon-sm" /> {{ $mine ? 'این پیام به‌دلیل نقض قوانین ارسال نشد.' : 'این پیام حاوی اطلاعات ممنوع بود و تا پرداخت بیعانه نمایش داده نمی‌شود.' }}</span>@else{{ $m['text'] }}@endif</div>
+        <div class="ch-bubble">@if($m['hidden'])<span class="ch-hid"><x-icon name="alert" class="icon-sm" /> {{ $mine ? 'این پیام به‌دلیل نقض قوانین ارسال نشد.' : 'این پیام حاوی لینک، آی‌دی یا درخواست واریز بود و نمایش داده نمی‌شود.' }}</span>@else{{ $m['text'] }}@endif</div>
         <div class="ch-meta"><time data-jfmt="time" data-jdate="{{ $m['at'] }}"></time>
           @if(!$mine)<button type="button" class="ch-rep" data-report="{{ $m['id'] }}" {{ $m['reported'] ? 'disabled' : '' }}>{{ $m['reported'] ? 'گزارش شد' : 'گزارش' }}</button>@endif</div>
       </div>

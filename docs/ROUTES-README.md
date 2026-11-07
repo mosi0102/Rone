@@ -4,11 +4,11 @@
 
 | فایل route | کنترلر |
 |---|---|
-| `web.php` | Home, Dealer, Listing, Auth, Panel, Auction, Deal, Page |
+| `web.php` | Home, Agency, Listing, Auth, Panel, Auction, Deal, Page |
 | `auth.php` | AuthController |
 | `radar.php` | RadarController |
 | `chat.php` | ChatController |
-| `admin.php` | `Admin\*` (Dashboard, Listing, Auction, Request, Deposit, Dispute, Dealer, User, Finance, Chat, Settings, Content, Auth) |
+| `admin.php` | `Admin\*` (Dashboard, Listing, Auction, Request, Deposit, Dispute, Agency, User, Finance, Chat, Settings, Content, Auth) |
 
 - داده‌ی نمایشی مشترک: `app/Http/Controllers/Concerns/` (`ListingData`, `DealData`, `RadarData`, `AdminDepositData`, `MockAsset`).
 - `$auth` نمایشی، داده‌ی ادمین و رادار داشبورد: `app/View/Composers/` (ثبت در `AppServiceProvider::boot`).

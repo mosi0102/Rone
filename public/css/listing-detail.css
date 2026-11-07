@@ -111,12 +111,12 @@
 .plan:has(input:checked) { border-color: var(--primary); background: var(--primary-soft); }
 
 /* ---- بنر نمایشگاه بالای صفحه ---- */
-.dealer-banner { position: relative; display: block; height: 210px; margin: -16px -16px 16px; overflow: hidden; background: #cbd5e1; color: #fff; }
-.dealer-banner:hover { color: #fff; }
-.dealer-banner img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .6s var(--ease); }
-.dealer-banner:hover img { transform: scale(1.03); }
+.agency-banner { position: relative; display: block; height: 210px; margin: -16px -16px 16px; overflow: hidden; background: #cbd5e1; color: #fff; }
+.agency-banner:hover { color: #fff; }
+.agency-banner img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .6s var(--ease); }
+.agency-banner:hover img { transform: scale(1.03); }
 .db-shade { position: absolute; inset: 0; background: linear-gradient(0deg, rgba(8, 14, 30, .78) 0%, rgba(8, 14, 30, .1) 55%, transparent 100%); }
 .db-text { position: absolute; inset-inline: 16px; bottom: 14px; display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; }
 .db-text b { font-size: 20px; font-weight: 900; }
 .db-text span { font-size: 13px; opacity: .95; }
-@media (min-width: 992px) { .dealer-banner { height: 240px; margin: 0 0 20px; border-radius: 20px; } }
+@media (min-width: 992px) { .agency-banner { height: 240px; margin: 0 0 20px; border-radius: 20px; } }

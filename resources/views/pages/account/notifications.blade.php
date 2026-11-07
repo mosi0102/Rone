@@ -11,7 +11,7 @@
   <x-empty-state icon="bell" title="وارد حساب خود شوید" text="برای دیدن اعلان‌ها ابتدا وارد شوید." action="ورود / ثبت‌نام" :href="route('login')" />
 @else
 @php
-  $ic = ['deal' => 'shield', 'auction' => 'gavel', 'radar' => 'sparkles', 'chat' => 'message', 'wallet' => 'wallet', 'system' => 'info'];
+  $ic = ['auction' => 'gavel', 'radar' => 'sparkles', 'chat' => 'message', 'wallet' => 'wallet', 'system' => 'info'];
   $unread = collect($rows)->where('read', false)->count();
 @endphp
 <div class="pf">

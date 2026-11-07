@@ -5,7 +5,7 @@
 
 @section('content')
 @php
-  $cats = ['car' => 'سواری', 'heavy' => 'سنگین', 'bike' => 'موتور', 'bicycle' => 'دوچرخه'];
+  $cats = array_map(fn ($c) => $c[0], $propertyCats);
   $st = $r['status'];
   $pill = fn ($p) => $p >= 85 ? 'ok' : ($p >= 60 ? 'info' : 'warn');
 @endphp
@@ -25,7 +25,7 @@
             <li>
               <a class="list-row match-row" href="{{ route('admin.listings.index') }}">
                 <span class="thumb" style="background-image:url('{{ $m['image'] }}')"></span>
-                <span class="lr-body"><b>{{ $m['title'] }}</b><small>{{ $m['dealer'] }} • {{ $m['city'] }} • <x-admin.money :value="$m['price']" /></small></span>
+                <span class="lr-body"><b>{{ $m['title'] }}</b><small>{{ $m['agency'] }} • {{ $m['city'] }} • <x-admin.money :value="$m['price']" /></small></span>
                 <span class="match-meter"><span class="match-pill {{ $pill($m['percent']) }}"><span data-fa>{{ $m['percent'] }}</span>٪</span><i style="--p:{{ $m['percent'] }}%"></i></span>
               </a>
             </li>
@@ -42,10 +42,10 @@
       <div class="card-head"><h2 id="cTitle">مشخصات درخواستی</h2></div>
       <dl class="info-list">
         <div><dt>دسته</dt><dd>{{ $cats[$r['cat']] }}</dd></div>
-        <div><dt>برند / مدل</dt><dd>{{ $r['model'] }}</dd></div>
-        <div><dt>سال ساخت</dt><dd>{{ $r['year_from'] }} به بعد</dd></div>
+        <div><dt>نوع ملک</dt><dd>{{ $r['ptype'] }}</dd></div>
+        <div><dt>محله</dt><dd>{{ $r['district'] }}</dd></div>
         <div><dt>سقف بودجه</dt><dd><x-admin.money :value="$r['budget']" /></dd></div>
-        <div><dt>سقف کارکرد</dt><dd>{{ $r['km_max'] }}</dd></div>
+        <div><dt>حداقل متراژ</dt><dd><span data-fa>{{ $r['area_min'] }}</span> متر</dd></div>
         <div><dt>شهر</dt><dd>{{ $r['city'] }}</dd></div>
         <div><dt>ثبت</dt><dd><span data-jdate="{{ $r['created_at'] }}" data-jfmt="date"></span></dd></div>
       </dl>

@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 class AuthController extends Controller
 {
-
     public function logout()
     {
         return redirect('/?as=guest');
@@ -20,8 +19,8 @@ class AuthController extends Controller
         return view('pages.auth.login', ['next' => $this->safeNext(request('next'))]);
     }
 
-    public function registerDealer()
+    public function registerAgency()
     {
-        return view('pages.auth.dealer');
+        return view('pages.auth.agency');
     }
 }

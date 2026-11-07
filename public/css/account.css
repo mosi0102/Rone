@@ -80,7 +80,7 @@
 .nt-dot { display: none; flex: none; width: 9px; height: 9px; margin-top: 6px; border-radius: 50%; background: var(--accent); }
 .nt.is-unread { background: #fffaf0; } .nt.is-unread .nt-dot { display: block; } .nt.is-unread .li-title { font-weight: 800; }
 .nt-ic { background: var(--primary-soft); color: var(--primary); }
-.nt-radar { background: var(--accent-soft); color: var(--accent-hover); } .nt-wallet { background: var(--success-soft); color: var(--success); } .nt-auction { background: var(--info-soft); color: var(--info); }
+.nt-radar { background: var(--accent-soft); color: var(--accent-hover); } .nt-auction { background: var(--info-soft); color: var(--info); } .nt-wallet { background: var(--success-soft); color: var(--success); }
 /* راهنما */
 .hp-search { position: relative; } .hp-search svg { position: absolute; inset-inline-start: 12px; top: 50%; transform: translateY(-50%); color: var(--muted); width: 18px; height: 18px; pointer-events: none; }
 .hp-search .form-control { padding-inline-start: 38px; }

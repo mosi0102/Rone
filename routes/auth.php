@@ -1,9 +1,9 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use Illuminate\Support\Facades\Route;
 
 // ورود، ثبت‌نام و خوش‌آمدگویی
 Route::get('/welcome', [AuthController::class, 'welcome'])->name('welcome');
 Route::get('/login', [AuthController::class, 'login'])->name('login');
-Route::get('/register/dealer', [AuthController::class, 'registerDealer'])->name('dealer.register');
+Route::get('/register/agency', [AuthController::class, 'registerAgency'])->name('agency.register');

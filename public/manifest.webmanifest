@@ -1,7 +1,7 @@
 {
-  "name": "آروان خودرو",
-  "short_name": "آروان",
-  "description": "بازار تخصصی نمایشگاه‌های خودرو",
+  "name": "رون — بازار ملک",
+  "short_name": "رون",
+  "description": "خرید، فروش و اجاره‌ی ملک با بیعانه‌ی امن",
   "lang": "fa",
   "dir": "rtl",
   "start_url": "/?source=pwa",
@@ -16,7 +16,7 @@
     { "src": "/icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
   ],
   "shortcuts": [
-    { "name": "مزایده‌ها", "url": "/auctions", "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }] },
+    { "name": "رادار ملک", "url": "/radar", "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }] },
     { "name": "کیف پول", "url": "/account/wallet", "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }] }
   ]
 }

@@ -48,7 +48,7 @@
 .cm-media { flex: 0 0 140px; aspect-ratio: 1.05; border-radius: 14px; overflow: hidden; background: #dbe4f3; } .cm-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .cm-body { display: flex; flex-direction: column; gap: 4px; min-width: 0; justify-content: center; } .cm-body h3 { margin: 0; font-size: 18px; }
 .cm-meta { font-size: 13.5px; color: var(--muted); }
-.cm-dealer { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; color: var(--ink-2); } .cm-dealer .icon { color: var(--primary); }
+.cm-agency { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; color: var(--ink-2); } .cm-agency .icon { color: var(--primary); }
 .cm-price { font-size: 13.5px; color: var(--primary); font-weight: 700; } .cm-price small { font-size: 12px; }
 
 /* پرداخت */

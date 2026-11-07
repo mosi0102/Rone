@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('title', 'رادار: ' . $title)
-@section('page_title', 'رادار خودرو')
+@section('page_title', 'رادار ملک')
 @section('page_subtitle', $title)
 @section('back', route('radar.index'))
 

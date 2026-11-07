@@ -5,18 +5,18 @@
 
 @section('content')
 @php
-  $cats = ['car' => ['سواری', 'car'], 'heavy' => ['سنگین', 'truck'], 'bike' => ['موتور', 'bike'], 'bicycle' => ['دوچرخه', 'bicycle']];
-  $tabs = ['all' => 'همه', 'live' => 'زنده', 'scheduled' => 'زمان‌بندی‌شده', 'awaiting_pay' => 'منتظر پرداخت', 'defaulted' => 'عدم پرداخت', 'ended' => 'پایان‌یافته', 'cancelled' => 'لغوشده'];
+  $cats = $propertyCats;
+  $tabs = ['all' => 'همه', 'live' => 'زنده', 'scheduled' => 'زمان‌بندی‌شده', 'awaiting_contract' => 'منتظر قرارداد', 'defaulted' => 'عدم مراجعه', 'ended' => 'پایان‌یافته', 'cancelled' => 'لغوشده'];
   $counts = array_count_values(array_column($auctions, 'status'));
   $overdue = count(array_filter($auctions, fn ($a) => $a['pay'] === 'overdue'));
 @endphp
 
-<x-admin.page-head title="مزایده‌ها" subtitle="پایش مزایده‌های زنده، پرداخت برنده‌ها و مدیریت تخلفات" />
+<x-admin.page-head title="مزایده‌ها" subtitle="پایش مزایده‌های زنده، قرارداد برنده‌ها و مدیریت تخلفات" />
 
 <section class="row g-3 mb-3" aria-label="خلاصه‌ی مزایده‌ها">
   <div class="col-6 col-xl-3 rise" style="--d:1"><x-admin.kpi icon="gavel" tone="sage" label="مزایده‌ی زنده" :value="$counts['live'] ?? 0" /></div>
   <div class="col-6 col-xl-3 rise" style="--d:2"><x-admin.kpi icon="calendar" tone="sky" label="زمان‌بندی‌شده" :value="$counts['scheduled'] ?? 0" /></div>
-  <div class="col-6 col-xl-3 rise" style="--d:3"><x-admin.kpi icon="clock" tone="peach" label="منتظر پرداخت برنده" :value="$counts['awaiting_pay'] ?? 0" /></div>
+  <div class="col-6 col-xl-3 rise" style="--d:3"><x-admin.kpi icon="clock" tone="peach" label="منتظر قرارداد برنده" :value="$counts['awaiting_contract'] ?? 0" /></div>
   <div class="col-6 col-xl-3 rise" style="--d:4"><x-admin.kpi icon="alert-triangle" tone="sand" label="مهلت‌گذشته (نیازمند اقدام)" :value="$overdue" /></div>
 </section>
 
@@ -25,9 +25,9 @@
     <div class="filters-row">
       <div class="search-pill">
         <x-admin.icon name="search" />
-        <input type="search" data-filter-search placeholder="جستجوی خودرو، نمایشگاه یا کد…" aria-label="جستجو در مزایده‌ها" autocomplete="off">
+        <input type="search" data-filter-search placeholder="جستجوی ملک، آژانس یا کد…" aria-label="جستجو در مزایده‌ها" autocomplete="off">
       </div>
-      <div class="seg" role="group" aria-label="دسته‌ی خودرو">
+      <div class="seg" role="group" aria-label="دسته‌ی ملک">
         <button type="button" class="seg-btn active" data-filter="type" data-value="all" aria-pressed="true">همه</button>
         @foreach($cats as $slug => [$label, $icon])
           <button type="button" class="seg-btn" data-filter="type" data-value="{{ $slug }}" aria-pressed="false"><x-admin.icon :name="$icon" class="icon-sm" /> {{ $label }}</button>
@@ -47,14 +47,14 @@
   <section class="card-a rise" style="--d:3" aria-label="لیست مزایده‌ها">
     <div class="tbl-wrap adm-scroll" data-table>
       <table class="tbl tbl-cards">
-        <thead><tr><th>خودرو</th><th>قیمت پایه</th><th>بالاترین پیشنهاد</th><th>پیشنهادها</th><th>زمان</th><th>وضعیت</th><th></th></tr></thead>
+        <thead><tr><th>ملک</th><th>قیمت پایه</th><th>بالاترین پیشنهاد</th><th>پیشنهادها</th><th>زمان</th><th>وضعیت</th><th></th></tr></thead>
         <tbody>
           @foreach($auctions as $a)
-            <tr data-row data-status="{{ $a['status'] }}" data-type="{{ $a['cat'] }}" data-search="{{ $a['title'] }} {{ $a['dealer'] }} {{ $a['code'] }}">
+            <tr data-row data-status="{{ $a['status'] }}" data-type="{{ $a['cat'] }}" data-search="{{ $a['title'] }} {{ $a['agency'] }} {{ $a['code'] }}">
               <td class="td-main">
                 <div class="cell-main">
                   <span class="thumb" style="background-image:url('{{ $a['image'] }}')"></span>
-                  <div><b>{{ $a['title'] }}</b><small>{{ $a['dealer'] }} • کد <span data-fa>{{ $a['code'] }}</span></small></div>
+                  <div><b>{{ $a['title'] }}</b><small>{{ $a['agency'] }} • کد <span data-fa>{{ $a['code'] }}</span></small></div>
                 </div>
               </td>
               <td data-label="قیمت پایه" class="price-cell"><x-admin.money :value="$a['base']" /></td>
@@ -73,9 +73,9 @@
               </td>
               <td data-label="وضعیت">
                 <span data-status-cell><x-admin.status :status="$a['status']" /></span>
-                @if($a['status'] === 'awaiting_pay')
-                  @if($a['pay'] === 'overdue')<span class="reason-note">مهلت پرداخت تمام شده</span>
-                  @else<small class="d-block text-muted mt-1">مهلت پرداخت: <span class="timer" data-countdown="{{ $a['pay_deadline'] }}"></span></small>@endif
+                @if($a['status'] === 'awaiting_contract')
+                  @if($a['pay'] === 'overdue')<span class="reason-note">مهلت مراجعه تمام شده</span>
+                  @else<small class="d-block text-muted mt-1">مهلت قرارداد: <span class="timer" data-countdown="{{ $a['pay_deadline'] }}"></span></small>@endif
                 @endif
               </td>
               <td class="td-act">
@@ -99,8 +99,8 @@
   </section>
 </div>
 
-<x-admin.reason-modal id="cancelModal" title="لغو مزایده" submit="لغو مزایده" label="دلیل لغو (برای نمایشگاه‌دار و شرکت‌کنندگان ارسال می‌شود)"
-  :chips="['درخواست نمایشگاه‌دار', 'مغایرت اطلاعات خودرو', 'تخلف از قوانین سایت', 'مشکل فنی']">
+<x-admin.reason-modal id="cancelModal" title="لغو مزایده" submit="لغو مزایده" label="دلیل لغو (برای مشاور املاک و شرکت‌کنندگان ارسال می‌شود)"
+  :chips="['درخواست مشاور املاک', 'مغایرت اطلاعات ملک', 'تخلف از قوانین سایت', 'مشکل فنی']">
   <p class="text-muted small mb-3">ورودی پرداخت‌شده‌ی شرکت‌کنندگان به کیف پول آن‌ها برگردانده می‌شود.</p>
 </x-admin.reason-modal>
 @endsection

@@ -5,12 +5,12 @@
 
 @section('content')
 @php
-  $cats = ['car' => ['سواری', 'car'], 'heavy' => ['سنگین', 'truck'], 'bike' => ['موتور', 'bike'], 'bicycle' => ['دوچرخه', 'bicycle']];
+  $cats = $propertyCats;
   $tabs = ['all' => 'همه', 'pending' => 'در انتظار تأیید', 'active' => 'فعال', 'rejected' => 'ردشده', 'suspended' => 'تعلیق‌شده', 'sold' => 'فروخته‌شده', 'expired' => 'منقضی'];
   $counts = array_count_values(array_column($listings, 'status'));
 @endphp
 
-<x-admin.page-head title="آگهی‌ها" subtitle="بررسی، تأیید و مدیریت آگهی‌های نمایشگاه‌داران" />
+<x-admin.page-head title="آگهی‌ها" subtitle="بررسی، تأیید و مدیریت آگهی‌های مشاوران املاک" />
 
 <div data-filterable>
   {{-- ===== فیلترها ===== --}}
@@ -18,19 +18,18 @@
     <div class="filters-row">
       <div class="search-pill">
         <x-admin.icon name="search" />
-        <input type="search" data-filter-search placeholder="جستجوی عنوان، نمایشگاه، شهر یا کد آگهی…" aria-label="جستجو در آگهی‌ها" autocomplete="off">
+        <input type="search" data-filter-search placeholder="جستجوی عنوان، آژانس، شهر یا کد آگهی…" aria-label="جستجو در آگهی‌ها" autocomplete="off">
       </div>
-      <div class="seg" role="group" aria-label="دسته‌ی خودرو">
+      <div class="seg" role="group" aria-label="دسته‌ی ملک">
         <button type="button" class="seg-btn active" data-filter="type" data-value="all" aria-pressed="true">همه</button>
         @foreach($cats as $slug => [$label, $icon])
           <button type="button" class="seg-btn" data-filter="type" data-value="{{ $slug }}" aria-pressed="false"><x-admin.icon :name="$icon" class="icon-sm" /> {{ $label }}</button>
         @endforeach
       </div>
-      <select class="form-select sel" data-filter="sale" aria-label="نوع فروش">
-        <option value="all">همه‌ی انواع فروش</option>
-        <option value="normal">فروش عادی</option>
-        <option value="instant">فروش فوری</option>
-        <option value="auction">مزایده</option>
+      <select class="form-select sel" data-filter="sale" aria-label="نوع نمایش">
+        <option value="all">همه‌ی انواع نمایش</option>
+        <option value="normal">آگهی عادی</option>
+        <option value="instant">آگهی فوری</option>
       </select>
     </div>
     <div class="filters-row">
@@ -56,17 +55,17 @@
         <tbody>
           @foreach($listings as $l)
             <tr data-row data-id="{{ $l['id'] }}" data-status="{{ $l['status'] }}" data-type="{{ $l['cat'] }}" data-sale="{{ $l['sale'] }}"
-                data-search="{{ $l['title'] }} {{ $l['dealer'] }} {{ $l['city'] }} {{ $l['code'] }}" data-item="{{ json_encode($l, JSON_UNESCAPED_UNICODE) }}">
+                data-search="{{ $l['title'] }} {{ $l['agency'] }} {{ $l['city'] }} {{ $l['code'] }}" data-item="{{ json_encode($l, JSON_UNESCAPED_UNICODE) }}">
               <td class="td-chk"><input type="checkbox" class="form-check-input chk js-chk" aria-label="انتخاب آگهی {{ $l['title'] }}" @if($l['status'] !== 'pending') disabled @endif></td>
               <td class="td-main">
                 <div class="cell-main">
                   <span class="thumb" style="background-image:url('{{ $l['images'][0] }}')"></span>
-                  <div><b>{{ $l['title'] }}</b><small>{{ $l['dealer'] }} • {{ $l['city'] }}</small></div>
+                  <div><b>{{ $l['title'] }}</b><small>{{ $l['agency'] }} • {{ $l['city'] }}</small></div>
                 </div>
               </td>
               <td data-label="دسته"><span class="cat-cell"><x-admin.icon :name="$cats[$l['cat']][1]" class="icon-sm" /> {{ $cats[$l['cat']][0] }}</span></td>
               <td data-label="قیمت" class="price-cell"><x-admin.money :value="$l['price']" /></td>
-              <td data-label="نوع فروش"><x-admin.status :status="$l['sale']" /></td>
+              <td data-label="نوع نمایش"><x-admin.status :status="$l['sale']" /></td>
               <td data-label="وضعیت"><span data-status-cell><x-admin.status :status="$l['status']" /></span><span class="reason-note" data-reason-note @if(empty($l['reason'])) hidden @endif>{{ $l['reason'] ?? '' }}</span></td>
               <td data-label="ثبت"><div class="text-muted"><span data-fa>{{ $l['posted'] }}</span><small class="d-block">کد <span data-fa>{{ $l['code'] }}</span></small></div></td>
               <td class="td-act">
@@ -120,8 +119,8 @@
     <p class="desc" data-d="desc"></p>
     <div class="list-row card-a flat p-2">
       <span class="lr-ic t-sky"><x-admin.icon name="store" /></span>
-      <span class="lr-body"><b data-d="dealer"></b><small data-d="city"></small></span>
-      <a href="{{ route('admin.dealers.index') }}" class="lr-end">پروفایل <x-admin.icon name="chevron-left" class="icon-sm" /></a>
+      <span class="lr-body"><b data-d="agency"></b><small data-d="city"></small></span>
+      <a href="{{ route('admin.agencies.index') }}" class="lr-end">پروفایل <x-admin.icon name="chevron-left" class="icon-sm" /></a>
     </div>
     <div class="reason-note" data-d="reason" hidden></div>
    </div>
@@ -138,7 +137,7 @@
         <div><h3 id="rejectTitle">رد آگهی</h3><p data-r="title"></p></div>
       </div>
       <div class="modal-body-a">
-        <label class="form-label" for="rejectReason">دلیل رد (برای نمایشگاه‌دار ارسال می‌شود)</label>
+        <label class="form-label" for="rejectReason">دلیل رد (برای مشاور املاک ارسال می‌شود)</label>
         <div class="reason-chips">
           @foreach(['تصاویر نامناسب یا ناکافی', 'اطلاعات آگهی ناقص است', 'قیمت نامعقول', 'آگهی تکراری است', 'مغایرت با قوانین سایت'] as $r)
             <button type="button" class="reason-chip">{{ $r }}</button>

@@ -1,5 +1,5 @@
 {{--
-  گالری آگهی. <x-gallery :images="$car->images" badge="فروش فوری" />
+  گالری آگهی. <x-gallery :images="$property->images" badge="فروش فوری" />
   images: آرایه‌ای از URL (یا ['src'=>..., 'thumb'=>...]). سوایپ، تامبنیل همگام، نمایش تمام‌صفحه با کلیک.
 --}}
 @props(['images', 'badge' => null])

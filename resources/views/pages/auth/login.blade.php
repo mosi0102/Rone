@@ -17,7 +17,7 @@
     <x-auth.otp-flow>
       <div class="auth-alt">
         <a class="btn btn-outline-secondary w-100" href="{{ route('home') }}?as=guest" data-guest><x-icon name="eye" /> ورود به‌عنوان مهمان</a>
-        <a class="auth-dealer" href="{{ route('dealer.register') }}"><x-icon name="store" /><span><b>نمایشگاه‌دار هستید؟</b> ثبت‌نام نمایشگاه</span><x-icon name="chevron-left" /></a>
+        <a class="auth-agency" href="{{ route('agency.register') }}"><x-icon name="store" /><span><b>مشاور املاک هستید؟</b> ثبت‌نام آژانس</span><x-icon name="chevron-left" /></a>
       </div>
       <p class="auth-terms">ورود شما به‌معنی پذیرش <a href="{{ route('help') }}">قوانین و حریم خصوصی</a> است.</p>
     </x-auth.otp-flow>

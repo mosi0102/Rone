@@ -8,7 +8,9 @@
 }
 
 /* تب دسته (لینک) */
-.ls-tabs { margin: 0 0 14px; }
+.ls-tabs { margin: 0 0 14px; overflow-x: auto; scrollbar-width: none; }
+.ls-tabs::-webkit-scrollbar { display: none; }
+.ls-tabs a { flex: 0 0 auto; white-space: nowrap; padding-inline: 14px; }
 .seg-tabs a { flex: 1; display: block; padding: 13px 6px; border-radius: 14px; background: transparent; color: var(--primary); font-weight: 700; font-size: 14.5px; text-align: center; transition: background var(--t-fast), color var(--t-fast); }
 .seg-tabs a:hover { color: var(--primary-hover); }
 .seg-tabs a.on { background: var(--primary); color: #fff; box-shadow: 0 4px 10px rgba(27, 77, 158, .25); }
@@ -111,3 +113,6 @@ button.ls-x { border: 0; background: none; cursor: pointer; } button.ls-x[hidden
 .ls-sheet .ff-actions.is-sticky { position: sticky; bottom: 0; }
 @media (min-width: 992px) { .ls-sheet { display: none; } }
 @media (prefers-reduced-motion: reduce) { .ls-sheet, .ls-sheet.open { transition: none; } [data-lb].is-loading .ls-head h2::after { animation: none; } }
+
+/* دکمه‌ی مشاهده روی نقشه (کنار فیلتر و مرتب‌سازی) */
+.ls-map-btn { padding: 0 16px; }

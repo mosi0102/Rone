@@ -1,4 +1,4 @@
-/* filters.js — فرم فیلتر: دسته ← برند ← مدل، فیلدهای فنی بر اساس دسته، اسلایدر قیمت، شمارش زنده
+/* filters.js — فرم فیلتر: دسته ← نوع ملک، شهر ← محله، فیلدهای فنی بر اساس دسته، اسلایدر قیمت، شمارش زنده
    رویداد: $(document).trigger('filters:change', [paramsObject])  — بک‌اند می‌تواند به‌جای endpoint شمارش، این را بگیرد.
    Endpoint شمارش: data-count-url (GET با همان پارامترها ← {"count": N}) */
 (function ($) {
@@ -9,29 +9,27 @@
   function init(root) { $(root || document).find('.ff').addBack('.ff').each(function () {
     var $f = $(this); if ($f.data('ffInit')) return; $f.data('ffInit', 1);
     var cfg = $f.data('config') || {}, countUrl = $f.data('count-url');
-    var $cat = $f.find('[name=category]'), $brand = $f.find('[name=brand]'), $model = $f.find('[name=model]');
+    var $cat = $f.find('[name=category]'), $type = $f.find('[name=ptype]'), $city = $f.find('[name=city]'), $district = $f.find('[name=district]');
     var $pmin = $f.find('[name=price_min]'), $pmax = $f.find('[name=price_max]'), $rng = $f.find('.rng'), $a = $rng.find('.rng-a'), $b = $rng.find('.rng-b');
     var $submit = $f.find('[type=submit]').first(), t;
 
-    function maxPrice() { return (cfg.maxPrice || {})[$cat.val() || ''] || 15000000000; }
-    function brandMap(c) {
-      if (c) return (cfg.brands || {})[c] || {};
-      var all = {}; $.each(cfg.brands || {}, function (_, m) { $.extend(all, m); }); return all;
-    }
+    function maxPrice() { return (cfg.maxPrice || {})[$cat.val() || ''] || 150000000000; }
+    function priceLabel() { return (cfg.priceLabels || {})[$cat.val() || ''] || 'قیمت'; }
     function fill($sel, items, first, keep) {
       $sel.empty().append($('<option value="">').text(first));
       items.forEach(function (x) { $sel.append($('<option>').text(x)); });
       if (keep && items.indexOf(keep) > -1) $sel.val(keep); else $sel.val('');
     }
-    function refillBrands(keep) { fill($brand, Object.keys(brandMap($cat.val())), 'همه برندها', keep); refillModels($model.data('sel')); }
-    function refillModels(keep) { var m = brandMap($cat.val())[$brand.val()] || []; fill($model, m, 'همه مدل‌ها', keep); $model.prop('disabled', !$brand.val()); }
+    function refillTypes(keep) { fill($type, (cfg.types || {})[$cat.val()] || [], 'همه انواع', keep); $type.prop('disabled', !$cat.val()); }
+    function refillDistricts(keep) { fill($district, (cfg.districts || {})[$city.val()] || [], 'همه محله‌ها', keep); $district.prop('disabled', !$city.val()); }
     function toggleSpecs() {
       var c = $cat.val();
       $f.find('.ff-field').each(function () {
-        var cats = String($(this).data('cats') || ''), show = !cats || (c ? cats.split(',').indexOf(c) > -1 : cats.split(',').length >= 3);
-        $(this).toggleClass('d-none', !show); if (!show) $(this).find('select,input').val('');
+        var cats = String($(this).data('cats') || ''), show = !cats || (c ? cats.split(',').indexOf(c) > -1 : cats.split(',').length >= 4);
+        $(this).toggleClass('d-none', !show); if (!show) { $(this).find('select,input:not([type=checkbox])').val(''); $(this).find('input[type=checkbox]').prop('checked', false); }
       });
       $f.find('[data-cat-label]').text((cfg.categories || {})[c] || '');
+      $f.find('[data-price-label]').text(priceLabel());
     }
 
     /* ----- قیمت: اسلایدر ↔ ورودی‌ها ----- */
@@ -52,8 +50,8 @@
     $pmax.attr('placeholder', App.money(maxPrice()));
 
     /* ----- رویدادها ----- */
-    $cat.on('change', function () { refillBrands(); toggleSpecs(); $pmax.attr('placeholder', App.money(maxPrice())); fromInputs(); schedule(); });
-    $brand.on('change', function () { refillModels(); schedule(); });
+    $cat.on('change', function () { refillTypes(); toggleSpecs(); $pmax.attr('placeholder', App.money(maxPrice())); fromInputs(); schedule(); });
+    $city.on('change', function () { refillDistricts(); schedule(); });
     $f.on('change input', 'select, input[type=checkbox], input[type=radio], [data-money-field]', schedule);
 
     /* ----- شمارش زنده ----- */
@@ -76,7 +74,7 @@
     $f.find('.ff-clear').on('click', function () {
       $f.find('select').val(''); $f.find('[data-money-field]').val(''); $f.find('input[type=checkbox]').prop('checked', false);
       $f.find('input[name=sale_type][value=""]').prop('checked', true);
-      refillBrands(); toggleSpecs(); $a.val(0); $b.val(100); setVars(0, 100); $pmax.attr('placeholder', App.money(maxPrice())); recount();
+      refillTypes(); refillDistricts(); toggleSpecs(); $a.val(0); $b.val(100); setVars(0, 100); $pmax.attr('placeholder', App.money(maxPrice())); recount();
     });
 
     /* ----- ارسال: فیلدهای خالی و ارقام فارسی ----- */
@@ -88,7 +86,7 @@
 
     /* ----- شروع ----- */
     $f.find('[data-money-field]').each(function () { var d = digits(this.value); if (d) this.value = App.money(d); });
-    refillBrands($brand.data('sel')); $model.prop('disabled', !$brand.val()); toggleSpecs(); fromInputs();
+    refillTypes($type.data('sel')); refillDistricts($district.data('sel')); toggleSpecs(); fromInputs();
   }); }
 
   window.Filters = { init: init };

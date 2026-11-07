@@ -3,7 +3,7 @@
 
 @section('content')
 @php
-  $types = ['listings' => ['آگهی', 'list-checks', 'sky'], 'auctions' => ['مزایده', 'gavel', 'peach'], 'deals' => ['معاملات', 'shield-check', 'sage'], 'people' => ['افراد', 'users', 'sky'],
+  $types = ['listings' => ['آگهی', 'list-checks', 'sky'], 'requests' => ['درخواست ملک', 'target', 'peach'], 'auctions' => ['مزایده', 'gavel', 'sage'], 'people' => ['افراد', 'users', 'sky'],
             'finance' => ['مالی', 'wallet', 'sage'], 'chats' => ['گفتگو', 'message', 'sand'], 'settings' => ['سیستم', 'settings', 'sand']];
   $tabs = ['all' => 'همه'] + array_map(fn ($t) => $t[0], $types);
 @endphp

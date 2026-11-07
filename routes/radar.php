@@ -1,9 +1,9 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RadarController;
+use Illuminate\Support\Facades\Route;
 
-// رادار خودرو
+// رادار ملک
 Route::get('/radar', [RadarController::class, 'index'])->name('radar.index');
 Route::get('/radar/create', [RadarController::class, 'create'])->name('radar.create');
 Route::get('/radar/preview', [RadarController::class, 'preview'])->name('radar.preview');

@@ -3,21 +3,22 @@
 
 @section('content')
 @php
-  $types = ['entry' => ['ورودی مزایده', 'gavel', 'sky'], 'deposit' => ['بیعانه', 'shield-check', 'sage'], 'fee' => ['کارمزد خدمات', 'receipt', 'peach'], 'subscription' => ['اشتراک', 'badge-check', 'sky'],
-            'release' => ['آزادسازی بیعانه', 'check-circle', 'sage'], 'refund' => ['برگشت بیعانه', 'undo', 'sand'], 'withdraw' => ['برداشت', 'banknote', 'peach']];
-  $tabs = ['all' => 'همه', 'entry' => 'ورودی مزایده', 'deposit' => 'بیعانه', 'fee' => 'کارمزد', 'subscription' => 'اشتراک', 'withdraw' => 'برداشت'];
+  // پرداخت‌ها: اشتراک آژانس، آگهی فوری ۲۴ ساعته، ساخت مزایده، ورودی مزایده (+ شارژ و برداشت کیف پول). سایت پول ملک را دریافت نمی‌کند.
+  $types = ['subscription' => ['اشتراک', 'badge-check', 'sky'], 'instant' => ['آگهی فوری', 'bolt', 'peach'], 'auction_create' => ['ساخت مزایده', 'gavel', 'sage'], 'entry' => ['ورودی مزایده', 'users', 'sky'],
+            'charge' => ['شارژ کیف پول', 'wallet', 'sage'], 'refund' => ['برگشت ورودی', 'undo', 'sand'], 'withdraw' => ['برداشت', 'banknote', 'peach']];
+  $tabs = ['all' => 'همه', 'subscription' => 'اشتراک', 'instant' => 'آگهی فوری', 'auction_create' => 'ساخت مزایده', 'entry' => 'ورودی مزایده', 'withdraw' => 'برداشت'];
   $paid = array_filter($txs, fn ($t) => $t['status'] === 'paid');
-  $income = array_sum(array_map(fn ($t) => in_array($t['type'], ['entry', 'fee', 'subscription'], true) ? $t['amount'] : 0, $paid));
-  $escrow = array_sum(array_map(fn ($t) => $t['type'] === 'deposit' ? $t['amount'] : 0, $paid)) + array_sum(array_map(fn ($t) => in_array($t['type'], ['release', 'refund'], true) ? $t['amount'] : 0, $paid));
+  $income = array_sum(array_map(fn ($t) => in_array($t['type'], ['subscription', 'instant', 'auction_create', 'entry'], true) ? $t['amount'] : 0, $paid));
+  $charged = array_sum(array_map(fn ($t) => $t['type'] === 'charge' ? $t['amount'] : 0, $paid));
   $out = abs(array_sum(array_map(fn ($t) => $t['type'] === 'withdraw' ? $t['amount'] : 0, $paid)));
   $failed = count(array_filter($txs, fn ($t) => $t['status'] === 'failed'));
 @endphp
 
-<x-admin.page-head title="مالی و تراکنش‌ها" subtitle="درآمد سایت، بیعانه‌های در امانت و گردش کیف پول‌ها" />
+<x-admin.page-head title="مالی و تراکنش‌ها" subtitle="درآمد سایت (اشتراک، آگهی فوری، مزایده) و گردش کیف پول‌ها" />
 
 <section class="row g-3 mb-3" aria-label="خلاصه‌ی مالی">
-  <div class="col-6 col-xl-3 rise" style="--d:1"><x-admin.kpi icon="trending-up" tone="sage" label="درآمد سایت (ورودی، کارمزد، اشتراک)" :value="$income" unit="تومان" :money="true" /></div>
-  <div class="col-6 col-xl-3 rise" style="--d:2"><x-admin.kpi icon="lock" tone="sky" label="مانده‌ی بیعانه در امانت" :value="max($escrow, 0)" unit="تومان" :money="true" /></div>
+  <div class="col-6 col-xl-3 rise" style="--d:1"><x-admin.kpi icon="trending-up" tone="sage" label="درآمد سایت (اشتراک، فوری، مزایده)" :value="$income" unit="تومان" :money="true" /></div>
+  <div class="col-6 col-xl-3 rise" style="--d:2"><x-admin.kpi icon="wallet" tone="sky" label="شارژ کیف پول‌ها" :value="$charged" unit="تومان" :money="true" /></div>
   <div class="col-6 col-xl-3 rise" style="--d:3"><x-admin.kpi icon="banknote" tone="peach" label="برداشت‌های پرداخت‌شده" :value="$out" unit="تومان" :money="true" /></div>
   <div class="col-6 col-xl-3 rise" style="--d:4"><x-admin.kpi icon="alert-triangle" tone="sand" label="پرداخت ناموفق" :value="$failed" /></div>
 </section>

@@ -5,7 +5,7 @@
 @section('message', 'آدرس اشتباه است یا این صفحه دیگر وجود ندارد. می‌توانید در آگهی‌ها جست‌وجو کنید یا به صفحه‌ی اول بروید.')
 @section('extra')
   <form class="err-search" action="{{ url('/listings') }}" role="search">
-    <input type="search" name="q" class="form-control" placeholder="جست و جو در خودروها" aria-label="جست و جو در خودروها" enterkeyhint="search" autocomplete="off">
+    <input type="search" name="q" class="form-control" placeholder="جست و جو در املاک" aria-label="جست و جو در املاک" enterkeyhint="search" autocomplete="off">
     <button type="submit" class="btn btn-primary" aria-label="جستجو"><x-icon name="search" /></button>
   </form>
 @endsection

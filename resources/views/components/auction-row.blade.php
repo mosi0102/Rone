@@ -1,6 +1,6 @@
 {{--
   کارت مزایده صفحه خانه (طبق طرح نهایی): عکس راست، مشخصات و قیمت، و زیرش «زمان باقیمانده تا شروع/پایان».
-  $item: id,title,url,image,price,year,km,extra, status('scheduled'|'live'), starts_at / ends_at
+  $item: id,title,url,image,price,area,rooms,year,extra, status('scheduled'|'live'), starts_at / ends_at
 --}}
 @props(['item'])
 @php
@@ -10,10 +10,10 @@
 @endphp
 <a href="{{ $i->url ?? '#' }}" class="auction-row">
   <div class="ar-main">
-    <div class="ar-media">@if(!empty($i->image))<img src="{{ $i->image }}" alt="" loading="lazy">@else<x-icon name="car" />@endif</div>
+    <div class="ar-media">@if(!empty($i->image))<img src="{{ $i->image }}" alt="" loading="lazy">@else<x-icon name="building" />@endif</div>
     <div class="ar-body">
       <h3 class="ar-title">{{ $i->title }}</h3>
-      <x-specs class="ar-meta" :year="$i->year ?? null" :km="$i->km ?? null" :extra="$i->extra ?? null" />
+      <x-specs class="ar-meta" :area="$i->area ?? null" :rooms="$i->rooms ?? null" :year="$i->year ?? null" :extra="$i->extra ?? null" />
       <div class="ar-price"><x-price :value="$i->price" /></div>
     </div>
   </div>

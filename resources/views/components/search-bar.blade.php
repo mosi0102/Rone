@@ -1,15 +1,15 @@
 {{--
   جستجو + انتخاب شهر (کارت سفید: شهر | کادر جستجو | دکمه ذره‌بین).
-  <x-search-bar placeholder="..." scope="listings|dealers" :city="$city" />
-  open=true (پیش‌فرض، scope=listings|dealers): با لمس کادر، لایه‌ی جست‌وجو همان‌جا باز می‌شود (بدون رفتن به آدرس دیگر؛ js/search-overlay.js) و نتایج/فیلتر با AJAX است.
+  <x-search-bar placeholder="..." scope="listings|agencies" :city="$city" />
+  open=true (پیش‌فرض، scope=listings|agencies): با لمس کادر، لایه‌ی جست‌وجو همان‌جا باز می‌شود (بدون رفتن به آدرس دیگر؛ js/search-overlay.js) و نتایج/فیلتر با AJAX است.
   scope به /search?scope=…&city=…&q=… فرستاده می‌شود؛ با action مقصد دیگری بدهید. رویداد JS تغییر شهر: app:city
 --}}
-@props(['placeholder' => 'جست و جو در خودروها', 'scope' => 'listings', 'action' => null, 'city' => 'سبزوار', 'cities' => [], 'open' => true])
+@props(['placeholder' => 'جست و جو در املاک', 'scope' => 'listings', 'action' => null, 'city' => 'سبزوار', 'cities' => [], 'open' => true])
 @php $cities = count($cities) ? $cities : ['تهران', 'مشهد', 'اصفهان', 'شیراز', 'تبریز', 'کرج', 'سبزوار', 'قم', 'اهواز', 'رشت']; @endphp
 @once
   @push('scripts')<script src="{{ asset('js/city.js') }}"></script><script src="{{ asset('js/search-open.js') }}"></script>@endpush
 @endonce
-@if($open && in_array($scope, ['listings', 'dealers']))<x-search-overlay :city="$city" :scope="$scope" />@endif
+@if($open && in_array($scope, ['listings', 'agencies']))<x-search-overlay :city="$city" :scope="$scope" />@endif
 <form class="search-card" action="{{ $action ?? route('search') }}" role="search">
   <input type="hidden" name="scope" value="{{ $scope }}">
   <input type="hidden" name="city" id="cityInput" value="{{ $city }}">
@@ -17,7 +17,7 @@
     <x-icon name="pin" /> <span id="cityLabel">{{ $city }}</span>
   </button>
   <span class="sc-vr" aria-hidden="true"></span>
-  <input type="text" name="q" class="sc-input" @if($open && in_array($scope, ['listings', 'dealers'])) data-open-search="{{ $scope === 'dealers' ? route('dealers.index') : route('search', ['scope' => $scope, 'focus' => 1]) }}" @endif placeholder="{{ $placeholder }}" aria-label="{{ $placeholder }}" enterkeyhint="search" inputmode="search" autocomplete="off" autocapitalize="off" spellcheck="false">
+  <input type="text" name="q" class="sc-input" @if($open && in_array($scope, ['listings', 'agencies'])) data-open-search="{{ $scope === 'agencies' ? route('agencies.index') : route('search', ['scope' => $scope, 'focus' => 1]) }}" @endif placeholder="{{ $placeholder }}" aria-label="{{ $placeholder }}" enterkeyhint="search" inputmode="search" autocomplete="off" autocapitalize="off" spellcheck="false">
   <button type="submit" class="sc-go" aria-label="جستجو"><x-icon name="search" /></button>
 </form>
 

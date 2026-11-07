@@ -7,17 +7,17 @@
 @php
   $tabs = ['all' => 'همه', 'active' => 'فعال', 'banned' => 'مسدود'];
   $counts = array_count_values(array_column($users, 'status'));
-  $heldSum = array_sum(array_column($users, 'held'));
-  $aucBan = count(array_filter($users, fn ($u) => $u['auction_ban_days']));
+  $entrySum = array_sum(array_column($users, 'entries'));
+  $withReq = count(array_filter($users, fn ($u) => $u['requests']));
 @endphp
 
-<x-admin.page-head title="کاربران" subtitle="خریداران و شرکت‌کنندگان مزایده؛ کیف پول، محرومیت‌ها و مسدودسازی" />
+<x-admin.page-head title="کاربران" subtitle="مشتریان و شرکت‌کنندگان مزایده؛ کیف پول، ورودی‌ها و مسدودسازی" />
 
 <section class="row g-3 mb-3" aria-label="خلاصه‌ی کاربران">
   <div class="col-6 col-xl-3 rise" style="--d:1"><x-admin.kpi icon="users" tone="sky" label="کل کاربران" :value="count($users)" /></div>
   <div class="col-6 col-xl-3 rise" style="--d:2"><x-admin.kpi icon="lock" tone="sand" label="مسدود" :value="$counts['banned'] ?? 0" /></div>
-  <div class="col-6 col-xl-3 rise" style="--d:3"><x-admin.kpi icon="gavel" tone="peach" label="محروم از مزایده" :value="$aucBan" /></div>
-  <div class="col-6 col-xl-3 rise" style="--d:4"><x-admin.kpi icon="shield-check" tone="sage" label="بیعانه‌ی در امانت" :value="$heldSum" unit="تومان" :money="true" /></div>
+  <div class="col-6 col-xl-3 rise" style="--d:3"><x-admin.kpi icon="target" tone="peach" label="دارای درخواست ملک" :value="$withReq" /></div>
+  <div class="col-6 col-xl-3 rise" style="--d:4"><x-admin.kpi icon="gavel" tone="sage" label="ورودی مزایده‌ها" :value="$entrySum" unit="تومان" :money="true" /></div>
 </section>
 
 <div data-filterable>
@@ -39,7 +39,7 @@
   <section class="card-a rise" style="--d:3" aria-label="لیست کاربران">
     <div class="tbl-wrap adm-scroll" data-table>
       <table class="tbl tbl-cards">
-        <thead><tr><th>کاربر</th><th>کیف پول</th><th>بیعانه‌ی در امانت</th><th>مزایده</th><th>وضعیت</th><th></th></tr></thead>
+        <thead><tr><th>کاربر</th><th>کیف پول</th><th>ورودی مزایده‌ها</th><th>مزایده</th><th>وضعیت</th><th></th></tr></thead>
         <tbody>
           @foreach($users as $u)
             <tr data-row data-status="{{ $u['status'] }}" data-search="{{ $u['name'] }} {{ $u['phone'] }} {{ $u['city'] }}">
@@ -50,8 +50,8 @@
                 </div>
               </td>
               <td data-label="کیف پول" class="price-cell"><x-admin.money :value="$u['wallet']" /></td>
-              <td data-label="بیعانه‌ی در امانت" class="price-cell">@if($u['held'])<x-admin.money :value="$u['held']" />@else<span class="text-muted">—</span>@endif</td>
-              <td data-label="مزایده"><span data-fa>{{ $u['auctions'] }}</span> شرکت@if($u['auction_ban_days'])<span class="reason-note">محروم از مزایده (<span data-fa>{{ $u['auction_ban_days'] }}</span> روز دیگر)</span>@endif</td>
+              <td data-label="ورودی مزایده‌ها" class="price-cell">@if($u['entries'])<x-admin.money :value="$u['entries']" />@else<span class="text-muted">—</span>@endif</td>
+              <td data-label="مزایده"><span data-fa>{{ $u['auctions'] }}</span> شرکت</td>
               <td data-label="وضعیت">
                 <span data-status-cell><x-admin.status :status="$u['status']" /></span>
                 <span class="reason-note" data-reason-note @if(!$u['reason']) hidden @endif>{{ $u['reason'] }}</span>
@@ -80,6 +80,6 @@
 
 <x-admin.reason-modal id="banUser" title="مسدودسازی کاربر" submit="مسدود کردن" icon="lock" label="دلیل مسدودسازی (برای کاربر ارسال می‌شود)"
   :chips="['انتشار اطلاعات تماس در گفتگو', 'کلاهبرداری یا تلاش برای آن', 'تخلف مکرر از قوانین']">
-  <p class="text-muted small mb-3">کاربر مسدود نمی‌تواند وارد حساب شود؛ بیعانه‌های در امانت او تا تعیین تکلیف نگه داشته می‌شود.</p>
+  <p class="text-muted small mb-3">کاربر مسدود نمی‌تواند وارد حساب شود یا در مزایده‌ها شرکت کند؛ موجودی کیف پول او حفظ می‌شود.</p>
 </x-admin.reason-modal>
 @endsection

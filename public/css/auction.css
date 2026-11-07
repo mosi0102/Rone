@@ -27,8 +27,8 @@
 .auc-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
 .auc-badge { display: inline-block; padding: 3px 12px; border-radius: 8px; font-size: 13px; font-weight: 800; white-space: nowrap; }
 .auc-badge.live { background: #e3f4e8; color: #15803d; } .auc-badge.soon { background: var(--primary-soft); color: var(--primary); }
-.auc-dealer { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; color: var(--ink-2); }
-.auc-dealer .icon { color: var(--primary); }
+.auc-agency { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; color: var(--ink-2); }
+.auc-agency .icon { color: var(--primary); }
 .auc-title { margin: 2px 0 0; font-size: 22px; font-weight: 900; }
 .auc-meta { font-size: 14px; color: var(--muted); }
 .auc-start { font-size: 14.5px; color: var(--muted); } .auc-start small { font-size: 12.5px; }
@@ -146,7 +146,7 @@
 .pay-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 14px; }
 .pay-row + .pay-row { border-top: 1px solid var(--line); } .pay-row b { display: inline-flex; gap: 6px; align-items: center; font-size: 14px; }
 
-/* دکمه مزایده جدید (نمایشگاه‌دار) */
+/* دکمه مزایده جدید (مشاور املاک) */
 .auc-head{display:flex;align-items:center;justify-content:space-between;gap:10px}
 .auc-head .auc-h{margin:0}
 .auc-new{display:inline-flex;align-items:center;gap:6px;white-space:nowrap;flex-shrink:0}

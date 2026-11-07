@@ -3,20 +3,21 @@
     <div class="row g-4">
       <div class="col-lg-5">
         <div class="brand text-white mb-2">{{ config('app.name') }}</div>
-        <p class="small mb-0">رزرو آنلاین خودرو با بیعانه امن؛ معامله حضوری در نمایشگاه‌های تأییدشده.</p>
+        <p class="small mb-0">خرید، فروش، اجاره و مزایده‌ی ملک؛ قرارداد حضوری در آژانس‌های املاک تأییدشده.</p>
       </div>
       <div class="col-6 col-lg-3">
         <div class="fw-bold text-white mb-2">دسترسی سریع</div>
         <ul class="list-unstyled small d-grid gap-1 mb-0">
           <li><a href="{{ route('listings.index') }}">آگهی‌ها</a></li>
           <li><a href="{{ route('auctions.index') }}">مزایده‌ها</a></li>
-          <li><a href="{{ route('dealers.index') }}">نمایشگاه‌ها</a></li>
+          <li><a href="{{ route('radar.index') }}">رادار ملک</a></li>
+          <li><a href="{{ route('agencies.index') }}">مشاوران املاک</a></li>
         </ul>
       </div>
       <div class="col-6 col-lg-4">
-        <div class="fw-bold text-white mb-2">برای نمایشگاه‌داران</div>
+        <div class="fw-bold text-white mb-2">برای مشاوران املاک</div>
         <ul class="list-unstyled small d-grid gap-1 mb-0">
-          <li><a href="#">ثبت‌نام نمایشگاه</a></li>
+          <li><a href="{{ route('agency.join') }}">ثبت‌نام آژانس</a></li>
           <li><a href="#">تعرفه اشتراک</a></li>
         </ul>
       </div>

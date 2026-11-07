@@ -1,9 +1,9 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ChatController;
+use Illuminate\Support\Facades\Route;
 
-// گفتگوی خریدار ↔ نمایشگاه‌دار
+// گفتگوی خریدار ↔ مشاور املاک
 Route::get('/chats', [ChatController::class, 'index'])->name('chat.index');
 Route::get('/chats/start', [ChatController::class, 'start'])->name('chat.start');
 Route::get('/chats/{id}', [ChatController::class, 'show'])->whereNumber('id')->name('chat.show');

@@ -8,14 +8,13 @@
   $fa = fn ($v) => strtr((string) $v, array_combine(['0','1','2','3','4','5','6','7','8','9',','], ['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹','٬']));
   $st = $a['status'];
   $live = $st === 'live'; $scheduled = $st === 'scheduled';
-  $hasWinner = in_array($st, ['awaiting_pay', 'defaulted', 'ended'], true);
+  $hasWinner = in_array($st, ['awaiting_contract', 'defaulted', 'ended'], true);
   $topPrice = $a['top'] ?: $a['base'];
-  $depositAmount = (int) round($a['top'] * $a['deposit_percent'] / 100);
   // وضعیت قدم‌های تایم‌لاین: done | current | wait | fail
-  $steps = [['ثبت و زمان‌بندی', 'done'], ['شروع مزایده', 'wait'], ['پایان مزایده', 'wait'], ['پرداخت بیعانه‌ی برنده', 'wait'], ['هماهنگی و معامله', 'wait']];
+  $steps = [['ثبت و زمان‌بندی', 'done'], ['شروع مزایده', 'wait'], ['پایان مزایده', 'wait'], ['مراجعه‌ی برنده به آژانس', 'wait'], ['ثبت قرارداد', 'wait']];
   $map = [
     'scheduled' => ['done', 'current', 'wait', 'wait', 'wait'], 'live' => ['done', 'done', 'current', 'wait', 'wait'],
-    'awaiting_pay' => ['done', 'done', 'done', 'current', 'wait'], 'defaulted' => ['done', 'done', 'done', 'fail', 'wait'],
+    'awaiting_contract' => ['done', 'done', 'done', 'current', 'wait'], 'defaulted' => ['done', 'done', 'done', 'fail', 'wait'],
     'ended' => ['done', 'done', 'done', 'done', 'done'], 'cancelled' => ['done', 'wait', 'wait', 'wait', 'wait'],
   ];
   foreach ($steps as $i => $s) { $steps[$i][1] = $map[$st][$i]; }
@@ -24,7 +23,7 @@
   foreach ($rows as $i => $b) { $prev = $i + 1 < $n ? $rows[$i + 1]['amount'] : $a['base']; $rows[$i]['delta'] = $b['amount'] - $prev; }
 @endphp
 
-<x-admin.page-head :title="$a['title']" :subtitle="'مزایده‌ی کد ' . $fa($a['code']) . ' • ' . $a['dealer']">
+<x-admin.page-head :title="$a['title']" :subtitle="'مزایده‌ی کد ' . $fa($a['code']) . ' • ' . $a['agency']">
   <a href="{{ route('admin.auctions.index') }}" class="btn btn-soft btn-sm"><x-admin.icon name="arrow-left" class="icon-sm" style="transform:scaleX(-1)" /> بازگشت به لیست</a>
   <span data-d="status"><x-admin.status :status="$st" /></span>
   @if($live || $scheduled)<button type="button" class="btn btn-bad btn-sm" id="cancelBtn"><x-admin.icon name="x" class="icon-sm" /> لغو مزایده</button>@endif
@@ -95,10 +94,10 @@
       <section class="card-a rise" style="--d:2"><div class="note-box bad"><x-admin.icon name="alert" /><div><b>این مزایده لغو شده است</b><p>دلیل: {{ $a['cancel_reason'] }}</p></div></div></section>
     @endif
 
-    {{-- پرداخت بیعانه‌ی برنده --}}
+    {{-- برنده و قرارداد (سایت پول ملک را دریافت نمی‌کند) --}}
     @if($hasWinner)
     <section class="card-a rise" style="--d:2" data-pay-card aria-labelledby="payTitle">
-      <div class="card-head"><h2 id="payTitle">برنده و پرداخت بیعانه</h2></div>
+      <div class="card-head"><h2 id="payTitle">برنده و قرارداد</h2></div>
       <div class="list-row card-a flat p-2 mb-3">
         <span class="avatar">{{ mb_substr($a['winner']['name'], 0, 1) }}</span>
         <span class="lr-body"><b>{{ $a['winner']['name'] }}</b><small class="tnum" data-fa>{{ $a['winner']['phone'] }}</small></span>
@@ -106,35 +105,34 @@
       </div>
       <dl class="info-list">
         <div><dt>مبلغ برنده‌شده</dt><dd><x-admin.money :value="$a['top']" /></dd></div>
-        <div><dt>بیعانه (<span data-fa>{{ $a['deposit_percent'] }}</span>٪ قابل‌برگشت)</dt><dd><x-admin.money :value="$depositAmount" /></dd></div>
-        <div><dt>هزینه‌ی خدمات (برگشت‌ناپذیر)</dt><dd><x-admin.money :value="$a['service_fee']" /></dd></div>
-        <div class="total"><dt>جمع قابل پرداخت</dt><dd><x-admin.money :value="$depositAmount + $a['service_fee']" /></dd></div>
+        <div><dt>ورودی پرداخت‌شده</dt><dd><x-admin.money :value="$a['entry']" /></dd></div>
+        <div><dt>تماس آژانس (برای برنده فعال شد)</dt><dd class="tnum">{{ $a['agency_phone'] }}</dd></div>
       </dl>
 
       <div data-pay-state="waiting" @if($a['pay'] !== 'waiting') hidden @endif>
-        <div class="note-box warn"><x-admin.icon name="clock" /><div><b>در انتظار پرداخت بیعانه</b><p>مهلت باقی‌مانده: <span class="timer fw-bold" data-countdown="{{ $a['pay_deadline'] }}"></span></p></div></div>
+        <div class="note-box warn"><x-admin.icon name="clock" /><div><b>در انتظار مراجعه برای قرارداد</b><p>مهلت باقی‌مانده: <span class="timer fw-bold" data-countdown="{{ $a['pay_deadline'] }}"></span></p></div></div>
       </div>
       <div data-pay-state="overdue" @if($a['pay'] !== 'overdue') hidden @endif>
-        <div class="note-box bad"><x-admin.icon name="alert-triangle" /><div><b>مهلت پرداخت تمام شده است</b><p>برنده بیعانه را پرداخت نکرده. می‌توانید او را از مزایده‌ها محروم کنید.</p></div></div>
+        <div class="note-box bad"><x-admin.icon name="alert-triangle" /><div><b>مهلت مراجعه تمام شده است</b><p>آژانس گزارش داده برنده برای قرارداد مراجعه نکرده. می‌توانید او را از مزایده‌ها محروم کنید.</p></div></div>
         <button type="button" class="btn btn-danger w-100 mt-3" id="banBtn"><x-admin.icon name="lock" class="icon-sm" /> بن کردن برنده</button>
       </div>
       <div data-pay-state="banned" @if($a['pay'] !== 'banned') hidden @endif>
         <div class="note-box bad"><x-admin.icon name="lock" /><div><b>برنده از مزایده‌ها محروم شده</b><p>تا <span data-jdate="{{ $a['banned_until'] ?? now()->toIso8601String() }}" data-jfmt="date"></span></p></div></div>
         <button type="button" class="btn btn-soft w-100 mt-3" id="unbanBtn"><x-admin.icon name="undo" class="icon-sm" /> رفع محرومیت</button>
       </div>
-      <div data-pay-state="paid" @if($a['pay'] !== 'paid') hidden @endif>
-        <div class="note-box ok"><x-admin.icon name="check-circle" /><div><b>بیعانه پرداخت شد</b><p>اطلاعات نمایشگاه برای هماهنگی معامله به برنده ارسال شده است.</p></div></div>
+      <div data-pay-state="contracted" @if($a['pay'] !== 'contracted') hidden @endif>
+        <div class="note-box ok"><x-admin.icon name="check-circle" /><div><b>قرارداد ثبت شد</b><p>آژانس تنظیم قرارداد با برنده را تأیید کرده است.</p></div></div>
       </div>
     </section>
     @endif
 
-    {{-- خودرو و نمایشگاه --}}
+    {{-- ملک و آژانس --}}
     <section class="card-a rise" style="--d:3">
-      <div class="card-head"><h2>خودرو و نمایشگاه</h2></div>
+      <div class="card-head"><h2>ملک و آژانس</h2></div>
       <div class="gal-main mb-3" style="background-image:url('{{ $a['image'] }}'); aspect-ratio: 16/9"></div>
       <div class="list-row card-a flat p-2">
         <span class="lr-ic t-sky"><x-admin.icon name="store" /></span>
-        <span class="lr-body"><b>{{ $a['dealer'] }}</b><small>کد آگهی <span data-fa>{{ $a['code'] }}</span></small></span>
+        <span class="lr-body"><b>{{ $a['agency'] }}</b><small>کد آگهی <span data-fa>{{ $a['code'] }}</span></small></span>
         <a href="{{ route('admin.listings.index') }}" class="lr-end">آگهی <x-admin.icon name="chevron-left" class="icon-sm" /></a>
       </div>
     </section>
@@ -151,13 +149,13 @@
   </aside>
 </div>
 
-<x-admin.reason-modal id="cancelModal" title="لغو مزایده" submit="لغو مزایده" label="دلیل لغو (برای نمایشگاه‌دار و شرکت‌کنندگان ارسال می‌شود)"
-  :chips="['درخواست نمایشگاه‌دار', 'مغایرت اطلاعات خودرو', 'تخلف از قوانین سایت', 'مشکل فنی']">
+<x-admin.reason-modal id="cancelModal" title="لغو مزایده" submit="لغو مزایده" label="دلیل لغو (برای مشاور املاک و شرکت‌کنندگان ارسال می‌شود)"
+  :chips="['درخواست مشاور املاک', 'مغایرت اطلاعات ملک', 'تخلف از قوانین سایت', 'مشکل فنی']">
   <p class="text-muted small mb-3">ورودی پرداخت‌شده‌ی شرکت‌کنندگان به کیف پول آن‌ها برگردانده می‌شود.</p>
 </x-admin.reason-modal>
 
 <x-admin.reason-modal id="banModal" title="بن کردن برنده" submit="بن کردن" icon="lock" label="دلیل محرومیت (برای کاربر ارسال می‌شود)"
-  :chips="['عدم پرداخت بیعانه در مهلت مقرر', 'اختلال عمدی در مزایده']">
+  :chips="['عدم مراجعه برای قرارداد در مهلت مقرر', 'اختلال عمدی در مزایده']">
   <label class="form-label" for="banDays">مدت محرومیت از مزایده‌ها</label>
   <select class="form-select mb-3" id="banDays">
     <option value="7">۷ روز</option><option value="14">۱۴ روز</option><option value="30" selected>۳۰ روز (پیش‌فرض تنظیمات)</option><option value="90">۹۰ روز</option><option value="180">۱۸۰ روز</option>

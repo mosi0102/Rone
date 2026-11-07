@@ -5,8 +5,8 @@
 --}}
 @php
   $isSearch = $mode === 'search';
-  $myDealer = $auth->is_dealer ? $auth->dealer->id : null;     // نمایشگاه‌دار: دکمه ویرایش روی آگهی‌های خودش
-  $popular = ['پژو ۲۰۷', 'ولوو FH500', 'یاماها NMAX', 'سمند', 'تیبا', 'کامیون کشنده', 'هیوندای النترا'];   // جست‌وجوهای پرطرفدار (از بک‌اند)
+  $myAgency = $auth->is_agency ? $auth->agency->id : null;     // مشاور املاک: دکمه ویرایش روی آگهی‌های خودش
+  $popular = ['آپارتمان نوساز', 'رهن کامل', 'ویلا', 'مغازه', 'سوئیت مبله', 'پیش‌فروش', 'سعادت‌آباد'];   // جست‌وجوهای پرطرفدار (از بک‌اند)
   $action = route($isSearch ? 'search' : 'listings.index');
 @endphp
 <div class="ls-layout" data-lb data-lb-action="{{ $action }}" data-lb-sort="{{ $sort }}">
@@ -31,6 +31,7 @@
 
     <div class="ls-bar" data-lb-region="bar">
       <a href="{{ $filters_url }}" class="ls-filter-btn d-lg-none" data-lb-open-filters><x-icon name="sliders" /> فیلترها @if($filter_count)<span class="cnt" data-fa>{{ $filter_count }}</span>@endif</a>
+      <a href="{{ route('listings.map', array_intersect_key($query, array_flip(['category', 'city', 'sale_type', 'ptype', 'district', 'q']))) }}" class="ls-filter-btn ls-map-btn" aria-label="مشاهده روی نقشه"><x-icon name="pin" /> <span class="d-none d-sm-inline">نقشه</span></a>
       <label class="ls-sort">
         <span class="visually-hidden">مرتب‌سازی</span>
         <select class="lb-sort" id="sortSel">
@@ -51,7 +52,7 @@
     <div class="ls-list" id="resultList" data-lb-region="list">
       @if(count($items))
         @foreach($items as $item)
-          @php $mine = $myDealer && ($item['dealer_id'] ?? 0) === $myDealer; @endphp
+          @php $mine = $myAgency && ($item['agency_id'] ?? 0) === $myAgency; @endphp
           @if(!empty($item['featured']))
             <x-listing-feature :item="$item" :edit="$mine ? route('listings.edit', 24817) : null" />
           @else

@@ -35,4 +35,12 @@ return [
         ],
     ],
 
+    // نقشه‌ی آگهی‌ها (public/js/map.js). برای محیط واقعی سرویس کاشی (tile) مناسب، مثلاً نشان یا Map.ir، را جایگزین کنید.
+    'map' => [
+        'tiles' => env('MAP_TILES_URL', 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'),
+        'attribution' => env('MAP_ATTRIBUTION', '© OpenStreetMap'),
+        'center' => [35.7219, 51.3347], // تهران
+        'zoom' => 12,
+    ],
+
 ];

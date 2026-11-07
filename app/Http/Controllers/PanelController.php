@@ -2,54 +2,55 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Concerns\DealData;
+use App\Http\Controllers\Concerns\ListingData;
 
 class PanelController extends Controller
 {
-    use DealData;
+    use ListingData;
 
     public function dashboard()
     {
         $listings = [
-            ['id' => 24817, 'title' => 'پژو ۲۰۷ اتوماتیک', 'image' => $this->img('dealer-stock-1.jpg'), 'price' => 985000000, 'status' => 'active', 'sale_type' => 'instant', 'views' => 326, 'saves' => 18, 'reserves' => 2, 'expires' => 'تا ۴۱ روز دیگر'],
-            ['id' => 24818, 'title' => 'ولوو FH500 کشنده', 'image' => $this->img('dealer-stock-2.jpg'), 'price' => 9800000000, 'status' => 'active', 'sale_type' => null, 'views' => 148, 'saves' => 9, 'reserves' => 0, 'expires' => 'تا ۴۱ روز دیگر'],
-            ['id' => 24819, 'title' => 'یاماها NMAX 155', 'image' => $this->img('dealer-stock-3.jpg'), 'price' => 385000000, 'status' => 'auction', 'sale_type' => 'auction', 'views' => 412, 'saves' => 31, 'reserves' => 0, 'expires' => 'مزایده جاری'],
-            ['id' => 24820, 'title' => 'پژو ۲۰۶ تیپ ۲', 'image' => null, 'price' => 540000000, 'status' => 'draft', 'sale_type' => null, 'views' => 0, 'saves' => 0, 'reserves' => 0, 'expires' => 'پیش‌نویس'],
-            ['id' => 24821, 'title' => 'سمند سورن', 'image' => null, 'price' => 610000000, 'status' => 'expired', 'sale_type' => null, 'views' => 97, 'saves' => 4, 'reserves' => 1, 'expires' => 'منقضی شده'],
+            ['id' => 31001, 'title' => 'آپارتمان ۱۲۰ متری نوساز', 'image' => $this->img('agency-stock-1.jpg'), 'price' => 18500000000, 'rent' => null, 'status' => 'active', 'sale_type' => 'instant', 'views' => 326, 'saves' => 18, 'reserves' => 2, 'expires' => 'تا ۴۱ روز دیگر'],
+            ['id' => 31005, 'title' => 'اجاره آپارتمان ۹۰ متری', 'image' => $this->img('detail-t2.jpg'), 'price' => 600000000, 'rent' => 25000000, 'status' => 'active', 'sale_type' => null, 'views' => 148, 'saves' => 9, 'reserves' => 0, 'expires' => 'تا ۴۱ روز دیگر'],
+            ['id' => 31008, 'title' => 'مغازه ۳۵ متری بر خیابان اصلی', 'image' => $this->img('agency-thumb-1.jpg'), 'price' => 9500000000, 'rent' => null, 'status' => 'active', 'sale_type' => 'instant', 'views' => 412, 'saves' => 31, 'reserves' => 1, 'expires' => 'تا ۱۲ روز دیگر'],
+            ['id' => 31016, 'title' => 'کلاس آموزشی ساعتی/روزانه', 'image' => null, 'price' => 2500000, 'rent' => null, 'status' => 'draft', 'sale_type' => null, 'views' => 0, 'saves' => 0, 'reserves' => 0, 'expires' => 'پیش‌نویس'],
+            ['id' => 31020, 'title' => 'اجاره آپارتمان ۹۰ متری (موقعیت عالی)', 'image' => null, 'price' => 620000000, 'rent' => 26000000, 'status' => 'expired', 'sale_type' => null, 'views' => 97, 'saves' => 4, 'reserves' => 1, 'expires' => 'منقضی شده'],
         ];
+
         return view('pages.panel.dashboard', [
-            'deals' => collect($this->dealStore())->only([101, 104, 105])->values()->all(),
             'tab' => request('tab', 'overview'),
             'kpis' => [
                 ['icon' => 'eye', 'label' => 'بازدید ۷ روز اخیر', 'value' => 1240, 'delta' => 12, 'up' => true],
                 ['icon' => 'bookmark', 'label' => 'نشان‌شده‌ها', 'value' => 62, 'delta' => 5, 'up' => true],
-                ['icon' => 'shield', 'label' => 'بیعانه‌های جدید', 'value' => 3, 'delta' => 1, 'up' => false],
+                ['icon' => 'phone', 'label' => 'تماس‌های جدید', 'value' => 23, 'delta' => 4, 'up' => true],
                 ['icon' => 'trending-up2', 'label' => 'نرخ تبدیل', 'value' => '۲٫۴٪', 'delta' => 0.3, 'up' => true],
             ],
             'series' => ['labels' => ['ش', 'ی', 'د', 'س', 'چ', 'پ', 'ج'], 'values' => [120, 188, 150, 232, 205, 260, 85]],
-            'funnel' => [['label' => 'بازدید', 'value' => 1240], ['label' => 'نشان‌شده', 'value' => 62], ['label' => 'بیعانه', 'value' => 9], ['label' => 'معامله', 'value' => 5]],
+            'funnel' => [['label' => 'بازدید', 'value' => 1240], ['label' => 'نشان‌شده', 'value' => 62], ['label' => 'تماس', 'value' => 23], ['label' => 'قرارداد', 'value' => 5]],
             'activity' => [
-                ['icon' => 'shield', 'text' => 'بیعانه جدید برای «پژو ۲۰۷ اتوماتیک»', 'time' => '۲۵ دقیقه پیش', 'tone' => 'ok'],
-                ['icon' => 'gavel', 'text' => 'پیشنهاد جدید ۳۹۰٬۰۰۰٬۰۰۰ تومان در مزایده «یاماها NMAX»', 'time' => '۲ ساعت پیش', 'tone' => 'info'],
-                ['icon' => 'users', 'text' => '۳ کاربر جدید در مزایده شرکت کردند', 'time' => 'دیروز', 'tone' => 'info'],
-                ['icon' => 'alert', 'text' => 'آگهی «سمند سورن» منقضی شد', 'time' => 'دیروز', 'tone' => 'warn'],
+                ['icon' => 'gavel', 'text' => 'پیشنهاد جدید ۲۰٬۶۰۰٬۰۰۰٬۰۰۰ تومان در مزایده «خانه کلنگی ۲۴۰ متر»', 'time' => '۲۵ دقیقه پیش', 'tone' => 'ok'],
+                ['icon' => 'message', 'text' => 'درخواست بازدید برای «مغازه ۳۵ متری بر خیابان اصلی»', 'time' => '۲ ساعت پیش', 'tone' => 'info'],
+                ['icon' => 'sparkles', 'text' => '۳ مشتری دنبال آپارتمانی شبیه آگهی‌های شما هستند', 'time' => 'دیروز', 'tone' => 'info'],
+                ['icon' => 'alert', 'text' => 'آگهی «اجاره آپارتمان ۹۰ متری» منقضی شد', 'time' => 'دیروز', 'tone' => 'warn'],
             ],
             'listings' => $listings,
             'auctions' => [
-                ['id' => 13, 'title' => 'یاماها NMAX 155', 'image' => $this->img('dealer-stock-3.jpg'), 'status' => 'live', 'base' => 380000000, 'top' => 395000000, 'bidders' => 7, 'ends_at' => now()->addHours(3)],
-                ['id' => 12, 'title' => 'ولوو FH500 کشنده', 'image' => $this->img('dealer-stock-2.jpg'), 'status' => 'scheduled', 'base' => 9500000000, 'top' => null, 'bidders' => 2, 'ends_at' => now()->addDays(2)],
-                ['id' => 14, 'title' => 'پژو ۲۰۷ پانوراما', 'image' => null, 'status' => 'ended', 'base' => 900000000, 'top' => 962000000, 'bidders' => 11, 'ends_at' => now()->subDays(3)],
+                ['id' => 13, 'title' => 'خانه کلنگی ۲۴۰ متر شمالی', 'image' => $this->img('detail-main.jpg'), 'status' => 'live', 'base' => 20000000000, 'top' => 20600000000, 'bidders' => 7, 'ends_at' => now()->addHours(3)],
+                ['id' => 11, 'title' => 'آپارتمان ۱۲۰ متری نوساز', 'image' => $this->img('agency-stock-1.jpg'), 'status' => 'scheduled', 'base' => 17500000000, 'top' => null, 'bidders' => 14, 'ends_at' => now()->addDays(2)],
+                ['id' => 14, 'title' => 'مغازه ۳۵ متری (قابل معاوضه)', 'image' => null, 'status' => 'ended', 'base' => 9000000000, 'top' => 9650000000, 'bidders' => 11, 'ends_at' => now()->subDays(3)],
             ],
+            // پرداخت‌های آژانس: اشتراک، آگهی فوری ۲۴ ساعته، ساخت مزایده (سایت پول ملک را دریافت نمی‌کند)
             'finance' => [
-                'available' => 18500000, 'pending' => 87000000, 'month_income' => 215000000, 'iban' => 'IR12 **** **** **** **** 4521',
+                'balance' => 18500000, 'month_spent' => 7450000,
                 'tx' => [
-                    ['title' => 'آزادسازی بیعانه «پژو ۲۰۷»', 'amount' => 29550000, 'in' => true, 'date' => now()->subHours(5)],
-                    ['title' => 'خرید فروش فوری (۷ روزه)', 'amount' => 450000, 'in' => false, 'date' => now()->subDays(1)],
-                    ['title' => 'هزینه ساخت مزایده', 'amount' => 600000, 'in' => false, 'date' => now()->subDays(2)],
-                    ['title' => 'تسویه به حساب بانکی', 'amount' => 120000000, 'in' => false, 'date' => now()->subDays(6)],
+                    ['title' => 'ساخت مزایده «خانه کلنگی ۲۴۰ متر»', 'amount' => 2000000, 'in' => false, 'date' => now()->subHours(5)],
+                    ['title' => 'آگهی فوری ۲۴ ساعته «آپارتمان ۱۲۰ متری»', 'amount' => 450000, 'in' => false, 'date' => now()->subDays(1)],
+                    ['title' => 'شارژ کیف پول', 'amount' => 10000000, 'in' => true, 'date' => now()->subDays(2)],
+                    ['title' => 'تمدید اشتراک ۳ ماهه', 'amount' => 4000000, 'in' => false, 'date' => now()->subDays(6)],
                 ],
             ],
-            'dealer' => (object)['name' => 'اتوگالری هالیوود', 'short' => 'گالری هالیوود', 'manager' => 'ابولفضل پناهی', 'phone' => '۰۲۱۲۲۳۴۵۶۷۸', 'about' => 'فروش تخصصی سواری، سنگین و موتورسیکلت؛ بازدید حضوری و کارشناسی مستقل با هماهنگی.', 'address' => 'تهران، سعادت‌آباد، بین سعادتی ۲۰ و ۲۲، جنب بانک شهر', 'hours' => 'شنبه تا پنجشنبه ۹ تا ۲۰', 'cover' => $this->img('dealer-cover.jpg')],
+            'agency' => (object) ['name' => 'املاک پارسیان', 'short' => 'پارسیان', 'manager' => 'ابولفضل پناهی', 'phone' => '۰۲۱۲۲۳۴۵۶۷۸', 'about' => 'خرید، فروش و اجاره‌ی آپارتمان، ویلا و املاک تجاری؛ بازدید با هماهنگی و تنظیم قرارداد با کد رهگیری.', 'address' => 'تهران، سعادت‌آباد، بین سعادتی ۲۰ و ۲۲، جنب بانک شهر', 'hours' => 'شنبه تا پنجشنبه ۹ تا ۲۰', 'cover' => $this->img('agency-cover.jpg')],
         ]);
     }
 
@@ -60,28 +61,33 @@ class PanelController extends Controller
 
     public function listingEdit($id)
     {
-        return view('pages.panel.listing-form', ['listing' => (object)['id' => $id, 'category' => 'car', 'brand' => 'پژو', 'model' => '۲۰۷ اتوماتیک', 'year' => 1402, 'km' => 24000, 'color' => 'سفید', 'gearbox' => 'auto', 'fuel' => 'بنزین', 'price' => 985000000, 'negotiable' => true, 'description' => 'خودرو تک‌مالک، سرویس‌ها به‌موقع.', 'sale_type' => 'instant', 'images' => [asset('img/mock/detail-main.jpg'), asset('img/mock/detail-t1.jpg')]], 'opt' => $this->formOptions()]);
+        $listing = (object) [
+            'id' => $id, 'category' => 'rent_res', 'type' => 'آپارتمان', 'city' => 'تهران', 'district' => 'پونک', 'address' => 'تهران، پونک، بلوار عدل، کوچه‌ی ۱۲، پلاک ۸', 'lat' => 35.7631, 'lng' => 51.3345,
+            'area' => 90, 'rooms' => '۲', 'year' => 1399, 'floor' => '۲', 'units' => 2, 'price' => 600000000, 'rent' => 25000000, 'convertible' => true, 'negotiable' => true,
+            'amenities' => ['parking', 'elevator', 'storage', 'balcony'],
+            'description' => 'آپارتمان نورگیر و کم‌واحد، کابینت‌های نو، دسترسی عالی به مترو.', 'sale_type' => 'instant',
+            'images' => [asset('img/mock/detail-main.jpg'), asset('img/mock/detail-t1.jpg')],
+        ];
+
+        return view('pages.panel.listing-form', ['listing' => $listing, 'opt' => $this->formOptions()]);
     }
 
     protected function formOptions()
     {
-        return [
-            'brands' => ['پژو', 'سمند', 'تیبا', 'هیوندای', 'کیا', 'ولوو', 'بنز', 'یاماها', 'هوندا'],
-            'colors' => ['سفید', 'مشکی', 'نقره‌ای', 'خاکستری', 'آبی', 'قرمز', 'بدون رنگ'],
-            'conditions' => ['سالم و پلمپ', 'سالم', 'رنگ‌شده', 'ضربه خورده', 'تعویض شده'],
-        ];
-    }
+        $lf = $this->lf();
 
-    /** سابقه‌ی درخواست‌های تسویه‌ی نمایشگاه‌دار */
-    public function settlements()
-    {
-        return view('pages.panel.settlements', [
-            'iban' => 'IR12 **** **** **** **** 4521',
-            'items' => [
-                ['id' => 3, 'amount' => 120000000, 'status' => 'pending', 'at' => now()->subHours(6), 'note' => null],
-                ['id' => 2, 'amount' => 80000000, 'status' => 'paid', 'at' => now()->subDays(6), 'note' => 'شناسه‌ی پیگیری بانک: ۷۴۱۹۵۲۶'],
-                ['id' => 1, 'amount' => 45000000, 'status' => 'rejected', 'at' => now()->subDays(15), 'note' => 'نام صاحب حساب با مدارک همخوانی نداشت.'],
+        return [
+            'categories' => $this->propertyCategories(),
+            'cities' => $lf['cities'],
+            'districts' => $lf['districts'],
+            'district_coords' => $lf['district_coords'],
+            'city_centers' => $lf['city_centers'],
+            'price_labels' => $lf['price_labels'],
+            'amenities' => [
+                'parking' => ['پارکینگ', 'car'], 'elevator' => ['آسانسور', 'elevator'], 'storage' => ['انباری', 'box'],
+                'balcony' => ['بالکن', 'home'], 'heating' => ['شوفاژ / پکیج', 'sparkles'], 'cooling' => ['کولر / اسپلیت', 'compass'],
+                'renovated' => ['بازسازی‌شده', 'hammer'], 'furnished' => ['مبله', 'bed'], 'guard' => ['نگهبانی / لابی', 'shield'],
             ],
-        ]);
+        ];
     }
 }

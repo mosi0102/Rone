@@ -12,7 +12,7 @@
 @endphp
 <div class="auc-head">
   <h2 class="auc-h">فرصت‌های مزایده</h2>
-  @if(!empty($auth->is_dealer))
+  @if(!empty($auth->is_agency))
     <a href="{{ route('auctions.create') }}" class="btn btn-primary btn-sm auc-new"><x-icon name="plus" />مزایده جدید</a>
   @endif
 </div>
@@ -21,10 +21,9 @@
 {{-- دسته‌بندی --}}
 <div class="auc-cats" id="aucCats" role="tablist" aria-label="دسته‌بندی">
   <button type="button" class="on" data-cat="all" role="tab"><span>همه</span></button>
-  <button type="button" data-cat="car" role="tab"><x-icon name="car" />سواری</button>
-  <button type="button" data-cat="heavy" role="tab"><x-icon name="truck" />سنگین</button>
-  <button type="button" data-cat="bike" role="tab"><x-icon name="bike" />موتور</button>
-  <button type="button" data-cat="bicycle" role="tab"><x-icon name="bicycle" />دوچرخه</button>
+  <button type="button" data-cat="sale_res" role="tab"><x-icon name="home" />مسکونی</button>
+  <button type="button" data-cat="sale_com" role="tab"><x-icon name="briefcase" />تجاری</button>
+  <button type="button" data-cat="project" role="tab"><x-icon name="hammer" />پروژه‌ها</button>
 </div>
 
 {{-- وضعیت --}}

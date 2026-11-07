@@ -1,0 +1,75 @@
+/* ==========================================================================
+   map.css — نقشه‌ی آگهی‌ها (انتخاب لوکیشن، نمایش در صفحه‌ی آگهی، مشاهده روی نقشه)
+   ========================================================================== */
+.leaflet-container { font-family: inherit; background: #e8eef7; }
+.leaflet-container a { color: var(--primary); }
+.leaflet-control-attribution { font-size: 10px; direction: ltr; }
+
+/* نشانگر قطره‌ای */
+.mp-pin { background: none; border: 0; }
+.mp-pin span { position: absolute; inset: 0 3px 8px; border-radius: 50% 50% 50% 0; transform: rotate(-45deg); background: var(--primary); border: 3px solid #fff; box-shadow: 0 6px 14px rgba(15, 35, 70, .35); }
+.mp-pin span::after { content: ""; position: absolute; inset: 9px; border-radius: 50%; background: #fff; }
+.mp-pin.is-pick span { background: var(--accent); }
+
+/* ۱) انتخاب لوکیشن (فرم ثبت آگهی) */
+.mp { border: 1.5px solid var(--line); border-radius: var(--r-md); overflow: hidden; background: var(--surface); }
+.mp.is-invalid { border-color: var(--danger); }
+.mp-canvas { height: 280px; direction: ltr; }
+@media (min-width: 768px) { .mp-canvas { height: 340px; } }
+.mp-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; padding: 10px 12px; border-top: 1px solid var(--line); font-size: 13px; }
+.mp-hint { flex: 1 1 100%; color: var(--muted); }
+@media (min-width: 576px) { .mp-hint { flex-basis: 0; } }
+.mp-bar [data-locate] { margin-inline-start: auto; }
+.mp.has-pin .mp-hint { color: var(--success); font-weight: 700; }
+.mp-coords { direction: ltr; font-size: 12px; color: var(--muted); }
+
+/* ۲) نمایش در صفحه‌ی آگهی */
+.cd-map { margin-top: 24px; }
+.cd-map-canvas { height: 220px; border-radius: var(--r-md); overflow: hidden; direction: ltr; border: 1px solid var(--line); }
+.cd-addr { display: flex; align-items: flex-start; gap: 8px; margin: 12px 0 10px; font-weight: 600; }
+.cd-addr .icon { flex: 0 0 auto; color: var(--primary); margin-top: 3px; }
+.cd-route { display: flex; flex-wrap: wrap; gap: 8px; }
+
+/* ۳) مشاهده روی نقشه */
+.mb { position: relative; height: calc(100dvh - 190px); min-height: 420px; border-radius: var(--r-lg); overflow: hidden; border: 1px solid var(--line); }
+@media (min-width: 992px) { .mb { height: calc(100dvh - 170px); } }
+.mb-canvas { position: absolute; inset: 0; direction: ltr; }
+.mb.is-loading .mb-canvas { opacity: .75; }
+.mb-top { position: absolute; z-index: 500; inset-inline: 10px; top: 10px; display: grid; gap: 8px; pointer-events: none; }
+.mb-top > * { pointer-events: auto; }
+.mb-cats { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; padding-bottom: 2px; }
+.mb-cats::-webkit-scrollbar { display: none; }
+.mb-cats button { flex: 0 0 auto; display: inline-flex; align-items: center; gap: 5px; padding: 8px 12px; border: 0; border-radius: var(--r-pill); background: #fff; color: var(--ink); font: inherit; font-size: 13px; font-weight: 700; box-shadow: var(--shadow-2); white-space: nowrap; }
+.mb-cats button .icon { width: 16px; height: 16px; color: var(--primary); }
+.mb-cats button.on { background: var(--primary); color: #fff; }
+.mb-cats button.on .icon { color: #fff; }
+.mb-row { display: flex; gap: 6px; }
+.mb-row select { flex: 1; min-width: 0; border: 0; border-radius: 12px; padding: 8px 10px; font: inherit; font-size: 13px; font-weight: 600; background: #fff; box-shadow: var(--shadow-2); }
+.mb-count { position: absolute; z-index: 500; bottom: 12px; inset-inline-start: 10px; padding: 6px 12px; border-radius: var(--r-pill); background: rgba(255, 255, 255, .95); font-size: 12.5px; font-weight: 700; box-shadow: var(--shadow-2); }
+.mb-tools { position: absolute; z-index: 500; bottom: 12px; inset-inline-end: 10px; display: flex; gap: 6px; }
+.mb-tools .btn { box-shadow: var(--shadow-2); }
+.mb-empty { position: absolute; z-index: 500; inset: 50% 20px auto; transform: translateY(-50%); text-align: center; padding: 14px; border-radius: 14px; background: #fff; box-shadow: var(--shadow-2); font-weight: 700; }
+
+/* برچسب قیمت روی نقشه */
+.mb-price { background: none; border: 0; }
+.mb-price span { display: inline-block; transform: translate(-50%, -100%); padding: 5px 9px; border-radius: 10px; background: #fff; color: var(--ink); font-size: 12px; font-weight: 800; white-space: nowrap; box-shadow: 0 3px 10px rgba(15, 35, 70, .25); border: 1.5px solid var(--primary); position: relative; cursor: pointer; }
+.mb-price span::after { content: ""; position: absolute; left: 50%; bottom: -6px; transform: translateX(-50%) rotate(45deg); width: 9px; height: 9px; background: inherit; border-right: 1.5px solid var(--primary); border-bottom: 1.5px solid var(--primary); }
+.mb-price.is-inst span { border-color: var(--accent); }
+.mb-price.is-inst span::after { border-color: var(--accent); }
+.mb-price.is-auc span { background: var(--primary-soft); }
+.mb-price.is-on span { background: var(--primary); color: #fff; z-index: 2; }
+
+/* کارت آگهیِ انتخاب‌شده */
+.mb-card { position: absolute; z-index: 600; inset-inline: 10px; bottom: 54px; display: flex; gap: 10px; padding: 10px; border-radius: 16px; background: #fff; color: inherit; box-shadow: var(--shadow-3); text-decoration: none; }
+.mb-card[hidden] { display: none; }
+.mb-card:hover { color: inherit; }
+@media (min-width: 992px) { .mb-card { inset-inline: auto 16px; width: 360px; } }
+.mb-card img { flex: 0 0 96px; width: 96px; height: 84px; object-fit: cover; border-radius: 12px; background: #dbe4f3; }
+.mbc-b { min-width: 0; flex: 1; display: grid; gap: 2px; align-content: center; }
+.mbc-t { margin: 0; font-size: 15px; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.mbc-m, .mbc-l { font-size: 12.5px; color: var(--muted); }
+.mbc-p { color: var(--primary); font-weight: 800; font-size: 14px; }
+.mbc-badge { justify-self: start; padding: 1px 8px; border-radius: var(--r-pill); background: var(--accent-soft); font-size: 11.5px; font-weight: 800; }
+
+/* کنترل‌های Leaflet زیر نوار فیلتر */
+.mb .leaflet-top { top: 100px; }

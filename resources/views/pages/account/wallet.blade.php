@@ -11,14 +11,14 @@
   <x-empty-state icon="wallet" title="وارد حساب خود شوید" text="برای دیدن کیف پول ابتدا وارد شوید." action="ورود / ثبت‌نام" :href="route('login')" />
 @else
 @php
-  $kinds = ['charge' => 'wallet', 'refund' => 'undo', 'deposit' => 'shield', 'auction' => 'gavel', 'withdraw' => 'arrow-up'];
+  $kinds = ['charge' => 'wallet', 'refund' => 'undo', 'auction' => 'gavel', 'instant' => 'bolt', 'subscription' => 'crown', 'withdraw' => 'arrow-up'];
   $lock = !$auth->verified;
 @endphp
 <div class="pf wl" data-min-charge="{{ $min_charge }}" data-min-withdraw="{{ $min_withdraw }}" data-balance="{{ $balance }}">
   <section class="wl-hero">
     <small>موجودی قابل استفاده</small>
     <b class="wl-amount"><x-price :value="$balance" /></b>
-    <div class="wl-held"><x-icon name="shield" class="icon-sm" /> بیعانه‌های در امانت: <x-price :value="$held" /></div>
+    <div class="wl-held"><x-icon name="gavel" class="icon-sm" /> کاربرد: ورودی مزایده، اشتراک آژانس، آگهی فوری و ساخت مزایده</div>
   </section>
 
   @if($done === 'charged')

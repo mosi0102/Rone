@@ -8,19 +8,15 @@
     ['label' => 'محتوا', 'items' => [
       ['admin.listings.index', 'آگهی‌ها', 'list-checks', 'admin.listings.*'],
       ['admin.auctions.index', 'مزایده‌ها', 'gavel', 'admin.auctions.*'],
-      ['admin.requests.index', 'درخواست‌های خرید', 'target', 'admin.requests.*'],
-    ]],
-    ['label' => 'معاملات', 'items' => [
-      ['admin.deposits.index', 'بیعانه‌ها و رزروها', 'shield-check', 'admin.deposits.*'],
-      ['admin.disputes.index', 'اختلاف‌ها', 'alert-triangle', 'admin.disputes.*', 'danger'],
+      ['admin.requests.index', 'درخواست‌های ملک', 'target', 'admin.requests.*'],
     ]],
     ['label' => 'افراد', 'items' => [
       ['admin.users.index', 'کاربران', 'users', 'admin.users.*'],
-      ['admin.dealers.index', 'نمایشگاه‌داران', 'store', 'admin.dealers.*'],
+      ['admin.agencies.index', 'مشاوران املاک', 'store', 'admin.agencies.*'],
     ]],
     ['label' => 'مالی', 'items' => [
       ['admin.finance.index', 'مالی و تراکنش‌ها', 'wallet', 'admin.finance.*'],
-      ['admin.settlements.index', 'تسویه‌ها', 'banknote', 'admin.settlements.*'],
+      ['admin.settlements.index', 'درخواست‌های برداشت', 'banknote', 'admin.settlements.*'],
     ]],
     ['label' => 'ارتباط', 'items' => [
       ['admin.chats.index', 'گفتگوها', 'message', 'admin.chats.*'],

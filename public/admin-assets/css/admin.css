@@ -458,7 +458,7 @@ a.list-row:hover { background: var(--bg); color: inherit; }
 
 .chip-s { display: inline-flex; align-items: center; gap: 6px; padding: 2px 10px; border-radius: var(--r-pill); font-size: 12.5px; font-weight: 700; background: var(--sand); color: var(--ink-2); white-space: nowrap; }
 .chip-s .icon { width: 14px; height: 14px; }
-.chip-s.instant { background: var(--accent-soft); color: var(--warn); } .chip-s.auction { background: var(--info-soft); color: var(--info); }
+.chip-s.instant { background: var(--accent-soft); color: var(--warn); } .chip-s.rent { background: var(--info-soft); color: var(--info); }
 .price-cell b { display: block; font-size: 14px; font-feature-settings: "tnum"; } .price-cell small { color: var(--muted); font-size: 12px; }
 .tbl .form-check-input { margin: 0; }
 .tbl td.td-chk { width: 44px; padding-inline-end: 0; }
@@ -506,8 +506,8 @@ a.list-row:hover { background: var(--bg); color: inherit; }
 .kv li { display: flex; justify-content: space-between; gap: 12px; padding: 10px 0; border-bottom: 1px dashed var(--line); font-size: 14px; }
 .kv li:last-child { border: 0; } .kv li span { color: var(--muted); } .kv li b { text-align: end; }
 
-.dealer-mini { display: flex; align-items: center; gap: 12px; }
-.dealer-mini .thumb { width: 56px; height: 56px; border-radius: 16px; }
+.agency-mini { display: flex; align-items: center; gap: 12px; }
+.agency-mini .thumb { width: 56px; height: 56px; border-radius: 16px; }
 
 .timeline { list-style: none; margin: 0; padding: 0; position: relative; }
 .timeline::before { content: ""; position: absolute; inset-block: 8px; inset-inline-start: 11px; width: 2px; background: var(--line); }
@@ -629,11 +629,11 @@ a.list-row:hover { background: var(--bg); color: inherit; }
 .tbl tr:not([data-status="live"]):not([data-status="scheduled"]) .act-cancel { display: none; }
 
 /* ==========================================================================
-   ۹) صفحه‌ی جزئیات مزایده: پیشنهاد زنده، تاریخچه، تایم‌لاین، وضعیت پرداخت
+   ۹) کارت وضعیت صفحه‌های جزئیات (بیعانه): مبلغ، تایم‌لاین، وضعیت
    ========================================================================== */
-.auction-hero { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 24px; align-items: center; background: linear-gradient(135deg, var(--surface) 55%, var(--sage) 160%); position: relative; overflow: hidden; }
-.auction-hero[data-status="scheduled"] { background: linear-gradient(135deg, var(--surface) 55%, var(--info-soft) 160%); }
-.auction-hero[data-status="awaiting_pay"], .auction-hero[data-status="defaulted"], .auction-hero[data-status="ended"], .auction-hero[data-status="cancelled"] { background: var(--surface); }
+.status-hero { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 24px; align-items: center; background: linear-gradient(135deg, var(--surface) 55%, var(--sage) 160%); position: relative; overflow: hidden; }
+.status-hero[data-status="scheduled"] { background: linear-gradient(135deg, var(--surface) 55%, var(--info-soft) 160%); }
+.status-hero[data-status="awaiting_contract"], .status-hero[data-status="defaulted"], .status-hero[data-status="ended"], .status-hero[data-status="cancelled"] { background: var(--surface); }
 .ah-l { display: block; font-size: 13px; font-weight: 700; color: var(--muted); }
 .ah-v { font-size: clamp(30px, 4.4vw, 48px); font-weight: 800; line-height: 1.25; font-feature-settings: "tnum"; }
 .ah-v small { font-size: 14px; font-weight: 700; color: var(--muted); }
@@ -676,7 +676,7 @@ a.list-row:hover { background: var(--bg); color: inherit; }
 .tl-step.is-fail { color: var(--bad); } .tl-step.is-fail .tl-dot { background: var(--bad); border-color: var(--bad); color: #fff; }
 
 @media (max-width: 767.98px) {
-  .auction-hero { grid-template-columns: 1fr; }
+  .status-hero { grid-template-columns: 1fr; }
   .ah-time { width: 100%; min-width: 0; }
   .bid-row { grid-template-columns: 24px 34px minmax(0, 1fr) auto; gap: 8px; padding: 10px; }
   .bid-row .who small { display: none; }
@@ -706,7 +706,7 @@ a.list-row:hover { background: var(--bg); color: inherit; }
 .chat-bubbles { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
 .cb { max-width: 86%; padding: 10px 14px; border-radius: 16px; background: var(--surface-warm); font-size: 14px; line-height: 1.8; }
 .cb small { display: block; color: var(--muted); font-size: 11.5px; font-weight: 700; }
-.cb.dealer { align-self: flex-end; background: var(--primary-soft); }
+.cb.agency { align-self: flex-end; background: var(--primary-soft); }
 .claim { padding: 16px; border-radius: var(--r-md); background: var(--surface-warm); }
 .claim h3 { font-size: 14px; color: var(--muted); margin-bottom: 6px; } .claim p { margin: 0; line-height: 1.9; }
 .evid { display: flex; flex-wrap: wrap; gap: 10px; } .evid span { width: 110px; height: 80px; border-radius: 12px; background: var(--sand) center/cover no-repeat; }
@@ -720,7 +720,7 @@ a.list-row:hover { background: var(--bg); color: inherit; }
 @media (max-width: 767.98px) { .dep-hero { grid-template-columns: 1fr; } .dep-hero .ah-time { width: 100%; min-width: 0; } .party { grid-template-columns: 1fr; } }
 .cell-main small .tnum { white-space: nowrap; }
 
-/* درصد تطابق درخواست خرید */
+/* درصد تطابق درخواست ملک */
 .match-pill { display: inline-flex; align-items: center; padding: 2px 11px; border-radius: var(--r-pill); font-size: 12.5px; font-weight: 800; background: var(--sand); color: var(--ink-2); white-space: nowrap; }
 .match-pill.ok { background: var(--ok-soft); color: var(--ok); } .match-pill.info { background: var(--info-soft); color: var(--primary); } .match-pill.warn { background: var(--warn-soft); color: var(--warn); }
 .match-meter { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; width: 84px; }
@@ -764,7 +764,7 @@ a.list-row:hover { background: var(--bg); color: inherit; }
 .msgs { list-style: none; margin: 0; padding: 18px; flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
 .msg { max-width: 78%; padding: 10px 14px; border-radius: 16px; background: var(--surface-warm); line-height: 1.9; font-size: 14px; }
 .msg small { display: block; color: var(--muted); font-size: 11.5px; font-weight: 700; }
-.msg.dealer { align-self: flex-end; background: var(--primary-soft); }
+.msg.agency { align-self: flex-end; background: var(--primary-soft); }
 .msg.hit { outline: 2px solid var(--bad); background: var(--bad-soft); }
 .hit-tag { display: flex; align-items: center; gap: 4px; margin-top: 4px; color: var(--bad); font-size: 12px; font-weight: 800; }
 .thread-foot { padding: 10px 18px; border-top: 1px solid var(--line-soft); color: var(--muted); font-size: 12.5px; display: flex; align-items: center; gap: 6px; }

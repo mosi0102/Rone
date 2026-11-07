@@ -47,9 +47,9 @@
   /* ---------- پایان خودکار مزایده‌ی زنده ---------- */
   tickTimer = setInterval(function () {
     if (state !== 'live' || !endsAt || Date.now() < endsAt) return;
-    stopLive(); setStatus('awaiting_pay'); setTimeline(['done', 'done', 'done', 'current', 'wait']);
+    stopLive(); setStatus('awaiting_contract'); setTimeline(['done', 'done', 'done', 'current', 'wait']);
     $('[data-time-label]').text('پایان‌یافته'); $('[data-main-timer]').replaceWith('<div class="ah-t ah-t-sm">پایان یافت</div>');
-    Admin.toast('مزایده به پایان رسید؛ برای دیدن برنده و پرداخت، صفحه را تازه کنید', 'info', 5000);
+    Admin.toast('مزایده به پایان رسید؛ برای دیدن برنده و مهلت قرارداد، صفحه را تازه کنید', 'info', 5000);
   }, 1000);
 
   /* ---------- لغو مزایده ---------- */
@@ -63,7 +63,7 @@
     });
   });
 
-  /* ---------- پرداخت برنده: بن و رفع بن ---------- */
+  /* ---------- قرارداد برنده: بن و رفع بن (عدم مراجعه) ---------- */
   function showPay(name) { $('[data-pay-state]').prop('hidden', true).filter('[data-pay-state="' + name + '"]').prop('hidden', false); }
   $('#banBtn').on('click', function () {
     Admin.askReason('banModal', $('[data-pay-card] .lr-body b').text()).then(function (reason, $m) {

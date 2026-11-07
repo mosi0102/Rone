@@ -9,7 +9,7 @@
 
   <div class="tb-actions">
     <span class="tb-date" data-today></span>
-    <a href="{{ route('admin.disputes.index') }}" class="icon-btn" aria-label="اعلان‌ها"><x-admin.icon name="bell" /><i class="dot"></i></a>
+    <a href="{{ route('admin.auctions.index') }}" class="icon-btn" aria-label="اعلان‌ها"><x-admin.icon name="bell" /><i class="dot"></i></a>
     <div class="dropdown">
       <button class="tb-user" type="button" data-bs-toggle="dropdown" aria-expanded="false">
         <span class="avatar">{{ mb_substr($admin['name'] ?? 'م', 0, 1) }}</span>

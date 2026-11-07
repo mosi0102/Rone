@@ -1,6 +1,6 @@
 @extends('layouts.app')
-@section('title', 'رادار خودرو')
-@section('page_title', 'رادار خودرو')
+@section('title', 'رادار ملک')
+@section('page_title', 'رادار ملک')
 @section('page_subtitle', 'تا وقتی حذف نکنید، برایتان پیدا می‌کند')
 @section('back', route('home'))
 
@@ -9,13 +9,13 @@
 
 @section('content')
 @if(!$auth->check)
-  <x-empty-state icon="sparkles" title="برای استفاده از رادار وارد شوید" text="خودروی دلخواه را ثبت کنید؛ هر آگهی تازه‌ای که شبیهش باشد، با درصد تطابق به شما اطلاع می‌دهیم." action="ورود / ثبت‌نام" :href="route('login', ['next' => url()->current()])" />
+  <x-empty-state icon="sparkles" title="برای استفاده از رادار وارد شوید" text="ملکِ دلخواه را ثبت کنید؛ هر آگهی تازه‌ای که شبیهش باشد، با درصد تطابق به شما اطلاع می‌دهیم." action="ورود / ثبت‌نام" :href="route('login', ['next' => url()->current()])" />
 @else
   <section class="rd-hero">
     <span class="rd-hero-ic"><x-icon name="sparkles" /></span>
     <div>
       <h2>بگویید چه می‌خواهید</h2>
-      <p>مشخصات خودروی دلخواه را ثبت کنید. مشابه‌ها و نزدیک‌ترین‌ها را با درصد تطابق نشان می‌دهیم و اگر آگهی مناسبی بعداً ثبت شود، خبرتان می‌کنیم.</p>
+      <p>مشخصات ملکِ دلخواه را ثبت کنید. مشابه‌ها و نزدیک‌ترین‌ها را با درصد تطابق نشان می‌دهیم و اگر آگهی مناسبی بعداً ثبت شود، خبرتان می‌کنیم.</p>
     </div>
     <a href="{{ route('radar.create') }}" class="btn btn-accent btn-lg"><x-icon name="plus" /> ثبت رادار جدید</a>
   </section>
@@ -32,7 +32,7 @@
       @php $r = $c['r']; $off = $r['status'] !== 'active'; @endphp
       <article class="rd-card {{ $off ? 'is-off' : '' }}" data-radar="{{ $r['id'] }}" data-delete-url="{{ route('radar.destroy', $r['id']) }}">
         <header class="rd-head">
-          <span class="rd-cat"><x-icon :name="['car' => 'car', 'heavy' => 'truck', 'bike' => 'bike', 'bicycle' => 'bicycle'][$r['category']] ?? 'car'" /></span>
+          <span class="rd-cat"><x-icon :name="($icons ?? [])[$r['category']] ?? 'building'" /></span>
           <div class="rd-ttl"><h3>{{ $c['title'] }}</h3><small>ثبت شده {{ $r['created'] }}</small></div>
           @if($off)<span class="badge-s badge-warn">متوقف توسط مدیریت</span>@else<span class="badge-s badge-success"><span class="rd-pulse" aria-hidden="true"></span>فعال</span>@endif
         </header>
@@ -59,7 +59,7 @@
       </article>
     @endforeach
   </div>
-  <div class="{{ count($cards) ? 'd-none' : '' }}" id="rdEmpty"><x-empty-state icon="sparkles" title="هنوز رادار فعالی ندارید" text="خودروی دلخواه را ثبت کنید تا برایتان پیدا کنیم." action="ثبت رادار جدید" :href="route('radar.create')" /></div>
+  <div class="{{ count($cards) ? 'd-none' : '' }}" id="rdEmpty"><x-empty-state icon="sparkles" title="هنوز رادار فعالی ندارید" text="ملکِ دلخواه را ثبت کنید تا برایتان پیدا کنیم." action="ثبت رادار جدید" :href="route('radar.create')" /></div>
 @endif
 
 {{-- تأیید حذف --}}

@@ -7,15 +7,15 @@
 
 {{--
   صفحه کامل جستجو (اسکلت). طرح و داده‌های نهایی بعداً جایگزین می‌شود.
-  ورودی‌ها: $scope (listings|dealers), $city, $cities[], $popular[], $categories[]
+  ورودی‌ها: $scope (listings|agencies), $city, $cities[], $popular[], $categories[]
 --}}
 @section('content')
 <div class="sp">
   <header class="sp-head">
     <a href="{{ url()->previous() === url()->current() ? route('home') : url()->previous() }}" class="icon-btn" aria-label="بازگشت"><x-icon name="arrow-left" flip /></a>
-    <form class="sp-form" action="{{ $scope === 'dealers' ? route('dealers.index') : route('listings.index') }}" role="search" id="spForm">
+    <form class="sp-form" action="{{ $scope === 'agencies' ? route('agencies.index') : route('listings.index') }}" role="search" id="spForm">
       <x-icon name="search" class="sp-ic" />
-      <input type="search" name="q" id="spInput" autocomplete="off" autofocus placeholder="{{ $scope === 'dealers' ? 'جست و جو در نمایشگاه ها' : 'جست و جو در خودروها' }}" enterkeyhint="search">
+      <input type="search" name="q" id="spInput" autocomplete="off" autofocus placeholder="{{ $scope === 'agencies' ? 'جست و جو در آژانس ها' : 'جست و جو در املاک' }}" enterkeyhint="search">
       <button type="button" class="sp-clear" id="spClear" aria-label="پاک کردن" hidden><x-icon name="x" class="icon-sm" /></button>
       <input type="hidden" name="city" id="spCityInput">
     </form>

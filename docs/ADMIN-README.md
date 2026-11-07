@@ -21,10 +21,10 @@
 | داشبورد | `/admin` | `admin.dashboard` |
 | آگهی‌ها | `/admin/listings` | `admin.listings.index` |
 | مزایده‌ها | `/admin/auctions`، `/admin/auctions/{id}` | `admin.auctions.index/show` |
-| درخواست‌های خرید | `/admin/requests`، `/{id}` | `admin.requests.index/show` |
+| درخواست‌های ملک | `/admin/requests`، `/{id}` | `admin.requests.index/show` |
 | بیعانه‌ها | `/admin/deposits`، `/{id}` | `admin.deposits.index/show` |
 | اختلاف‌ها | `/admin/disputes`، `/{id}` | `admin.disputes.index/show` |
-| نمایشگاه‌داران | `/admin/dealers`، `/{id}` | `admin.dealers.index/show` |
+| مشاوران املاک | `/admin/agencies`، `/{id}` | `admin.agencies.index/show` |
 | کاربران | `/admin/users`، `/{id}` | `admin.users.index/show` |
 | مالی | `/admin/finance` | `admin.finance.index` |
 | تسویه‌ها | `/admin/settlements` | `admin.settlements.index` |
@@ -35,13 +35,13 @@
 | گزارش فعالیت | `/admin/logs` | `admin.logs.index` |
 
 ## ساختار داده‌ی هر صفحه
-شکل آرایه‌ها را از closure مربوط در `routes/admin.php` بخوانید: `$auctionData`، `$depositData`، `$disputeData`، `$dealerData`، `$userData`، `$requestData`، `$txData`، `$settleData`، `$chatData`، `$settingsData`، `$catalogData`، `$pageData`، `$logData`. کلیدها همان چیزی است که Blade می‌خواند؛ می‌توانید Eloquent را در همین شکل به Blade بدهید.
+شکل آرایه‌ها را از closure مربوط در `routes/admin.php` بخوانید: `$auctionData`، `$depositData`، `$disputeData`، `$agencyData`، `$userData`، `$requestData`، `$txData`، `$settleData`، `$chatData`، `$settingsData`، `$catalogData`، `$pageData`، `$logData`. کلیدها همان چیزی است که Blade می‌خواند؛ می‌توانید Eloquent را در همین شکل به Blade بدهید.
 - مبلغ‌ها: عدد صحیح تومان. تاریخ‌ها: ISO‌8601؛ نمایش شمسی را `admin.js` انجام می‌دهد (`data-jdate`).
 - لیست‌ها فعلاً کامل رندر و در مرورگر فیلتر می‌شوند (`[data-filterable]`). با داده‌ی زیاد، فیلتر/جستجو را سمت سرور انجام دهید و `<x-admin.pagination>` را با `->links()` عوض کنید (این نقطه‌ها در Blade کامنت شده‌اند).
 
 ## وضعیت‌ها (باید با enum بک‌اند هم‌نام شوند)
 `x-admin.status` و `STATUS` در `admin.js` را همزمان تغییر دهید.
-آگهی: `active pending rejected suspended expired sold` • نوع فروش: `normal instant auction` • مزایده: `live scheduled ended awaiting_pay defaulted cancelled` • بیعانه: `held released refunded dispute` • اختلاف: `open review resolved` • نمایشگاه: `pending verified suspended rejected` • کاربر: `active banned` • تسویه: `unpaid paid rejected` • گفتگو: `normal flagged reviewed`.
+آگهی: `active pending rejected suspended expired sold` • نوع فروش: `normal instant auction` • مزایده: `live scheduled ended awaiting_pay defaulted cancelled` • بیعانه: `held released refunded dispute` • اختلاف: `open review resolved` • آژانس: `pending verified suspended rejected` • کاربر: `active banned` • تسویه: `unpaid paid rejected` • گفتگو: `normal flagged reviewed`.
 
 ## اتصال اقدام‌ها (نقطه‌های اصلی)
 اکنون اقدام‌ها فقط DOM را عوض می‌کنند و toast نشان می‌دهند. برای واقعی‌شدن:
@@ -50,7 +50,7 @@
 - فایل‌ها: `listings.js`، `auctions.js`، `auction-show.js`، `deposits.js`، `disputes.js`، `people.js`، `chats.js`، `catalog.js`، `content.js`، `settings.js`، `requests.js` — هر کدام در بالا توضیح «بک‌اندکار» دارند.
 - مزایده‌ی زنده: در `auction-show.js` بخش «شبیه‌ساز» را حذف و پیام WebSocket/SSE را به `addBid(user, amount)` بدهید.
 - تنظیمات: نام فیلدها (`deposit[car]`، `matching[w][price]`…) ثابت است؛ `action` فرم را وصل کنید.
-- تطابق درخواست‌های خرید و تشخیص شماره/لینک در گفتگو سمت بک‌اند محاسبه شود (قالب فقط نمایش می‌دهد).
+- تطابق درخواست‌های ملک و تشخیص شماره/لینک در گفتگو سمت بک‌اند محاسبه شود (قالب فقط نمایش می‌دهد).
 
 ## API جاوااسکریپت (`window.Admin`)
 `toast(msg, type)` • `confirm({title,text,ok,danger})` • `askReason(modalId, subtitle)` • `statusHtml(status)` • `money(n)` • `toFa(v)` • `jfmt(date, 'date|time')` • `refreshFilterable($root)`.

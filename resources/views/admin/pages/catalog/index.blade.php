@@ -5,7 +5,7 @@
 
 @section('content')
 @php $first = array_key_first($sets); @endphp
-<x-admin.page-head title="داده‌های پایه" subtitle="برند، مدل، شهر و ویژگی‌هایی که در فرم ثبت آگهی و فیلترها استفاده می‌شود">
+<x-admin.page-head title="داده‌های پایه" subtitle="نوع ملک، محله، شهر و ویژگی‌هایی که در فرم ثبت آگهی و فیلترها استفاده می‌شود">
   <button type="button" class="btn btn-ink btn-sm" data-add><x-admin.icon name="plus" class="icon-sm" /> افزودن مورد</button>
 </x-admin.page-head>
 

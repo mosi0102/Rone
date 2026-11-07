@@ -1,11 +1,11 @@
 @extends('admin.layouts.app')
-@section('title', 'درخواست‌های خرید')
+@section('title', 'درخواست‌های ملک')
 
 @push('scripts')<script src="{{ asset('admin-assets/js/requests.js') }}"></script>@endpush
 
 @section('content')
 @php
-  $cats = ['car' => ['سواری', 'car'], 'heavy' => ['سنگین', 'truck'], 'bike' => ['موتور', 'bike'], 'bicycle' => ['دوچرخه', 'bicycle']];
+  $cats = $propertyCats;
   $tabs = ['all' => 'همه', 'active' => 'فعال', 'suspended' => 'تعلیق‌شده', 'cancelled' => 'لغوشده'];
   $counts = array_count_values(array_column($requests, 'status'));
   $withMatch = count(array_filter($requests, fn ($r) => $r['status'] === 'active' && $r['best'] > 0));
@@ -13,7 +13,7 @@
   $pill = fn ($p) => $p >= 85 ? 'ok' : ($p >= 60 ? 'info' : 'warn');
 @endphp
 
-<x-admin.page-head title="درخواست‌های خرید" subtitle="درخواست‌های «این مشخصات را می‌خواهم» که کاربران ثبت کرده‌اند و تطابق آن‌ها با آگهی‌ها" />
+<x-admin.page-head title="درخواست‌های ملک" subtitle="درخواست‌های «این مشخصات را می‌خواهم» که کاربران ثبت کرده‌اند و تطابق آن‌ها با آگهی‌ها" />
 
 <section class="row g-3 mb-3" aria-label="خلاصه‌ی درخواست‌ها">
   <div class="col-6 col-xl-3 rise" style="--d:1"><x-admin.kpi icon="target" tone="sky" label="درخواست فعال" :value="$counts['active'] ?? 0" /></div>
@@ -29,7 +29,7 @@
         <x-admin.icon name="search" />
         <input type="search" data-filter-search placeholder="جستجوی مشخصات، کاربر، شهر یا کد…" aria-label="جستجو در درخواست‌ها" autocomplete="off">
       </div>
-      <div class="seg" role="group" aria-label="دسته‌ی خودرو">
+      <div class="seg" role="group" aria-label="دسته‌ی ملک">
         <button type="button" class="seg-btn active" data-filter="type" data-value="all" aria-pressed="true">همه</button>
         @foreach($cats as $slug => [$label, $icon])
           <button type="button" class="seg-btn" data-filter="type" data-value="{{ $slug }}" aria-pressed="false"><x-admin.icon :name="$icon" class="icon-sm" /> {{ $label }}</button>
@@ -52,7 +52,7 @@
         <thead><tr><th>درخواست</th><th>کاربر</th><th>بودجه</th><th>آگهی‌های مشابه</th><th>ثبت</th><th>وضعیت</th><th></th></tr></thead>
         <tbody>
           @foreach($requests as $r)
-            <tr data-row data-status="{{ $r['status'] }}" data-type="{{ $r['cat'] }}" data-search="{{ $r['summary'] }} {{ $r['model'] }} {{ $r['user']['name'] }} {{ $r['city'] }} {{ $r['code'] }}">
+            <tr data-row data-status="{{ $r['status'] }}" data-type="{{ $r['cat'] }}" data-search="{{ $r['summary'] }} {{ $r['ptype'] }} {{ $r['user']['name'] }} {{ $r['city'] }} {{ $r['code'] }}">
               <td class="td-main">
                 <div class="cell-main">
                   <span class="thumb"><x-admin.icon :name="$cats[$r['cat']][1]" /></span>

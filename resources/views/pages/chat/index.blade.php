@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('title', 'پیام‌ها')
 @section('page_title', 'پیام‌ها')
-@section('page_subtitle', $auth->is_dealer ? 'گفتگو با نمایشگاه‌ها و خریداران' : 'گفتگو با نمایشگاه‌ها')
+@section('page_subtitle', $auth->is_agency ? 'گفتگو با آژانس‌ها و مشتریان' : 'گفتگو با آژانس‌ها')
 @section('back', route('home'))
 
 @push('styles')<link rel="stylesheet" href="{{ asset('css/chat.css') }}">@endpush
@@ -10,7 +10,7 @@
 @if(!$auth->check)
   <x-empty-state icon="message" title="برای دیدن پیام‌ها وارد شوید" action="ورود / ثبت‌نام" :href="route('login', ['next' => url()->current()])" />
 @else
-  <p class="ch-rule"><x-icon name="shield" class="icon-sm" /> برای امنیت شما، تبادل شماره تلفن، آی‌دی و لینک پیش از پرداخت بیعانه ممکن نیست.</p>
+  <p class="ch-rule"><x-icon name="shield" class="icon-sm" /> برای امنیت شما، ارسال لینک و آی‌دی و درخواست واریز در گفتگو ممکن نیست.</p>
   <div class="ch-list">
     @foreach($threads as $t)
       <a href="{{ route('chat.show', $t['id']) }}" class="ch-row {{ $t['unread'] ? 'is-unread' : '' }}">
@@ -24,6 +24,6 @@
       </a>
     @endforeach
   </div>
-  @if(!count($threads))<x-empty-state icon="message" title="هنوز گفتگویی ندارید" text="از صفحه‌ی هر آگهی می‌توانید با نمایشگاه گفتگو کنید." action="مشاهده آگهی‌ها" :href="route('listings.index')" />@endif
+  @if(!count($threads))<x-empty-state icon="message" title="هنوز گفتگویی ندارید" text="از صفحه‌ی هر آگهی می‌توانید با آژانس گفتگو کنید." action="مشاهده آگهی‌ها" :href="route('listings.index')" />@endif
 @endif
 @endsection

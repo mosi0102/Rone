@@ -165,7 +165,7 @@
 
   /* ---------- پایان ورود: رفتن به مقصد ---------- */
   Auth.done = function (next) {
-    Auth.markSeen(); Auth.store.sset('rone_dealer_draft', null);
+    Auth.markSeen(); Auth.store.sset('rone_agency_draft', null);
     var u = new URL(App.safeUrl(next, '/'), location.origin); u.searchParams.set('as', 'user'); location.href = u.toString();
   };
 
@@ -176,7 +176,7 @@
        loginPassword(phone, password) → resolve()                          | reject({message})
        register({phone, first_name, last_name, password})        → resolve()
        resetPassword({phone, password})                          → resolve()
-       registerDealer(FormData)                                  → resolve({ status:'pending' })
+       registerAgency(FormData)                                  → resolve({ status:'pending' })
      نمایش دمو: کد «00000» اشتباه است؛ شماره‌ای که رقم آخرش فرد باشد «کاربر جدید» حساب می‌شود؛
      رمز «Demo1234» برای همه‌ی حساب‌های موجود درست است.
      ========================================================================== */
@@ -187,6 +187,6 @@
     loginPassword: function (phone, pw) { return later(function (d) { +phone.slice(-1) % 2 === 1 ? d.reject({ message: 'حسابی با این شماره پیدا نشد. با کد تأیید ثبت‌نام کنید.' }) : (pw === 'Demo1234' ? d.resolve() : d.reject({ message: 'رمز عبور درست نیست.' })); }); },
     register: function () { return later(function (d) { d.resolve(); }, 900); },
     resetPassword: function () { return later(function (d) { d.resolve(); }, 900); },
-    registerDealer: function () { return later(function (d) { d.resolve({ status: 'pending' }); }, 1400); }
+    registerAgency: function () { return later(function (d) { d.resolve({ status: 'pending' }); }, 1400); }
   };
 })(jQuery);

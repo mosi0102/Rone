@@ -193,3 +193,13 @@
 @media (max-width: 420px) { .kpi-grid.kpi-3 { grid-template-columns: 1fr; } }
 
 .demo-login { display: grid; gap: 8px; margin-top: 18px; padding: 12px; border: 1px dashed #b7cbec; border-radius: 14px; } .demo-login small { color: var(--muted); }
+
+/* امکانات ملک (فرم ثبت آگهی) */
+.amenity-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+@media (min-width: 768px) { .amenity-list { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.amenity { position: relative; cursor: pointer; }
+.amenity input { position: absolute; opacity: 0; pointer-events: none; }
+.amenity span { display: flex; align-items: center; gap: 8px; min-height: 46px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); font-weight: 600; font-size: 14px; transition: border-color var(--t-fast), background var(--t-fast); }
+.amenity input:checked + span { border-color: var(--primary); background: var(--primary-soft); color: var(--primary); }
+.amenity input:focus-visible + span { outline: 2px solid var(--primary); outline-offset: 2px; }
+.seg-3 span { white-space: normal; text-align: center; line-height: 1.4; }

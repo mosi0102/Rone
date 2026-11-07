@@ -1,24 +1,24 @@
 {{--
   کارت مزایده در لیست مزایده‌ها (طبق طرح).
-  $a: id,title,image,category,year,km,extra,dealer(name),verified,status('live'|'scheduled'),start_price,top_bid(nullable),
+  $a: id,title,image,category,area,rooms,year,extra,agency(name),verified,status('live'|'scheduled'),start_price,top_bid(nullable),
       starts_at,ends_at,entry_fee,paid(bool),own(bool)
 --}}
 @props(['a'])
 @php
   $x = (object) $a; $live = $x->status === 'live'; $when = $live ? $x->ends_at : $x->starts_at;
-  $own = $auth->dealer && $auth->dealer->id === ($x->dealer_id ?? 0);   // مزایده خودِ نمایشگاه‌دار
+  $own = $auth->agency && $auth->agency->id === ($x->agency_id ?? 0);   // مزایده خودِ مشاور املاک
   $show = route('auctions.show', $x->id); $entry = route('auctions.entry', $x->id);
 @endphp
 <article class="auc-card" data-cat="{{ $x->category }}" data-status="{{ $x->status }}">
   <a href="{{ $show }}" class="auc-main">
-    <div class="auc-media">@if(!empty($x->image))<img src="{{ $x->image }}" alt="" loading="lazy">@else<x-icon name="car" />@endif</div>
+    <div class="auc-media">@if(!empty($x->image))<img src="{{ $x->image }}" alt="" loading="lazy">@else<x-icon name="building" />@endif</div>
     <div class="auc-info">
       <div class="auc-top">
         <span class="auc-badge {{ $live ? 'live' : 'soon' }}">{{ $live ? 'در حال برگزاری' : 'در انتظار شروع' }}</span>
-        <span class="auc-dealer">@if(!empty($x->verified))<x-icon name="shield" class="icon-sm" />@endif {{ $x->dealer }}</span>
+        <span class="auc-agency">@if(!empty($x->verified))<x-icon name="shield" class="icon-sm" />@endif {{ $x->agency }}</span>
       </div>
       <h3 class="auc-title">{{ $x->title }}</h3>
-      <x-specs class="auc-meta" :year="$x->year ?? null" :km="$x->km ?? null" :extra="$x->extra ?? null" />
+      <x-specs class="auc-meta" :area="$x->area ?? null" :rooms="$x->rooms ?? null" :year="$x->year ?? null" :extra="$x->extra ?? null" />
       <div class="auc-start">قیمت شروع: <x-price :value="$x->start_price" /></div>
     </div>
   </a>

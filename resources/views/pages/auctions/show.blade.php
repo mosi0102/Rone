@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @php
   $a = $auction;
-  $isOwner = $auth->dealer && $auth->dealer->id === $a->dealer['id'];   // صاحب مزایده (نمایشگاه فروشنده)
+  $isOwner = $auth->agency && $auth->agency->id === $a->agency['id'];   // صاحب مزایده (آژانس فروشنده)
   $live = $a->status === 'live'; $sched = $a->status === 'scheduled'; $ended = $a->status === 'ended';
   $paid = !empty($a->paid);                                              // ورودی همین مزایده را پرداخت کرده؟
   $canBid = $live && $paid && !$isOwner && $auth->check;
@@ -20,11 +20,11 @@
 @push('scripts')<script src="{{ asset('js/auction.js') }}"></script>@endpush
 
 @section('content')
-{{-- بنر نمایشگاه فروشنده --}}
-<x-dealer-banner :dealer="$a->dealer" />
+{{-- بنر آژانس فروشنده --}}
+<x-agency-banner :agency="$a->agency" />
 
 <div class="au-grid">
-  {{-- ===== ستون چپ/بالا: خودرو ===== --}}
+  {{-- ===== ستون چپ/بالا: ملک ===== --}}
   <div class="au-left">
     <x-gallery :images="$a->images" />
 
@@ -34,8 +34,8 @@
     </div>
 
     <a href="{{ $a->listing_url }}" class="car-link">
-      <span class="cl-ic"><x-icon name="car" /></span>
-      <div><b>مشاهده اطلاعات کامل خودرو</b><span>رفتن به آگهی خودرو <x-icon name="arrow-left" class="icon-sm" /></span></div>
+      <span class="cl-ic"><x-icon name="building" /></span>
+      <div><b>مشاهده اطلاعات کامل ملک</b><span>رفتن به آگهی ملک <x-icon name="arrow-left" class="icon-sm" /></span></div>
     </a>
   </div>
 
@@ -43,7 +43,7 @@
   <div class="au-right">
 
     @if($isOwner)
-      <div class="owner-banner"><x-icon name="store" class="icon-sm" /> این مزایده متعلق به نمایشگاه شماست؛ شما نمی‌توانید پیشنهاد بدهید.</div>
+      <div class="owner-banner"><x-icon name="store" class="icon-sm" /> این مزایده متعلق به آژانس شماست؛ شما نمی‌توانید پیشنهاد بدهید.</div>
     @endif
 
     {{-- شمارنده --}}
@@ -68,7 +68,7 @@
             <a href="{{ route('auctions.create', ['edit' => $a->id]) }}" class="btn btn-primary"><x-icon name="pencil" class="icon-sm" /> ویرایش مزایده</a>
             <button type="button" class="btn btn-soft op-danger" data-bs-toggle="offcanvas" data-bs-target="#cancelSheet"><x-icon name="x-circle" class="icon-sm" /> لغو مزایده</button>
           @endif
-          <a href="{{ route('listings.edit', $a->listing_id) }}" class="btn btn-outline-primary"><x-icon name="car" class="icon-sm" /> مدیریت آگهی خودرو</a>
+          <a href="{{ route('listings.edit', $a->listing_id) }}" class="btn btn-outline-primary"><x-icon name="building" class="icon-sm" /> مدیریت آگهی ملک</a>
         </div>
       </section>
       @if($live || $ended)<x-bid-list :bids="collect($a->bids)->map(fn ($b) => array_merge($b, ['mine' => false, 'user' => !empty($b['mine']) ? 'کاربر ۱۸۰۰۰' : $b['user']]))->all()" />@endif
@@ -149,7 +149,7 @@
 
       <section class="note-card">
         <span class="nc-ic"><x-icon name="shield" /></span>
-        <div><h3>پس از برنده‌شدن، مسیر امانی ادامه دارد</h3><p>ثبت پیشنهاد یا پرداخت ورودی، تماس مستقیم با نمایشگاه را فعال نمی‌کند. ادامهٔ خرید با بیعانهٔ امانی و هماهنگی از طریق پلتفرم خواهد بود.</p></div>
+        <div><h3>پس از برنده‌شدن، قرارداد در آژانس</h3><p>سایت پول ملک را دریافت نمی‌کند. پس از پایان مزایده، اطلاعات تماس آژانس برای برنده فعال می‌شود و قرارداد با مالک، در آژانس و با کد رهگیری تنظیم می‌شود.</p></div>
       </section>
 
     {{-- ====== پایان‌یافته ====== --}}
@@ -159,9 +159,10 @@
         <h2>مزایده پایان یافت</h2>
         <p class="rc-sub">بالاترین پیشنهاد: <b><x-price :value="$a->top_bid" /></b> • <span data-fa>{{ $a->bids_count }}</span> پیشنهاد</p>
         @if(!empty($a->won))
-          <div class="rc-win"><b>تبریک! شما برنده شدید</b><p>برای نهایی‌شدن خرید، در مهلت زیر بیعانهٔ امانی را بپردازید؛ در غیر این صورت مدتی از شرکت در مزایده‌ها محروم می‌شوید.</p></div>
-          <x-countdown-card :end="$a->deposit_deadline" title="مهلت پرداخت بیعانه" tone="blue" date-label="تا:" :window="0" />
-          <a href="{{ $a->listing_url }}" class="btn btn-primary btn-lg w-100"><x-icon name="shield" /> پرداخت بیعانه</a>
+          <div class="rc-win"><b>تبریک! شما برنده شدید</b><p>برای نهایی‌شدن خرید، در مهلت زیر به آژانس مراجعه و قرارداد را تنظیم کنید؛ در غیر این صورت مدتی از شرکت در مزایده‌ها محروم می‌شوید.</p></div>
+          <x-countdown-card :end="$a->contract_deadline" title="مهلت مراجعه برای قرارداد" tone="blue" date-label="تا:" :window="0" />
+          <a href="tel:{{ $a->agency['phone'] ?? '' }}" class="btn btn-primary btn-lg w-100"><x-icon name="phone" /> تماس با {{ $a->agency_name }}: <span class="ltr d-inline-block">{{ $a->agency['phone'] ?? '' }}</span></a>
+          <a href="{{ route('chat.start', ['listing' => $a->listing_id]) }}" class="btn btn-outline-primary btn-lg w-100 mt-2"><x-icon name="message" /> گفتگو با آژانس</a>
         @elseif($paid)
           <p class="text-muted-s mb-0">برندهٔ این مزایده کاربر دیگری بود. از شرکت شما سپاسگزاریم.</p>
         @else
@@ -180,7 +181,7 @@
   <div class="offcanvas-header"><h5 class="offcanvas-title" id="bidConfirmTitle">تأیید پیشنهاد</h5><button type="button" class="btn-close ms-0 me-auto" data-bs-dismiss="offcanvas" aria-label="بستن"></button></div>
   <div class="offcanvas-body pt-0">
     <p class="mb-2">پیشنهاد شما: <b class="fs-5 text-primary" id="confirmAmt"></b> تومان</p>
-    <p class="small text-muted-s">پیشنهاد ثبت‌شده قابل پس‌گرفتن نیست. در صورت برنده‌شدن باید بیعانهٔ امانی را در مهلت مقرر بپردازید.</p>
+    <p class="small text-muted-s">پیشنهاد ثبت‌شده قابل پس‌گرفتن نیست. در صورت برنده‌شدن باید در مهلت مقرر برای قرارداد به آژانس مراجعه کنید.</p>
     <button type="button" class="btn btn-primary btn-lg w-100" id="bidConfirmBtn">بله، ثبت کن</button>
     <button type="button" class="btn btn-soft btn-lg w-100 mt-2" data-bs-dismiss="offcanvas">انصراف</button>
   </div>

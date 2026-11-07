@@ -19,17 +19,10 @@
   .hero-text { inset-inline-start: 56px; font-size: 40px; }
 }
 
-/* کارت مزایده */
-.auction-card { margin-top: 24px; padding: 20px 16px 16px; }
-.ac-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 16px; }
-.ac-head h2 { margin: 0; font-size: 21px; }
+/* شمارنده و دکمه‌ی پهن */
 .count-pill { padding: 3px 14px; border-radius: var(--r-pill); background: var(--primary-soft); color: var(--primary); font-weight: 800; font-size: 13px; white-space: nowrap; }
-.ac-list { display: grid; gap: 14px; margin-bottom: 16px; }
 .btn-block-lg { width: 100%; padding-block: .9rem; font-size: 16px; }
 
-.auction-row { display: block; padding: 12px; border: 1px solid #d5e1f5; border-radius: 16px; background: #f6f9fe; color: inherit; transition: border-color var(--t-fast), background var(--t-fast); }
-.auction-row:hover { color: inherit; border-color: #a9c0e6; }
-.auction-row:active { background: #eef4fc; }
 .ar-main { display: flex; gap: 14px; }
 .ar-media { flex: 0 0 92px; height: 92px; border-radius: 12px; overflow: hidden; background: #dbe4f3; display: grid; place-items: center; color: #8ea0c0; }
 .ar-media img { width: 100%; height: 100%; object-fit: cover; }
@@ -39,4 +32,17 @@
 .ar-price { color: var(--primary); font-weight: 900; font-size: 17px; white-space: nowrap; }
 .ar-price small { font-size: 12.5px; font-weight: 700; }
 .ar-timer { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 12px; padding: 8px 12px; border: 1px solid #d5e1f5; border-radius: 12px; background: #fff; font-weight: 800; font-size: 14px; color: var(--primary); }
+
+/* کارت مزایده (صفحه‌ی خانه) */
+.auction-card { margin-top: 24px; padding: 20px 16px 16px; }
+.ac-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 16px; }
+.ac-head h2 { margin: 0; font-size: 21px; }
+.ac-list { display: grid; gap: 14px; margin-bottom: 16px; }
+.auction-row { display: block; padding: 12px; border: 1px solid #d5e1f5; border-radius: 16px; background: #f6f9fe; color: inherit; transition: border-color var(--t-fast), background var(--t-fast); }
+.auction-row:hover { color: inherit; border-color: #a9c0e6; }
+.auction-row:active { background: #eef4fc; }
 @media (min-width: 992px) { .auction-card { padding: 24px; } .ac-list { grid-template-columns: repeat(2, 1fr); } }
+
+/* کارت «مشاهده روی نقشه» */
+.map-cta { margin-bottom: 12px; }
+.map-cta .rd-cta-ic { background: var(--primary-soft); color: var(--primary); }

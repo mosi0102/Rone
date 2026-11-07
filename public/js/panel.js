@@ -1,4 +1,4 @@
-/* panel.js — ابزارهای پنل نمایشگاه‌دار و فرم‌ها (jQuery)
+/* panel.js — ابزارهای پنل مشاور املاک و فرم‌ها (jQuery)
    تب‌ها، پیش‌نمایش فایل، ورودی قیمت با حروف، آپلودر تصاویر، پیش‌نمایش تاریخ شمسی، ویزارد. */
 (function ($) {
   'use strict';
@@ -133,13 +133,16 @@
 })(jQuery);
 
 
-/* فرم آگهی: نمایش فیلدهای مخصوص هر دسته (سوخت/گیربکس برای دوچرخه پنهان؛ نوع و سایز طوقه فقط دوچرخه) */
+/* فرم آگهی: نمایش فیلدهای مخصوص هر دسته (data-cats؛ مثلاً اجاره‌ی ماهانه فقط برای اجاره‌ها، مرحله‌ی ساخت فقط پروژه‌ها) */
 (function ($) {
   'use strict';
   var $f = $('#listingForm'); if (!$f.length) return;
   function sync() {
-    var cat = $f.find('[name=category]:checked').val() || 'car';
+    var cat = $f.find('[name=category]:checked').val() || 'sale_res';
     $f.find('[data-cats]').each(function () { var on = ($(this).data('cats') + '').split(',').indexOf(cat) > -1; $(this).prop('hidden', !on); });
+    /* مزایده فقط برای آگهی‌های فروش؛ با تغییر دسته به «معمولی» برمی‌گردد */
+    var $auc = $f.find('input[name=sale_type][value=auction]');
+    if ($auc.prop('checked') && $auc.closest('[data-cats]').prop('hidden')) $f.find('input[name=sale_type][value=normal]').prop('checked', true).trigger('change');
   }
   $f.on('change', '[name=category]', sync); sync();
 })(jQuery);

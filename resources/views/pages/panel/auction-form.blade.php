@@ -10,8 +10,8 @@
 @push('scripts')<script src="{{ asset('js/panel.js') }}"></script>@endpush
 
 @section('content')
-@unless($auth->is_dealer)
-  <x-empty-state icon="store" title="ساخت مزایده فقط برای نمایشگاه‌داران است" text="کاربران عادی می‌توانند در مزایده‌ها شرکت کنند و پیشنهاد بدهند." action="ثبت‌نام نمایشگاه" :href="route('dealer.join')" />
+@unless($auth->is_agency)
+  <x-empty-state icon="store" title="ساخت مزایده فقط برای مشاوران املاک است" text="کاربران عادی می‌توانند در مزایده‌ها شرکت کنند و پیشنهاد بدهند." action="ثبت‌نام آژانس" :href="route('agency.join')" />
 @else
 <form id="auctionForm" class="form-sections" onsubmit="return false" novalidate>
 
@@ -23,7 +23,7 @@
           <input type="radio" name="listing" value="{{ $l['id'] }}" data-price="{{ $l['price'] }}" {{ (string) $selected === (string) $l['id'] || ($loop->first && !$selected) ? 'checked' : '' }}>
           <span class="pk-body">
             <img src="{{ $l['image'] }}" alt="">
-            <span class="pk-t"><b>{{ $l['title'] }}</b><small><x-specs :year="$l['year']" :km="$l['km']" /></small><small>قیمت آگهی: <x-price :value="$l['price']" /></small></span>
+            <span class="pk-t"><b>{{ $l['title'] }}</b><small><x-specs :area="$l['area']" :rooms="$l['rooms']" :year="$l['year']" /></small><small>قیمت آگهی: <x-price :value="$l['price']" /></small></span>
             <span class="pk-ck"><x-icon name="check" class="icon-sm" /></span>
           </span>
         </label>
@@ -48,7 +48,7 @@
       <div>
         <label class="form-label" for="entryFee">ورودی مزایده (تومان)</label>
         <input class="form-control ltr" id="entryFee" inputmode="numeric" data-money-input data-words="#entryWords" value="۵۰٬۰۰۰">
-        <div class="form-text" id="entryWords">هر شرکت‌کننده برای ورود این مبلغ را می‌پردازد (جزو قیمت خودرو نیست).</div>
+        <div class="form-text" id="entryWords">هر شرکت‌کننده برای ورود این مبلغ را می‌پردازد (جزو قیمت ملک نیست).</div>
       </div>
     </div>
   </section>

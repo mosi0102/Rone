@@ -19,24 +19,24 @@
     <div class="ec-body">
       <span class="auc-badge {{ $live ? 'live' : 'soon' }}">{{ $live ? 'در حال برگزاری' : 'در انتظار شروع' }}</span>
       <h3>{{ $a->title }}</h3>
-      <x-specs class="auc-meta" :year="$a->year" :km="$a->km" :extra="$a->extra" />
-      <span class="auc-dealer">@if($a->dealer['verified'])<x-icon name="shield" class="icon-sm" />@endif {{ $a->dealer['name'] }}</span>
+      <x-specs class="auc-meta" :area="$a->area ?? null" :rooms="$a->rooms ?? null" :year="$a->year ?? null" :extra="$a->extra" />
+      <span class="auc-agency">@if($a->agency['verified'])<x-icon name="shield" class="icon-sm" />@endif {{ $a->agency['name'] }}</span>
     </div>
   </section>
 
   <section class="card-s pad entry-sum">
     <h2>خلاصهٔ سفارش</h2>
-    <div class="kv"><span class="kv-k">خودرو</span><span class="kv-v">{{ $a->title }}</span></div>
+    <div class="kv"><span class="kv-k">ملک</span><span class="kv-v">{{ $a->title }}</span></div>
     <div class="kv"><span class="kv-k">{{ $live ? 'پایان مزایده' : 'شروع مزایده' }}</span><span class="kv-v" data-jfmt="datetime" data-jdate="{{ \Illuminate\Support\Carbon::parse($live ? $a->ends_at : $a->starts_at)->toIso8601String() }}"></span></div>
     <div class="kv"><span class="kv-k">قیمت شروع • نمونه</span><span class="kv-v"><x-price :value="$a->start_price" /></span></div>
-    <p class="es-note">قیمت شروع صرفاً برای اطلاع است؛ اکنون بهای خودرو پرداخت نمی‌شود.</p>
+    <p class="es-note">قیمت شروع صرفاً برای اطلاع است؛ اکنون بهای ملک پرداخت نمی‌شود.</p>
     <div class="es-total"><span>هزینهٔ ورود مزایده</span><b><x-price :value="$fee" /></b></div>
   </section>
 
   <section class="card-s pad entry-scope">
     <h2>دسترسی محدود به همین مزایده</h2>
     <p>پرداخت موفق امکان شرکت در مزایدهٔ آگهی <span data-fa>{{ $a->listing_id }}</span> را فراهم می‌کند؛ برای سایر مزایده‌ها ورودی جداگانه لازم است.</p>
-    <p class="es-red">این هزینه، قیمت خرید یا بیعانهٔ امانی نیست.</p>
+    <p class="es-red">این هزینه، بخشی از قیمت ملک نیست؛ پرداخت بهای ملک فقط در آژانس و با قرارداد انجام می‌شود.</p>
   </section>
 
   <section class="warn-card">
@@ -77,8 +77,8 @@
   <div class="offcanvas-body pt-0">
     <ul class="ps-3 d-grid gap-2 mb-3">
       <li>هزینهٔ ورود فقط برای همین مزایده است و بابت خدمات برگزاری دریافت می‌شود.</li>
-      <li>این مبلغ جزو قیمت خودرو یا بیعانه نیست و پس از پرداخت قابل بازگشت نیست؛ مگر مزایده توسط نمایشگاه لغو شود.</li>
-      <li>برنده مزایده باید در مهلت مقرر بیعانهٔ امانی را بپردازد؛ در غیر این صورت مدتی از شرکت در مزایده‌ها محروم می‌شود.</li>
+      <li>این مبلغ جزو قیمت ملک نیست و پس از پرداخت قابل بازگشت نیست؛ مگر مزایده توسط آژانس لغو شود.</li>
+      <li>برنده مزایده باید در مهلت مقرر برای تنظیم قرارداد به آژانس مراجعه کند؛ در غیر این صورت مدتی از شرکت در مزایده‌ها محروم می‌شود.</li>
     </ul>
     <button class="btn btn-primary w-100" data-bs-dismiss="offcanvas">متوجه شدم</button>
   </div>

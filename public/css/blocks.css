@@ -3,9 +3,10 @@
 @keyframes goRing { 0% { transform: scale(1); opacity: .5; } 70%, 100% { transform: scale(1.5); opacity: 0; } }
 
 /* دسته‌بندی */
-.cat-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin-top: 16px; }
-@media (max-width: 359px) { .cat-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-.cat-card { white-space: nowrap; display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 16px 6px 14px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg); box-shadow: var(--shadow-1); color: var(--ink); font-weight: 800; transition: transform var(--t-med) var(--ease), box-shadow var(--t-med), border-color var(--t-med); font-size: 13.5px; }
+.cat-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin-top: 16px; }
+@media (min-width: 992px) { .cat-grid { grid-template-columns: repeat(6, minmax(0, 1fr)); } }
+@media (max-width: 339px) { .cat-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.cat-card { white-space: normal; text-align: center; line-height: 1.5; display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 16px 6px 14px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg); box-shadow: var(--shadow-1); color: var(--ink); font-weight: 800; transition: transform var(--t-med) var(--ease), box-shadow var(--t-med), border-color var(--t-med); font-size: 13.5px; }
 .cat-card:hover { color: var(--ink); transform: translateY(-3px); box-shadow: var(--shadow-2); border-color: #b7cbec; }
 .cat-card:active { transform: scale(.96); }
 /* دعوت به رادار خودرو (صفحه‌ی اول) */
@@ -38,24 +39,23 @@
 .lr-meta { font-size: 13px; color: var(--muted); }
 .lr-price { margin-top: 4px; color: var(--primary); font-size: 18px; font-weight: 900; }
 .lr-price small { font-size: 12px; font-weight: 700; }
-.lr-dealer { display: inline-flex; align-items: center; gap: 6px; margin-top: 4px; font-size: 13px; color: var(--ink-2); }
-.lr-dealer .icon { color: var(--primary); }
+.lr-agency { display: inline-flex; align-items: center; gap: 6px; margin-top: 4px; font-size: 13px; color: var(--ink-2); }
+.lr-agency .icon { color: var(--primary); }
 .lr-media { position: relative; flex: 0 0 142px; background: #dbe4f3; display: grid; place-items: center; color: #8ea0c0; overflow: hidden; }
 .lr-media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform .6s var(--ease); }
 .listing-row:hover .lr-media img { transform: scale(1.06); }
 .lr-tag { position: absolute; top: 8px; inset-inline-start: 8px; width: 28px; height: 28px; border-radius: 9px; display: grid; place-items: center; background: var(--accent); color: #0e1a36; box-shadow: var(--shadow-1); }
 .lr-tag .icon { fill: currentColor; width: 15px; height: 15px; }
-.lr-tag-auction { background: var(--primary); color: #fff; } .lr-tag-auction .icon { fill: none; }
 .lr-more { margin-top: 16px; }
 
 /* دعوت به همکاری نمایشگاه‌داران */
-.dealer-cta { margin-top: 24px; display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 18px 18px; border-radius: var(--r-lg); background: var(--primary-soft); border: 1px solid #d3e0f6; }
-.dealer-cta h3 { margin: 0 0 2px; font-size: 16px; }
-.dealer-cta p { margin: 0; font-size: 13px; color: var(--ink-2); }
-.dealer-cta .cta-link { display: inline-flex; align-items: center; gap: 6px; flex-shrink: 0; font-weight: 800; color: var(--primary); font-size: 13.5px; white-space: nowrap; }
-.dealer-cta .cta-link .icon { transition: transform var(--t-med) var(--ease); }
-.dealer-cta:hover .cta-link .icon { transform: translateX(-5px); }
-@media (max-width: 420px) { .dealer-cta { flex-direction: column; align-items: flex-start; } }
+.agency-cta { margin-top: 24px; display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 18px 18px; border-radius: var(--r-lg); background: var(--primary-soft); border: 1px solid #d3e0f6; }
+.agency-cta h3 { margin: 0 0 2px; font-size: 16px; }
+.agency-cta p { margin: 0; font-size: 13px; color: var(--ink-2); }
+.agency-cta .cta-link { display: inline-flex; align-items: center; gap: 6px; flex-shrink: 0; font-weight: 800; color: var(--primary); font-size: 13.5px; white-space: nowrap; }
+.agency-cta .cta-link .icon { transition: transform var(--t-med) var(--ease); }
+.agency-cta:hover .cta-link .icon { transform: translateX(-5px); }
+@media (max-width: 420px) { .agency-cta { flex-direction: column; align-items: flex-start; } }
 
 /* شیت انتخاب شهر */
 .city-list { max-height: 46dvh; overflow-y: auto; margin: 10px -4px 0; }
@@ -89,12 +89,12 @@
 .stat-box span { font-size: 12px; color: var(--muted); }
 
 /* ---------- کارت نمایشگاه ویژه ---------- */
-.dealer-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg); box-shadow: var(--shadow-1); overflow: hidden; height: 100%; transition: transform var(--t-med) var(--ease), box-shadow var(--t-med); }
-.dealer-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-2); }
+.agency-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg); box-shadow: var(--shadow-1); overflow: hidden; height: 100%; transition: transform var(--t-med) var(--ease), box-shadow var(--t-med); }
+.agency-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-2); }
 .dc-link { display: block; color: inherit; } .dc-link:hover { color: inherit; }
 .dc-media { position: relative; aspect-ratio: 2 / 1; background: linear-gradient(135deg, #dbe4f3, #b9c7df); overflow: hidden; display: grid; place-items: center; color: #8ea0c0; }
 .dc-media img { width: 100%; height: 100%; object-fit: cover; transition: transform .7s var(--ease); }
-.dealer-card:hover .dc-media img { transform: scale(1.05); }
+.agency-card:hover .dc-media img { transform: scale(1.05); }
 .dc-flash, .dc-verified { position: absolute; top: 12px; display: inline-flex; align-items: center; gap: 5px; padding: 4px 12px; border-radius: var(--r-pill); font-weight: 800; font-size: 12px; box-shadow: var(--shadow-1); }
 .dc-flash { inset-inline-start: 12px; background: #fff; color: var(--primary); border: 1px solid #c9d6ee; }
 .dc-flash .icon { fill: none; }
@@ -105,10 +105,10 @@
 .dc-mgr { font-size: 12.5px; color: var(--muted); }
 .dc-addr { margin: 4px 0 12px; font-size: 13px; color: var(--ink-2); }
 
-.dealer-row .lr-link { min-height: 140px; }
+.agency-row .lr-link { min-height: 140px; }
 .dr-more { display: inline-flex; align-items: center; gap: 4px; margin-top: 4px; color: var(--primary); font-weight: 800; font-size: 13px; }
 .dr-more .icon { transition: transform var(--t-med) var(--ease); }
-.dealer-row:hover .dr-more .icon { transform: translateX(-4px); }
+.agency-row:hover .dr-more .icon { transform: translateX(-4px); }
 
 /* ---------- بیعانه امانی ---------- */
 .deposit-info { padding: 18px 16px; }
@@ -217,8 +217,8 @@
 .fl-body:hover { color: inherit; }
 .fl-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
 .fl-title { margin: 0; font-size: 19px; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.fl-dealer { display: inline-flex; align-items: center; gap: 6px; flex-shrink: 0; font-size: 13.5px; color: var(--ink-2); }
-.fl-dealer .icon { color: var(--primary); }
+.fl-agency { display: inline-flex; align-items: center; gap: 6px; flex-shrink: 0; font-size: 13.5px; color: var(--ink-2); }
+.fl-agency .icon { color: var(--primary); }
 .fl-meta { display: block; margin-top: 2px; font-size: 14px; color: var(--muted); }
 .fl-prices { margin-top: 8px; }
 .fl-price { color: var(--primary); font-size: 22px; font-weight: 900; line-height: 1.5; }
@@ -282,3 +282,13 @@
 .um-dot { display: inline-block; width: 8px; height: 8px; margin-inline-start: 4px; border-radius: 50%; background: var(--accent); vertical-align: middle; }
 .verify-strip { display: flex; align-items: center; gap: 10px; margin: 0 0 14px; padding: 10px 14px; border-radius: var(--r-md); background: var(--warn-soft); color: #7a4a00; font-size: 13.5px; font-weight: 600; text-decoration: none; }
 .verify-strip svg { flex: none; } .verify-strip b { margin-inline-start: auto; color: var(--primary); white-space: nowrap; }
+
+.lr-tag-auction { background: var(--primary); color: #fff; } .lr-tag-auction .icon { fill: none; }
+
+/* قیمت آگهی ملک (x-listing-price): قیمت کل / رهن + اجاره / هر شب / هر متر */
+.lp { display: inline-flex; flex-wrap: wrap; align-items: baseline; gap: 2px 10px; }
+.lp-part { white-space: nowrap; }
+.lp-l { font-size: .78em; font-weight: 700; color: var(--muted); }
+/* فیلد تیک‌دار فرم فیلتر (پارکینگ، آسانسور، انباری) */
+.ff-check { display: flex; align-items: center; gap: 8px; min-height: 44px; padding: 8px 12px; border: 1px solid var(--line); border-radius: 12px; cursor: pointer; font-weight: 600; }
+.ff-check input { width: 18px; height: 18px; accent-color: var(--primary); }

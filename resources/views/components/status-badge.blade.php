@@ -3,7 +3,7 @@
 @php
   $map = [
     'active' => ['badge-success', 'فعال'], 'draft' => ['', 'پیش‌نویس'], 'expired' => ['badge-danger', 'منقضی'],
-    'auction' => ['badge-primary', 'در مزایده'], 'sold' => ['badge-info', 'فروخته شد'],
+    'auction' => ['badge-primary', 'در مزایده'], 'sold' => ['badge-info', 'معامله شد'],
     'live' => ['badge-danger', 'در حال برگزاری'], 'scheduled' => ['badge-info', 'زمان‌بندی‌شده'], 'ended' => ['', 'پایان‌یافته'],
     'pending' => ['badge-warn', 'در انتظار بررسی'],
   ];

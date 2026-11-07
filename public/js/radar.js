@@ -1,8 +1,8 @@
 /* ==========================================================================
-   radar.js — رادار خودرو
-   ۱) فرم ثبت (create): دسته ← برند ← مدل، فیلدهای هر دسته، پیش‌نمایش زنده با درصد تطابق، ثبت
+   radar.js — رادار ملک
+   ۱) فرم ثبت (create): دسته ← نوع ملک، شهر ← محله، فیلدهای هر دسته، پیش‌نمایش زنده با درصد تطابق، ثبت
    ۲) لیست/نمایش (index/show): حذف با تأیید، فیلتر «تطابق بالا»
-   ۳) پنل نمایشگاه‌دار (panel/radar): فیلتر/مرتب‌سازی سمت کلاینت + پیشنهاد آگهی
+   ۳) پنل مشاور املاک (panel/radar): فیلتر/مرتب‌سازی سمت کلاینت + پیشنهاد آگهی
    بک‌اند: GET data-preview-url (پارامترهای فرم) → {count,best,top[]} ؛ POST data-store-url → {id,url} ؛ DELETE data-delete-url ؛ POST data-url (پیشنهاد)
    ========================================================================== */
 (function ($) {
@@ -17,23 +17,23 @@
   /* ---------------- ۱) فرم ثبت ---------------- */
   var $f = $('#radarForm');
   if ($f.length) (function () {
-    var cfg = $f.data('config') || {}, $brand = $('#rBrand'), $model = $('#rModel'), timer, xhr;
-    function cat() { return $f.find('[name=category]:checked').val() || 'car'; }
+    var cfg = $f.data('config') || {}, $type = $('#rType'), $city = $('#rCity'), $district = $('#rDistrict'), timer, xhr;
+    function cat() { return $f.find('[name=category]:checked').val() || ''; }
     function fill($s, items, first) { $s.empty().append($('<option value="">').text(first)); items.forEach(function (x) { $s.append($('<option>').text(x)); }); }
-    function brands() { return (cfg.brands || {})[cat()] || {}; }
     function refill() {
-      fill($brand, Object.keys(brands()), 'هر برند'); fill($model, [], 'هر مدل'); $model.prop('disabled', true);
+      fill($type, (cfg.types || {})[cat()] || [], 'هر نوع');
+      $('#rPriceLabel').text((cfg.priceLabels || {})[cat()] || 'قیمت');
       $f.find('[data-cats]').each(function () {
         var cats = String($(this).data('cats') || ''), on = !cats || cats.split(',').indexOf(cat()) > -1;
-        $(this).prop('hidden', !on); if (!on) $(this).find('select,input').val('');
+        $(this).prop('hidden', !on); if (!on) { $(this).find('select,input:not([type=checkbox])').val(''); $(this).find('input[type=checkbox]').prop('checked', false); }
       });
     }
     $f.on('change', '[name=category]', function () { refill(); preview(); });
-    $brand.on('change', function () { var m = brands()[$brand.val()] || []; fill($model, m, 'هر مدل'); $model.prop('disabled', !$brand.val()); });
+    $city.on('change', function () { fill($district, (cfg.districts || {})[$city.val()] || [], 'هر محله'); $district.prop('disabled', !$city.val()); });
     $f.on('input', '[data-money-field]', function () { var d = digits(this.value); this.value = d ? App.money(d) : ''; });
 
     function params() {
-      var p = {}; $f.serializeArray().forEach(function (x) { var v = $.trim(x.value); if (!v) return; p[x.name] = /price_max|km_max/.test(x.name) ? digits(v) : v; });
+      var p = {}; $f.serializeArray().forEach(function (x) { var v = $.trim(x.value); if (!v) return; p[x.name] = /price_max|rent_max|area_min/.test(x.name) ? digits(v) : v; });
       return p;
     }
     /* پیش‌نمایش زنده */
@@ -81,7 +81,7 @@
     $('#rdNone').toggleClass('d-none', n > 0);
   });
 
-  /* ---------------- ۳) پنل نمایشگاه‌دار ---------------- */
+  /* ---------------- ۳) پنل مشاور املاک ---------------- */
   var $list = $('#rdBuyer');
   if ($list.length) (function () {
     var state = { cat: 'all', city: '', sort: 'new', mine: false };
@@ -100,9 +100,9 @@
     $('#fSort').on('change', function () { state.sort = this.value; apply(); });
     $('#fMine').on('change', function () { state.mine = this.checked; apply(); });
     $list.on('click', '[data-offer]', function () {
-      var $b = $(this); if (!window.confirm('«' + $b.data('title') + '» برای این خریدار پیشنهاد شود؟')) return; App.loading($b);
+      var $b = $(this); if (!window.confirm('«' + $b.data('title') + '» برای این مشتری پیشنهاد شود؟')) return; App.loading($b);
       ajax('POST', $b.data('url')).done(function () {
-        $b.replaceWith('<button type="button" class="btn btn-soft w-100" disabled>پیشنهاد ارسال شد ✓</button>'); App.toast('پیشنهاد برای خریدار ارسال شد', 'success');
+        $b.replaceWith('<button type="button" class="btn btn-soft w-100" disabled>پیشنهاد ارسال شد ✓</button>'); App.toast('پیشنهاد برای مشتری ارسال شد', 'success');
       }).fail(function () { App.toast('ارسال ناموفق بود', 'error'); App.loading($b, false); });
     });
     apply();

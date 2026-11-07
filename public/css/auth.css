@@ -33,10 +33,10 @@ fieldset.fld legend { float: none; width: auto; padding: 0; }
 .auth-check .form-check-input { float: none; margin: 3px 0 0; flex: none; }
 .auth-alt { display: grid; gap: 10px; margin-top: 16px; padding-top: 16px; border-top: 1px dashed var(--line); }
 .auth-alt .btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
-.auth-dealer { display: flex; align-items: center; gap: 10px; padding: 12px 14px; border-radius: 14px; background: #fff7e6; color: var(--ink); text-decoration: none; font-size: .85rem; border: 1px solid #fde4b0; }
-.auth-dealer span { flex: 1; }
-.auth-dealer svg { width: 20px; height: 20px; flex: none; color: #b45309; }
-.auth-dealer:hover { background: #fff1d1; }
+.auth-agency { display: flex; align-items: center; gap: 10px; padding: 12px 14px; border-radius: 14px; background: #fff7e6; color: var(--ink); text-decoration: none; font-size: .85rem; border: 1px solid #fde4b0; }
+.auth-agency span { flex: 1; }
+.auth-agency svg { width: 20px; height: 20px; flex: none; color: #b45309; }
+.auth-agency:hover { background: #fff1d1; }
 
 /* OTP */
 .otp-boxes { display: flex; gap: 8px; justify-content: center; margin: 6px 0 4px; }

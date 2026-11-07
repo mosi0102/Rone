@@ -1,0 +1,108 @@
+@extends('layouts.app')
+@section('title', 'ثبت‌نام آژانس')
+@section('own_h1', 1)
+@section('page_title', 'همکاری با ' . config('app.name'))
+@section('page_subtitle', 'آژانس خود را ثبت و احراز هویت کنید')
+@section('back', route('home'))
+
+@push('styles')<link rel="stylesheet" href="{{ asset('css/panel.css') }}">@endpush
+@push('scripts')<script src="{{ asset('js/panel.js') }}"></script>@endpush
+
+@section('content')
+@if($auth->is_agency)
+  <x-empty-state icon="badge-check" title="شما مشاور املاک هستید" text="برای ثبت آگهی و مدیریت آژانس به پنل بروید." action="ورود به پنل آژانس" :href="route('panel')" />
+@else
+  <section class="join-hero">
+    <h1>مشاور املاک هستید؟</h1>
+    <p>به بازار تخصصی آژانس‌های ملک بپیوندید؛ آگهی فروش و اجاره بگذارید، مزایده برگزار کنید و درخواست مشتریان را ببینید.</p>
+  </section>
+
+  <div class="benefits">
+    <div class="benefit"><span class="dm-ic" style="width:44px;height:44px;border-radius:14px"><x-icon name="gavel" /></span><div><h3>مزایده‌ی ملک</h3><p>برای آگهی‌های فروش مزایده بسازید و رقابت واقعی میان مشتریان ایجاد کنید.</p></div></div>
+    <div class="benefit"><span class="dm-ic" style="width:44px;height:44px;border-radius:14px"><x-icon name="sparkles" /></span><div><h3>درخواست مشتریان</h3><p>مشتریانی که دنبال ملکی شبیه آگهی‌های شما هستند را ببینید و پیشنهاد دهید.</p></div></div>
+    <div class="benefit"><span class="dm-ic" style="width:44px;height:44px;border-radius:14px"><x-icon name="chart" /></span><div><h3>آمار و گزارش مالی</h3><p>بازدید، تماس‌ها، مزایده‌ها و هزینه‌های آژانس را در پنل ببینید.</p></div></div>
+  </div>
+
+  <x-section-head title="مراحل شروع" />
+  <ol class="timeline card-s pad">
+    <li><div><b>ثبت اطلاعات و مدارک</b><span>اطلاعات آژانس و مدارک هویتی را بارگذاری کنید.</span></div></li>
+    <li><div><b>احراز هویت</b><span>تیم ما حداکثر طی ۲۴ ساعت کاری بررسی می‌کند.</span></div></li>
+    <li><div><b>خرید اشتراک</b><span>اشتراک زمانی را فعال کنید.</span></div></li>
+    <li><div><b>انتشار آگهی</b><span>تا پایان اشتراک آگهی فروش و اجاره بگذارید.</span></div></li>
+  </ol>
+
+  @if(!$auth->check)
+    <div class="card-s pad text-center mt-3">
+      <p class="mb-3">برای ثبت‌نام آژانس ابتدا وارد حساب خود شوید.</p>
+      <a href="{{ route('login', ['next' => url()->current()]) }}" class="btn btn-primary btn-lg w-100">ورود / ثبت‌نام با شماره موبایل</a>
+      <a href="{{ route('agency.register') }}" class="btn btn-outline-primary btn-lg w-100 mt-2">ثبت‌نام آژانس با شماره‌ی جدید</a>
+    </div>
+  @else
+  <section class="wizard card-s pad" data-wizard id="joinWizard">
+    <div class="wz-progress" aria-hidden="true">
+      <span class="wz-dot" data-dot><i>۱</i> اطلاعات</span><span class="wz-bar"><i></i></span>
+      <span class="wz-dot" data-dot><i>۲</i> مدارک</span><span class="wz-bar"><i></i></span>
+      <span class="wz-dot" data-dot><i>۳</i> ارسال</span>
+    </div>
+
+    <div data-step>
+      <div class="fgrid">
+        <div><label class="form-label" for="dj_name">نام آژانس <b class="req">*</b></label><input id="dj_name" class="form-control" required autocomplete="organization" placeholder="مثلاً املاک هشت"></div>
+        <div><label class="form-label" for="dj_mgr">نام و نام خانوادگی مدیر <b class="req">*</b></label><input id="dj_mgr" class="form-control" required autocomplete="name"></div>
+        <div><label class="form-label" for="dj_city">شهر <b class="req">*</b></label><select id="dj_city" class="form-select" required><option value="">انتخاب کنید</option>@foreach(['تهران','مشهد','اصفهان','شیراز','تبریز','کرج','سبزوار','قم'] as $c)<option>{{ $c }}</option>@endforeach</select></div>
+        <div><label class="form-label" for="dj_tel">تلفن آژانس <b class="req">*</b></label><input id="dj_tel" class="form-control ltr" autocomplete="tel" inputmode="tel" required placeholder="02122345678"></div>
+      </div>
+      <label class="form-label mt-3">نوع فعالیت</label>
+      <div class="chips-check">
+        <label><input type="checkbox" checked><span><x-icon name="home" class="icon-sm" /> مسکونی</span></label>
+        <label><input type="checkbox"><span><x-icon name="briefcase" class="icon-sm" /> اداری و تجاری</span></label>
+        <label><input type="checkbox"><span><x-icon name="hammer" class="icon-sm" /> پروژه‌ها</span></label>
+        <label><input type="checkbox"><span><x-icon name="calendar" class="icon-sm" /> اجاره کوتاه‌مدت</span></label>
+      </div>
+      <label class="form-label mt-3" for="dj_addr">آدرس آژانس <b class="req">*</b></label>
+      <input id="dj_addr" class="form-control" required autocomplete="street-address" placeholder="خیابان، پلاک، نزدیک‌ترین نشانی">
+      <div class="wz-nav"><button type="button" class="btn btn-primary btn-lg" data-next>مرحله بعد</button></div>
+    </div>
+
+    <div data-step class="d-none">
+      <p class="small text-muted-s">تصاویر باید واضح و کامل باشند. اطلاعات شما فقط برای احراز هویت استفاده می‌شود.</p>
+      <div class="d-grid gap-2">
+        @foreach([['lic','پروانه کسب / مجوز آژانس'],['idc','کارت ملی مدیر'],['shop','عکس سردر آژانس']] as [$k,$t])
+          <label class="doc-up"><img id="prev_{{ $k }}" src="{{ asset('img/logo.png') }}" alt=""><span class="du-t">{{ $t }} <b class="req">*</b><small>برای انتخاب یا عکس‌گرفتن لمس کنید</small></span><x-icon name="upload-cloud" class="text-primary"/><input type="file" accept="image/*" required data-preview="#prev_{{ $k }}"></label>
+        @endforeach
+      </div>
+      <div class="wz-nav"><button type="button" class="btn btn-soft btn-lg" data-prev>قبلی</button><button type="button" class="btn btn-primary btn-lg" data-next>مرحله بعد</button></div>
+    </div>
+
+    <div data-step class="d-none">
+      <div class="pay-rows mb-3">
+        <div class="pay-row"><div><b>بررسی مدارک</b><small>حداکثر ۲۴ ساعت کاری</small></div><x-icon name="clock" /></div>
+        <div class="pay-row"><div><b>ثبت‌نام</b><small>رایگان؛ هزینه فقط برای اشتراک و خدمات آگهی</small></div><x-icon name="check-circle" class="text-success" /></div>
+      </div>
+      <label class="d-flex align-items-start gap-2 mb-2"><input type="checkbox" required style="width:20px;height:20px;flex-shrink:0;margin-top:2px;accent-color:var(--primary)"><span class="small">صحت اطلاعات را تأیید می‌کنم و قوانین مشاوران املاک را می‌پذیرم.</span></label>
+      <div class="wz-nav"><button type="button" class="btn btn-soft btn-lg" data-prev>قبلی</button><button type="button" class="btn btn-accent btn-lg" id="joinSubmit">ارسال برای احراز هویت</button></div>
+    </div>
+
+    <div data-step class="d-none wz-done">
+      <div class="ok-ring"><x-icon name="check" /></div>
+      <h2 class="fs-5">درخواست شما ثبت شد</h2>
+      <p class="text-muted-s">نتیجه احراز هویت تا ۲۴ ساعت کاری به شما اطلاع داده می‌شود. پس از تأیید، اشتراک را فعال کنید و آگهی بگذارید.</p>
+      <x-status-badge status="pending" />
+      <a href="{{ route('home') }}" class="btn btn-primary btn-lg w-100 mt-3">بازگشت به خانه</a>
+    </div>
+  </section>
+  @endif
+@endif
+@endsection
+
+@push('scripts')
+<script>
+  $('#joinSubmit').on('click', function () {
+    var $w = $('#joinWizard'), ok = true;
+    $w.find('[data-step]').eq(2).find('[required]').each(function () { if (!this.checked) { ok = false; $(this).addClass('is-invalid'); } });
+    if (!ok) { App.toast('پذیرش قوانین الزامی است', 'error'); return; }
+    var $b = $(this); App.loading($b); $(document).trigger('app:agency-join');
+    setTimeout(function () { App.loading($b, false); $w.data('go')(3); $w.find('.wz-progress').hide(); }, 1200);
+  });
+</script>
+@endpush

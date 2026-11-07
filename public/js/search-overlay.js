@@ -1,11 +1,11 @@
-/* search-overlay.js — لایه‌ی جست‌وجوی تمام‌صفحه روی صفحه‌ی اول و صفحه‌ی نمایشگاه‌ها (data-scope=dealers: فقط جست‌وجو، بدون فیلتر): بدون رفتن به آدرس دیگر و بدون رفرش.
+/* search-overlay.js — لایه‌ی جست‌وجوی تمام‌صفحه روی صفحه‌ی اول و صفحه‌ی آژانس‌ها (data-scope=agencies: فقط جست‌وجو، بدون فیلتر): بدون رفتن به آدرس دیگر و بدون رفرش.
    پیشنهادها (اخیر/پرطرفدار/دسته) ← با تایپ یا انتخاب، نتایج با ListingBrowser (AJAX) داخل همین لایه می‌آیند.
    دکمه‌ی برگشت مرورگر/گوشی فقط لایه را می‌بندد. API: SearchOverlay.open(q) / close() */
 (function ($) {
   'use strict';
   var $o = $('#searchOverlay'); if (!$o.length) return;
   var $in = $('#soInput'), $res = $('#soResults'), $disc = $('#soDiscover'), $clear = $('#soClear'), $scroll = $('#soScroll');
-  var dealers = $o.data('scope') === 'dealers', KEY = dealers ? 'recentDealerSearches' : 'recentSearches', cat = '', lb = null, t = null, isOpen = false, loading = 0;
+  var agencies = $o.data('scope') === 'agencies', KEY = agencies ? 'recentAgencySearches' : 'recentSearches', cat = '', lb = null, t = null, isOpen = false, loading = 0;
 
   function recents() { try { return JSON.parse(localStorage.getItem(KEY) || '[]'); } catch (e) { return []; } }
   function saveRecent(q) { q = $.trim(q); if (!q) return; var r = recents().filter(function (x) { return x !== q; }); r.unshift(q); try { localStorage.setItem(KEY, JSON.stringify(r.slice(0, 6))); } catch (e) {} }
@@ -17,8 +17,8 @@
 
   /* ---------- نمایش پیشنهادها / نتایج ---------- */
   function showDiscover() { clearTimeout(t); cat = ''; if (lb) lb = null; $res.prop('hidden', true).empty(); $disc.prop('hidden', false); drawRecent(); }
-  /* نمایشگاه‌ها: فقط جست‌وجو؛ فهرست HTML از dealers.search می‌آید */
-  function dealerQuery(p) {
+  /* آژانس‌ها: فقط جست‌وجو؛ فهرست HTML از agencies.search می‌آید */
+  function agencyQuery(p) {
     $disc.prop('hidden', true); $res.prop('hidden', false);
     var u = new URL($o.data('url'), location.origin);
     $.each(p, function (k, v) { if (v) u.searchParams.set(k, v); });
@@ -30,7 +30,7 @@
       .then(function () { $res.removeClass('is-loading'); });
   }
   function query(p, mode) {
-    if (dealers) return dealerQuery(p);
+    if (agencies) return agencyQuery(p);
     $disc.prop('hidden', true); $res.prop('hidden', false);
     if (lb) { lb.goParams(p, 'none', false); return; }
     var u = new URL($o.data('url'), location.origin); u.searchParams.set('embed', 1);
@@ -53,7 +53,7 @@
     clearTimeout(t);
     var q = $.trim($in.val()); $clear.prop('hidden', !q);
     t = setTimeout(function () {
-      if (dealers) { if (!q && !cat) return showDiscover(); return dealerQuery({ q: q, category: cat, city: city() }); }
+      if (agencies) { if (!q && !cat) return showDiscover(); return agencyQuery({ q: q, category: cat, city: city() }); }
       if (!q && !(lb && hasFilters())) return showDiscover();
       var p = lb ? lb.params() : {}; if (q) p.q = q; else delete p.q;
       if (!lb && !p.city && city()) p.city = city();
@@ -86,7 +86,7 @@
   $('#soClearRecent').on('click', function () { try { localStorage.removeItem(KEY); } catch (e) {} drawRecent(); });
 
   /* تغییر شهر: نتایج با شهر جدید دوباره بارگذاری می‌شود */
-  $(document).on('app:city', function (e, c) { if (isOpen && dealers && !$res.prop('hidden')) { run(true); return; } if (isOpen && lb) { var p = lb.params(); p.city = c; lb.goParams(p, 'none', false); } });
+  $(document).on('app:city', function (e, c) { if (isOpen && agencies && !$res.prop('hidden')) { run(true); return; } if (isOpen && lb) { var p = lb.params(); p.city = c; lb.goParams(p, 'none', false); } });
 
   window.SearchOverlay = { open: open, close: close };
 })(jQuery);

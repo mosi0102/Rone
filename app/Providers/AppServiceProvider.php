@@ -23,7 +23,7 @@ class AppServiceProvider extends ServiceProvider
         // داده‌ی مشترک پنل ادمین
         View::composer('admin.*', AdminComposer::class);
 
-        // درخواست‌های رادار مرتبط در داشبورد نمایشگاه‌دار
+        // درخواست‌های رادار مرتبط در داشبورد مشاور املاک
         View::composer('pages.panel.dashboard', RadarDashboardComposer::class);
     }
 }

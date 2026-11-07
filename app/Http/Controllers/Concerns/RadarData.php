@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Concerns;
 
-/** داده و منطق تطابق رادار خودرو */
+/** داده و منطق تطابق رادار ملک (درخواست ملک ← آگهی‌های مشابه با درصد تطابق) */
 trait RadarData
 {
     use ListingData;
@@ -13,34 +13,74 @@ trait RadarData
         return 50;
     }
 
-    protected function radarScore(array $q, array $row)
+    /**
+     * امتیاز تطابق یک آگهی با درخواست. فقط فیلدهای پرشده حساب می‌شوند؛ دسته‌ی نامطابق = ۰.
+     * وزن‌ها: نوع ملک ۲۰ • شهر ۱۵ • محله ۱۵ • بودجه ۲۰ • اجاره ۱۰ • متراژ ۱۵ • اتاق ۱۰ • سال ساخت ۵ • هر امکان ۵
+     *
+     * @return array{0: int, 1: array<int, array{ok: bool, t: string}>}
+     */
+    protected function radarScore(array $q, array $row): array
     {
-        if (!empty($q['category']) && $row['cat'] !== $q['category']) return [0, []];
-        $earn = 0; $max = 0; $notes = [];
-        $add = function (int $w, int $got, bool $ok, string $label) use (&$earn, &$max, &$notes) { $max += $w; $earn += $got; $notes[] = ['ok' => $ok, 't' => $label]; };
-        if (!empty($q['brand'])) { $ok = $row['brand'] === $q['brand']; $add(25, $ok ? 25 : 0, $ok, $ok ? 'برند: ' . $q['brand'] : 'برند متفاوت (' . $row['brand'] . ')'); }
-        if (!empty($q['model'])) { $ok = $row['model'] === $q['model']; $add(15, $ok ? 15 : 0, $ok, $ok ? 'مدل: ' . $q['model'] : 'مدل متفاوت (' . $row['model'] . ')'); }
-        if (!empty($q['price_max'])) {
-            $r = $row['price'] / max(1, (int)$q['price_max']);
-            if ($r <= 1) $add(20, 20, true, 'در بودجه‌ی شما');
-            elseif ($r <= 1.1) $add(20, 14, false, $this->fa(round(($r - 1) * 100)) . '٪ بالاتر از بودجه');
-            elseif ($r <= 1.25) $add(20, 7, false, $this->fa(round(($r - 1) * 100)) . '٪ بالاتر از بودجه');
-            else $add(20, 0, false, 'خارج از بودجه');
+        if (! empty($q['category']) && $row['cat'] !== $q['category']) {
+            return [0, []];
         }
-        if (!empty($q['year_from']) || !empty($q['year_to'])) {
-            $from = (int)($q['year_from'] ?: 0); $to = (int)($q['year_to'] ?: 9999); $y = $row['year'];
-            $d = $y < $from ? $from - $y : ($y > $to ? $y - $to : 0);
-            $add(15, $d === 0 ? 15 : ($d === 1 ? 10 : ($d === 2 ? 5 : 0)), $d === 0, $d === 0 ? 'سال ' . $this->fa($y) . ' در بازه' : 'سال ' . $this->fa($y) . ' (' . $this->fa($d) . ' سال خارج از بازه)');
+        $earn = 0;
+        $max = 0;
+        $notes = [];
+        $add = function (int $w, int $got, bool $ok, string $label) use (&$earn, &$max, &$notes) {
+            $max += $w;
+            $earn += $got;
+            $notes[] = ['ok' => $ok, 't' => $label];
+        };
+        if (! empty($q['ptype'])) {
+            $ok = $row['type'] === $q['ptype'];
+            $add(20, $ok ? 20 : 0, $ok, $ok ? 'نوع: '.$q['ptype'] : 'نوع متفاوت ('.$row['type'].')');
         }
-        if (!empty($q['km_max'])) {
-            $r = $row['km'] / max(1, (int)$q['km_max']);
-            $add(10, $r <= 1 ? 10 : ($r <= 1.2 ? 5 : 0), $r <= 1, $r <= 1 ? 'کارکرد مناسب' : 'کارکرد بیشتر از حد انتظار');
+        if (! empty($q['city'])) {
+            $ok = $row['city'] === $q['city'];
+            $add(15, $ok ? 15 : 0, $ok, $ok ? 'شهر: '.$q['city'] : 'در شهر '.$row['city']);
         }
-        if (!empty($q['city'])) { $ok = $row['city'] === $q['city']; $add(10, $ok ? 10 : 0, $ok, $ok ? 'شهر: ' . $q['city'] : 'در شهر ' . $row['city']); }
-        foreach (['color' => 'رنگ', 'gearbox' => 'گیربکس', 'fuel' => 'سوخت', 'cc' => 'حجم', 'btype' => 'نوع', 'wheel' => 'طوقه', 'axle' => 'آرایش محور'] as $k => $label) {
-            if (!empty($q[$k])) { $ok = ($row[$k] ?? '') === $q[$k]; $add(5, $ok ? 5 : 0, $ok, $label . ($ok ? ': ' : ' متفاوت: ') . $q[$k]); }
+        if (! empty($q['district'])) {
+            $ok = $row['district'] === $q['district'];
+            $add(15, $ok ? 15 : 0, $ok, $ok ? 'محله: '.$q['district'] : 'محله‌ی '.$row['district']);
         }
-        return [$max ? (int)round(100 * $earn / $max) : 60, $notes];
+        if (! empty($q['price_max'])) {
+            $label = $this->priceLabel($row['cat']);
+            $r = $row['price'] / max(1, (int) $q['price_max']);
+            if ($r <= 1) {
+                $add(20, 20, true, $label.' در بودجه‌ی شما');
+            } elseif ($r <= 1.1) {
+                $add(20, 14, false, $label.' '.$this->fa(round(($r - 1) * 100)).'٪ بالاتر از بودجه');
+            } elseif ($r <= 1.25) {
+                $add(20, 7, false, $label.' '.$this->fa(round(($r - 1) * 100)).'٪ بالاتر از بودجه');
+            } else {
+                $add(20, 0, false, $label.' خارج از بودجه');
+            }
+        }
+        if (! empty($q['rent_max']) && ! is_null($row['rent'])) {
+            $r = $row['rent'] / max(1, (int) $q['rent_max']);
+            $add(10, $r <= 1 ? 10 : ($r <= 1.15 ? 5 : 0), $r <= 1, $r <= 1 ? 'اجاره در محدوده' : 'اجاره بیشتر از حد انتظار');
+        }
+        if (! empty($q['area_min'])) {
+            $r = $row['area'] / max(1, (int) $q['area_min']);
+            $add(15, $r >= 1 ? 15 : ($r >= 0.9 ? 9 : 0), $r >= 1, $r >= 1 ? 'متراژ '.$this->fa($row['area']).' متر' : 'متراژ کمتر ('.$this->fa($row['area']).' متر)');
+        }
+        if (! empty($q['rooms'])) {
+            $ok = $this->roomsMatch($row['rooms'], $q['rooms']);
+            $add(10, $ok ? 10 : 0, $ok, $ok ? 'تعداد اتاق مناسب' : 'تعداد اتاق متفاوت ('.$this->fa($row['rooms']).')');
+        }
+        if (! empty($q['year_from'])) {
+            $d = max(0, (int) $q['year_from'] - $row['year']);
+            $add(5, $d === 0 ? 5 : ($d <= 3 ? 3 : 0), $d === 0, $d === 0 ? 'ساخت '.$this->fa($row['year']) : 'ساخت '.$this->fa($row['year']).' (قدیمی‌تر)');
+        }
+        foreach (['parking' => 'پارکینگ', 'elevator' => 'آسانسور', 'storage' => 'انباری'] as $k => $label) {
+            if (! empty($q[$k])) {
+                $ok = (bool) $row[$k];
+                $add(5, $ok ? 5 : 0, $ok, $ok ? $label.' دارد' : 'بدون '.$label);
+            }
+        }
+
+        return [$max ? (int) round(100 * $earn / $max) : 60, $notes];
     }
 
     protected function radarMatches(array $q)
@@ -48,26 +88,28 @@ trait RadarData
         $out = [];
         foreach ($this->listingStore() as $row) {
             [$p, $notes] = $this->radarScore($q, $row);
-            if ($p >= $this->radarMin()) $out[] = ['row' => $row, 'percent' => $p, 'notes' => $notes];
+            if ($p >= $this->radarMin()) {
+                $out[] = ['row' => $row, 'percent' => $p, 'notes' => $notes];
+            }
         }
-        usort($out, fn($a, $b) => $b['percent'] <=> $a['percent'] ?: $a['row']['price'] <=> $b['row']['price']);
+        usort($out, fn ($a, $b) => $b['percent'] <=> $a['percent'] ?: $a['row']['price'] <=> $b['row']['price']);
+
         return $out;
     }
 
     protected function radarItem(array $m)
     {
-        return [
-            'id' => $m['row']['id'], 'title' => $m['row']['title'], 'url' => route('listings.show', 24817), 'image' => $m['row']['image'], 'price' => $m['row']['price'],
-            'year' => $m['row']['year'], 'km' => $m['row']['km'], 'extra' => $m['row']['color'], 'dealer' => $m['row']['dealer'], 'verified' => true, 'sale_type' => $m['row']['sale'],
-            'category' => $m['row']['cat'], 'percent' => $m['percent'], 'notes' => $m['notes'], 'city' => $m['row']['city'],
-        ];
+        return array_merge($this->listingCardItem($m['row']), ['percent' => $m['percent'], 'notes' => $m['notes'], 'city' => $m['row']['city']]);
     }
 
     protected function radarTitle(array $r)
     {
         $lf = $this->lf();
-        $name = trim(($r['brand'] ?? '') . ' ' . ($r['model'] ?? ''));
-        return $name !== '' ? $name : ($lf['categories'][$r['category']] ?? 'خودرو') . ' — هر مدل';
+        $type = $r['ptype'] ?? '';
+        $where = ($r['district'] ?? '') ?: ($r['city'] ?? '');
+        $name = trim($type.($where ? ' در '.$where : ''));
+
+        return $name !== '' ? $name : ($lf['categories'][$r['category']] ?? 'ملک').' — هر نوع';
     }
 
     protected function radarChips(array $r)
@@ -75,57 +117,84 @@ trait RadarData
         $lf = $this->lf();
         $c = [];
         $c[] = $lf['categories'][$r['category']] ?? '';
-        if (!empty($r['price_max'])) $c[] = 'تا ' . $this->human((int)$r['price_max']) . ' تومان';
-        if (!empty($r['year_from']) || !empty($r['year_to'])) $c[] = 'سال ' . ($r['year_from'] ? $this->fa($r['year_from']) : '…') . ' تا ' . ($r['year_to'] ? $this->fa($r['year_to']) : '…');
-        if (!empty($r['km_max'])) $c[] = 'تا ' . $this->fa(number_format((int)$r['km_max'])) . ' کیلومتر';
-        if (!empty($r['city'])) $c[] = $r['city'];
-        foreach (['color', 'gearbox', 'fuel', 'btype', 'axle'] as $k) if (!empty($r[$k])) $c[] = $r[$k];
-        if (!empty($r['wheel'])) $c[] = 'طوقه ' . $r['wheel'];
-        if (!empty($r['cc'])) $c[] = $r['cc'] . ' سی‌سی';
+        if (! empty($r['price_max'])) {
+            $c[] = ($lf['price_labels'][$r['category']] ?? 'قیمت').' تا '.$this->human((int) $r['price_max']);
+        }
+        if (! empty($r['rent_max'])) {
+            $c[] = 'اجاره تا '.$this->human((int) $r['rent_max']);
+        }
+        if (! empty($r['area_min'])) {
+            $c[] = 'حداقل '.$this->fa($r['area_min']).' متر';
+        }
+        if (! empty($r['rooms'])) {
+            $c[] = $r['rooms'] === 'بدون اتاق' ? 'بدون اتاق' : $r['rooms'].' اتاق';
+        }
+        if (! empty($r['year_from'])) {
+            $c[] = 'ساخت از '.$this->fa($r['year_from']);
+        }
+        if (! empty($r['city'])) {
+            $c[] = $r['city'];
+        }
+        foreach (['parking' => 'پارکینگ', 'elevator' => 'آسانسور', 'storage' => 'انباری'] as $k => $t) {
+            if (! empty($r[$k])) {
+                $c[] = $t;
+            }
+        }
+
         return array_values(array_filter($c));
     }
 
     protected function radarStore()
     {
         $base = [
-            701 => ['id' => 701, 'category' => 'car', 'brand' => 'پژو', 'model' => '۲۰۷', 'year_from' => '1401', 'year_to' => '', 'price_max' => 1000000000, 'km_max' => 50000, 'city' => 'تهران', 'color' => 'سفید', 'gearbox' => '', 'fuel' => '', 'note' => '', 'status' => 'active', 'created' => '۲ روز پیش', 'new' => 2],
-            702 => ['id' => 702, 'category' => 'bike', 'brand' => '', 'model' => '', 'year_from' => '1400', 'year_to' => '', 'price_max' => 420000000, 'km_max' => 25000, 'city' => 'مشهد', 'color' => '', 'cc' => '۲۵۰', 'note' => '', 'status' => 'active', 'created' => '۵ روز پیش', 'new' => 0],
-            703 => ['id' => 703, 'category' => 'bicycle', 'brand' => '', 'model' => '', 'year_from' => '1402', 'year_to' => '', 'price_max' => 50000000, 'km_max' => '', 'city' => '', 'wheel' => '۲۷٫۵', 'btype' => 'کوهستان', 'note' => '', 'status' => 'active', 'created' => 'هفته‌ی پیش', 'new' => 1],
-            704 => ['id' => 704, 'category' => 'car', 'brand' => 'کیا', 'model' => 'سراتو', 'year_from' => '1402', 'year_to' => '', 'price_max' => 1500000000, 'km_max' => 30000, 'city' => 'تهران', 'color' => '', 'note' => '', 'status' => 'suspended', 'created' => 'ماه پیش', 'new' => 0],
+            701 => ['id' => 701, 'category' => 'sale_res', 'ptype' => 'آپارتمان', 'city' => 'تهران', 'district' => 'سعادت‌آباد', 'price_max' => 20000000000, 'area_min' => 100, 'rooms' => '۲', 'year_from' => '1398', 'parking' => '1', 'elevator' => '1', 'note' => '', 'status' => 'active', 'created' => '۲ روز پیش', 'new' => 2],
+            702 => ['id' => 702, 'category' => 'rent_res', 'ptype' => 'آپارتمان', 'city' => 'تهران', 'district' => '', 'price_max' => 700000000, 'rent_max' => 30000000, 'area_min' => 80, 'rooms' => '۲', 'note' => '', 'status' => 'active', 'created' => '۵ روز پیش', 'new' => 0],
+            703 => ['id' => 703, 'category' => 'short', 'ptype' => 'ویلا و باغ', 'city' => 'رشت', 'district' => '', 'price_max' => 7000000, 'note' => 'برای تعطیلات نوروز', 'status' => 'active', 'created' => 'هفته‌ی پیش', 'new' => 1],
+            704 => ['id' => 704, 'category' => 'sale_com', 'ptype' => 'مغازه و غرفه', 'city' => 'تهران', 'district' => 'ونک', 'price_max' => 10000000000, 'area_min' => 30, 'note' => '', 'status' => 'suspended', 'created' => 'ماه پیش', 'new' => 0],
         ];
-        $deleted = (array)session('demo_radar_deleted', []);
-        $mine = (array)session('demo_radars', []);
+        $deleted = (array) session('demo_radar_deleted', []);
+        $mine = (array) session('demo_radars', []);
+
         return collect(array_diff_key($base + $mine, array_flip($deleted)))->all();
     }
 
     protected function radarCard(array $r)
     {
         $m = $this->radarMatches($r);
+
         return ['r' => $r, 'title' => $this->radarTitle($r), 'chips' => $this->radarChips($r), 'count' => count($m), 'best' => $m ? $m[0]['percent'] : 0,
-            'top' => array_map([$this, 'radarItem'], array_slice($m, 0, 3)), 'new' => (int)($r['new'] ?? 0)];
+            'top' => array_map([$this, 'radarItem'], array_slice($m, 0, 3)), 'new' => (int) ($r['new'] ?? 0)];
     }
 
+    /** درخواست‌های فعال مشتریان (ناشناس) برای پنل آژانس + بهترین آگهی مطابق از آژانس خودش */
     protected function radarBuyerRequests()
     {
+        // id, دسته، نوع، شهر، محله، بودجه (قیمت/رهن/هر شب)، اجاره، حداقل متراژ، اتاق، ساعت قبل
         $seed = [
-            [901, 'car', 'پژو', '۲۰۷', '1401', '', 1000000000, 50000, 'تهران', 'سفید', 2],
-            [902, 'car', 'کیا', 'سراتو', '1401', '', 1700000000, 60000, 'تهران', '', 5],
-            [903, 'car', '', '', '1400', '', 600000000, 90000, 'کرج', '', 8],
-            [904, 'heavy', 'ولوو', 'FH500', '1398', '', 10500000000, 350000, 'تهران', '', 12],
-            [905, 'bike', 'یاماها', 'NMAX', '1402', '', 400000000, 15000, 'مشهد', '', 20],
-            [906, 'bicycle', '', '', '1402', '', 45000000, '', 'تهران', '', 30],
-            [907, 'car', 'هیوندای', 'النترا', '1399', '', 1900000000, 80000, 'مشهد', '', 40],
-            [908, 'car', 'سمند', 'LX', '1399', '', 560000000, 100000, 'اصفهان', '', 55],
+            [901, 'sale_res', 'آپارتمان', 'تهران', 'سعادت‌آباد', 20000000000, null, 110, '۲', 2],
+            [902, 'rent_res', 'آپارتمان', 'تهران', 'پونک', 700000000, 28000000, 85, '۲', 5],
+            [903, 'rent_res', '', 'کرج', '', 1600000000, null, 60, '', 8],
+            [904, 'sale_com', 'مغازه و غرفه', 'تهران', 'ونک', 10000000000, null, 30, '', 12],
+            [905, 'short', 'آپارتمان و سوئیت', 'مشهد', '', 2000000, null, null, '۱', 20],
+            [906, 'rent_com', 'دفتر کار، اتاق اداری و مطب', 'تهران', '', 400000000, 45000000, 60, '', 30],
+            [907, 'sale_res', 'خانه و ویلا', 'تهران', 'نیاوران', 45000000000, null, 300, '۴ و بیشتر', 40],
+            [908, 'project', 'پیش‌فروش', 'تهران', '', 160000000, null, 100, '', 55],
         ];
-        $mine = array_values(array_filter($this->listingStore(), fn($r) => (int)$r['dealer_id'] === 8));
+        $mine = array_values(array_filter($this->listingStore(), fn ($r) => (int) $r['agency_id'] === 8));
         $out = [];
-        foreach ($seed as [$id, $cat, $brand, $model, $yf, $yt, $pm, $km, $city, $color, $hours]) {
-            $r = ['id' => $id, 'category' => $cat, 'brand' => $brand, 'model' => $model, 'year_from' => $yf, 'year_to' => $yt, 'price_max' => $pm, 'km_max' => $km, 'city' => $city, 'color' => $color];
+        foreach ($seed as [$id, $cat, $type, $city, $district, $pm, $rent, $area, $rooms, $hours]) {
+            $r = array_filter(['id' => $id, 'category' => $cat, 'ptype' => $type, 'city' => $city, 'district' => $district, 'price_max' => $pm, 'rent_max' => $rent, 'area_min' => $area, 'rooms' => $rooms], fn ($v) => $v !== null && $v !== '');
             $best = null;
-            foreach ($mine as $row) { [$p, $notes] = $this->radarScore($r, $row); if ($p >= $this->radarMin() && (!$best || $p > $best['percent'])) $best = ['row' => $row, 'percent' => $p, 'notes' => $notes]; }
+            foreach ($mine as $row) {
+                [$p, $notes] = $this->radarScore($r, $row);
+                if ($p >= $this->radarMin() && (! $best || $p > $best['percent'])) {
+                    $best = ['row' => $row, 'percent' => $p, 'notes' => $notes];
+                }
+            }
             $out[] = ['id' => $id, 'cat' => $cat, 'title' => $this->radarTitle($r), 'chips' => $this->radarChips($r), 'city' => $city, 'budget' => $pm, 'hours' => $hours,
-                'posted' => $hours < 24 ? $this->fa($hours) . ' ساعت پیش' : $this->fa(intdiv($hours, 24)) . ' روز پیش', 'buyer' => 'خریدار ' . $this->fa(40000 + $id * 7), 'mine' => $best ? $this->radarItem($best) : null, 'offered' => $id === 905];
+                'posted' => $hours < 24 ? $this->fa($hours).' ساعت پیش' : $this->fa(intdiv($hours, 24)).' روز پیش', 'buyer' => 'مشتری '.$this->fa(40000 + $id * 7), 'mine' => $best ? $this->radarItem($best) : null, 'offered' => $id === 905];
         }
+
         return $out;
     }
 }

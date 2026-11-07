@@ -1,5 +1,5 @@
 {{-- مودال «اقدام با دلیل». استفاده:
-     <x-admin.reason-modal id="cancelModal" title="لغو مزایده" submit="لغو مزایده" :chips="['دلیل ۱', 'دلیل ۲']"> فیلدهای اضافه (اختیاری) </x-admin.reason-modal>
+     <x-admin.reason-modal id="cancelModal" title="تعلیق آگهی" submit="تعلیق" :chips="['دلیل ۱', 'دلیل ۲']"> فیلدهای اضافه (اختیاری) </x-admin.reason-modal>
      در JS: Admin.askReason('cancelModal', 'متن زیرعنوان').then(function (reason) { ... }) --}}
 @props(['id', 'title', 'submit' => 'تأیید', 'chips' => [], 'icon' => 'x-circle', 'tone' => 'bad', 'label' => 'دلیل (برای طرف مقابل ارسال می‌شود)', 'placeholder' => 'توضیح بیشتر (اختیاری)…', 'required' => true])
 <div class="modal fade" id="{{ $id }}" tabindex="-1" aria-labelledby="{{ $id }}Title" aria-hidden="true">

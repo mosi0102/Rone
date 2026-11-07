@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('title', 'اطلاعات کاربری و احراز هویت')
 @section('page_title', 'احراز هویت')
-@section('page_subtitle', 'برای پرداخت بیعانه، مزایده و برداشت')
+@section('page_subtitle', 'برای شرکت در مزایده و برداشت')
 @section('back', route('account'))
 
 @push('styles')<link rel="stylesheet" href="{{ asset('css/account.css') }}">@endpush
@@ -11,7 +11,7 @@
   $st = $auth->profile_status;
   $editable = in_array($st, ['none', 'rejected'], true);
   $meta = [
-    'none' => ['warn', 'alert', 'احراز هویت تکمیل نشده', 'برای پرداخت بیعانه، ورود به مزایده و برداشت از کیف پول باید اطلاعات زیر را تکمیل کنید.'],
+    'none' => ['warn', 'alert', 'احراز هویت تکمیل نشده', 'برای شرکت در مزایده و برداشت از کیف پول باید اطلاعات زیر را تکمیل کنید.'],
     'pending' => ['info', 'clock', 'مدارک در حال بررسی است', 'معمولاً کمتر از ۲۴ ساعت کاری طول می‌کشد. نتیجه را پیامکی و در همین صفحه اعلام می‌کنیم.'],
     'approved' => ['ok', 'badge-check', 'هویت شما تأیید شده است', 'همه‌ی امکانات پرداختی برای حساب شما فعال است.'],
     'rejected' => ['bad', 'x-circle', 'مدارک تأیید نشد', $reject_reason],

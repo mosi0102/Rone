@@ -1,20 +1,20 @@
 {{--
   لایه‌ی جست‌وجوی تمام‌صفحه (بدون رفتن به آدرس دیگر): لمس کادر جست‌وجو آن را باز می‌کند (js/search-overlay.js).
   تایپ/انتخاب پیشنهاد/دسته ← نتایج همان‌جا با AJAX بارگذاری می‌شود (js/listing-browser.js)، فیلتر و مرتب‌سازی هم همین‌طور.
-  شهر با همان شیت #citySheet عوض می‌شود. مقصد AJAX: route('listings.index') یا (scope=dealers) route('dealers.search').
+  شهر با همان شیت #citySheet عوض می‌شود. مقصد AJAX: route('listings.index') یا (scope=agencies) route('agencies.search').
 --}}
 @props(['city' => 'سبزوار', 'scope' => 'listings'])
 @php
-  $dealers = $scope === 'dealers';   // نمایشگاه‌ها: فقط جست‌وجو (بدون فیلتر/مرتب‌سازی)، مقصد AJAX: dealers.search
-  $ph = $dealers ? 'جست و جو در نمایشگاه ها' : 'جست و جو در خودروها';
-  $popular = $dealers ? ['هالیوود', 'آرش', 'کرمی', 'آریا', 'پدال'] : ['پژو ۲۰۷', 'ولوو FH500', 'یاماها NMAX', 'سمند', 'تیبا', 'کامیون کشنده', 'هیوندای النترا'];   // پرطرفدار (از بک‌اند)
-  $cats = $dealers
-    ? [['car', 'نمایشگاه سواری', 'car'], ['heavy', 'نمایشگاه سنگین', 'truck'], ['bike', 'نمایشگاه موتور', 'bike'], ['bicycle', 'نمایشگاه دوچرخه', 'bicycle']]
-    : [['car', 'سواری', 'car'], ['heavy', 'سنگین', 'truck'], ['bike', 'موتورسیکلت', 'bike'], ['bicycle', 'دوچرخه', 'bicycle']];
+  $agencies = $scope === 'agencies';   // آژانس‌ها: فقط جست‌وجو (بدون فیلتر/مرتب‌سازی)، مقصد AJAX: agencies.search
+  $ph = $agencies ? 'جست و جو در آژانس ها' : 'جست و جو در املاک';
+  $popular = $agencies ? ['پارسیان', 'آرش', 'کرمی', 'آریا', 'پدیده'] : ['آپارتمان نوساز', 'رهن کامل', 'ویلا', 'مغازه', 'سوئیت مبله', 'پیش‌فروش', 'سعادت‌آباد'];   // پرطرفدار (از بک‌اند)
+  $cats = $agencies
+    ? [['res', 'مسکونی', 'home'], ['com', 'اداری و تجاری', 'briefcase'], ['project', 'پروژه‌ها', 'hammer'], ['short', 'کوتاه‌مدت', 'calendar']]
+    : [['sale_res', 'فروش مسکونی', 'home'], ['rent_res', 'اجاره مسکونی', 'key'], ['sale_com', 'فروش تجاری', 'briefcase'], ['rent_com', 'اجاره تجاری', 'store'], ['project', 'پروژه‌ها', 'hammer'], ['short', 'کوتاه‌مدت', 'calendar']];
 @endphp
-@push('styles')<link rel="stylesheet" href="{{ asset('css/search.css') }}">@unless($dealers)<link rel="stylesheet" href="{{ asset('css/listings.css') }}">@endunless @endpush
-@push('scripts')@unless($dealers)<script src="{{ asset('js/filters.js') }}"></script><script src="{{ asset('js/listing-browser.js') }}"></script>@endunless<script src="{{ asset('js/search-overlay.js') }}"></script>@endpush
-<div class="so" id="searchOverlay" role="dialog" aria-modal="true" aria-label="جست‌وجو" aria-hidden="true" data-scope="{{ $scope }}" data-url="{{ $dealers ? route('dealers.search') : route('listings.index') }}">
+@push('styles')<link rel="stylesheet" href="{{ asset('css/search.css') }}">@unless($agencies)<link rel="stylesheet" href="{{ asset('css/listings.css') }}">@endunless @endpush
+@push('scripts')@unless($agencies)<script src="{{ asset('js/filters.js') }}"></script><script src="{{ asset('js/listing-browser.js') }}"></script>@endunless<script src="{{ asset('js/search-overlay.js') }}"></script>@endpush
+<div class="so" id="searchOverlay" role="dialog" aria-modal="true" aria-label="جست‌وجو" aria-hidden="true" data-scope="{{ $scope }}" data-url="{{ $agencies ? route('agencies.search') : route('listings.index') }}">
   <header class="sp-head">
     <button type="button" class="icon-btn" id="soBack" aria-label="بستن جست‌وجو"><x-icon name="arrow-left" flip /></button>
     <form class="sp-form" id="soForm" role="search">

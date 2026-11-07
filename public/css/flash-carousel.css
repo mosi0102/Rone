@@ -17,8 +17,8 @@
 .fl-body:hover { color: inherit; }
 .fl-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
 .fl-title { margin: 0; font-size: 19px; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.fl-dealer { display: inline-flex; align-items: center; gap: 6px; flex-shrink: 0; font-size: 13.5px; color: var(--ink-2); }
-.fl-dealer .icon { color: var(--primary); }
+.fl-agency { display: inline-flex; align-items: center; gap: 6px; flex-shrink: 0; font-size: 13.5px; color: var(--ink-2); }
+.fl-agency .icon { color: var(--primary); }
 .fl-meta { display: block; margin-top: 2px; font-size: 14px; color: var(--muted); }
 .fl-prices { margin-top: 8px; }
 .fl-price { color: var(--primary); font-size: 22px; font-weight: 900; line-height: 1.5; }

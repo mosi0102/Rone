@@ -9,20 +9,21 @@ class AccountController extends Controller
     /** حساب من: خلاصه‌ی حساب، وضعیت احراز هویت و میان‌برها */
     public function index()
     {
-        return view('pages.account.index', ['pending_deals' => 1, 'unread_chats' => 1]);
+        return view('pages.account.index', ['live_auctions' => 2, 'unread_chats' => 1]);
     }
 
     /** اطلاعات کاربری و احراز هویت (شخصی + مدارک + بانکی) */
     public function profile()
     {
         $auth = DemoAuth::get();
+
         return view('pages.account.profile', [
-            'need' => (bool)request('need'),                                   // از عملیات پرداختی به اینجا هدایت شده
+            'need' => (bool) request('need'),                                   // از عملیات پرداختی به اینجا هدایت شده
             'next' => $this->safeNext(request('next')),
-            'sent' => (bool)request('sent'),
+            'sent' => (bool) request('sent'),
             'reject_reason' => $auth->profile_status === 'rejected' ? 'تصویر سلفی همراه کارت ملی خوانا نبود. لطفاً دوباره و در نور کافی ارسال کنید.' : null,
             // اطلاعات ثبت‌شده (بک‌اندکار: مقدارهای واقعی؛ کد ملی/شبا/کارت را ماسک‌شده برگرداند)
-            'p' => (object)[
+            'p' => (object) [
                 'first_name' => 'علی', 'last_name' => 'محمدی', 'national_code' => '۰۰۱****۸۹۲', 'birth_date' => '۱۳۷۰/۰۵/۱۲',
                 'holder' => 'علی محمدی', 'iban' => 'IR12 **** **** **** **** **52 14', 'card' => '۶۰۳۷ **** **** ۴۵۲۱',
             ],
@@ -37,6 +38,7 @@ class AccountController extends Controller
     public function saveProfile()
     {
         session(['demo_profile' => 'pending']);
+
         return redirect()->route('account.profile', ['sent' => 1]);
     }
 }

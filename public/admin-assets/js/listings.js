@@ -43,7 +43,7 @@
   $('#rejectSubmit').on('click', function () {
     var $r = $reject.data('row'); if (!$r) return;
     setStatus($r, 'rejected', $.trim($('#rejectReason').val())); rejectModal.hide();
-    Admin.toast('آگهی رد شد و دلیل برای نمایشگاه‌دار ارسال می‌شود', 'info');
+    Admin.toast('آگهی رد شد و دلیل برای مشاور املاک ارسال می‌شود', 'info');
   });
 
   /* ---------- پنل جزئیات ---------- */
@@ -63,11 +63,12 @@
     var it = item($row), d = function (k) { return $drawer.find('[data-d="' + k + '"]'); };
     d('title').text(it.title); d('status').html(Admin.statusHtml(it.status)); d('sale').html(Admin.statusHtml(it.sale));
     d('code').text('کد ' + Admin.toFa(it.code)); d('price').text(Admin.money(it.price));
-    d('desc').text(it.desc); d('dealer').text(it.dealer); d('city').text(it.city);
+    d('desc').text(it.desc); d('agency').text(it.agency); d('city').text(it.city);
     d('reason').text(it.reason ? 'دلیل رد: ' + it.reason : '').prop('hidden', !it.reason);
     d('main').css('background-image', 'url("' + it.images[0] + '")');
     d('thumbs').html($.map(it.images, function (src, i) { return '<button type="button" class="' + (i ? '' : 'active') + '" style="background-image:url(\'' + src + '\')" aria-label="تصویر ' + Admin.toFa(i + 1) + '"></button>'; }).join(''));
-    d('specs').html($.map(it.specs, function (s) { return '<div><dt>' + s[0] + '</dt><dd>' + Admin.toFa(s[1]) + '</dd></div>'; }).join(''));
+    d('specs').html($.map(it.specs, function (s) { return '<div><dt>' + s[0] + '</dt><dd>' + Admin.toFa(s[1]) + '</dd></div>'; }).join('') +
+      (it.map_url ? '<div><dt>نقشه</dt><dd><a target="_blank" rel="noopener" href="' + it.map_url + '">مشاهده‌ی موقعیت</a></dd></div>' : ''));
     d('foot').html(footButtons(it.status));
   }
   $(document).on('click', '.js-view', function () { $current = rowOf(this); fill($current); drawer.show(); });

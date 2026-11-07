@@ -15,13 +15,18 @@ abstract class Controller
     protected function safeNext(?string $url, ?string $default = null): string
     {
         $default = $default ?: route('home');
-        if (!$url || str_contains($url, '\\') || preg_match('/[\x00-\x1f]/', $url)) return $default;
+        if (! $url || str_contains($url, '\\') || preg_match('/[\x00-\x1f]/', $url)) {
+            return $default;
+        }
         $p = parse_url($url);
-        if ($p === false) return $default;
+        if ($p === false) {
+            return $default;
+        }
         if (isset($p['scheme']) || isset($p['host'])) {                              // آدرس کامل: فقط http(s) و همین دامنه
             return (in_array($p['scheme'] ?? '', ['http', 'https'], true) && ($p['host'] ?? '') === request()->getHost()) ? $url : $default;
         }
-        return ($url[0] === '/' && !str_starts_with($url, '//')) ? $url : $default;   // مسیر نسبی
+
+        return ($url[0] === '/' && ! str_starts_with($url, '//')) ? $url : $default;   // مسیر نسبی
     }
 
     /** پاسخ HTML که برای درخواست AJAX و عادی فرق می‌کند؛ Vary جلوی کش‌شدن اشتباه (مثلاً دکمه‌ی برگشت مرورگر) را می‌گیرد. */
@@ -31,16 +36,17 @@ abstract class Controller
     }
 
     /**
-     * عملیات پرداختی (بیعانه، ورود به مزایده، برداشت) فقط برای کاربر احراز‌شده.
+     * عملیات پرداختی (ورود به مزایده، برداشت) فقط برای کاربر احراز‌شده.
      * اگر کاربر وارد شده ولی پروفایلش تأیید نشده باشد، به صفحه‌ی تکمیل اطلاعات می‌رود.
      * بک‌اندکار: همین شرط را روی میدل‌ور بگذارد.
      */
     protected function requireVerified()
     {
         $auth = DemoAuth::get();
-        if ($auth->check && !$auth->verified) {
+        if ($auth->check && ! $auth->verified) {
             return redirect()->route('account.profile', ['need' => 1, 'next' => request()->fullUrl()]);
         }
+
         return null;
     }
 }

@@ -1,6 +1,6 @@
 # نقشه‌ی API برای نسخه‌ی اندروید (Kotlin) — مرحله به مرحله
 
-رابط اندروید برای کاربر و نمایشگاه‌دار (یک اپ، سه نوع کاربر: مهمان / کاربر / نمایشگاه‌دار). هر مرحله پس از دریافت API آن ساخته و تست می‌شود.
+رابط اندروید برای کاربر و مشاور املاک (یک اپ، سه نوع کاربر: مهمان / کاربر / مشاور املاک). هر مرحله پس از دریافت API آن ساخته و تست می‌شود.
 
 ## قواعد مشترک (قبل از مرحله‌ی ۱ نهایی شود)
 - مسیر پایه `/api/v1`، پاسخ JSON، توکن `Authorization: Bearer` (Sanctum یا مشابه).
@@ -12,14 +12,14 @@
 ## مرحله ۱ — ورود و کاربر
 - `POST /auth/otp/send` (mobile) · `POST /auth/otp/verify` (mobile, code) → `{ token, is_new }`
 - `POST /auth/register` (first_name, last_name, password) · `POST /auth/login` (mobile, password) · `POST /auth/logout`
-- `GET /me` → `name, phone, wallet, is_dealer, dealer{id,name,…}, profile_status (none|pending|approved|rejected), verified`
+- `GET /me` → `name, phone, wallet, is_agency, agency{id,name,…}, profile_status (none|pending|approved|rejected), verified`
 - `POST /devices` (fcm_token, platform) برای اعلان
 
 ## مرحله ۲ — کاتالوگ عمومی (مهمان هم می‌بیند)
 - `GET /home` (مزایده‌های نزدیک، فروش فوری، تازه‌ها، دسته‌ها، بنر)
 - `GET /listings` (فیلترها: category, brand, model, city, price_min/max, year_from/to, km_max, gearbox, fuel, btype, wheel …؛ sort؛ page) · `GET /listings/count` · `GET /listings/filters-meta?category=` · `GET /search/suggest?q=`
-- `GET /listings/{id}` (مشخصات، تصاویر، نمایشگاه، مشابه، `deposit_amount`, `service_fee`)
-- `GET /dealers` · `GET /dealers/{id}` (+ `?tab=` و آگهی‌ها)
+- `GET /listings/{id}` (مشخصات، تصاویر، آژانس، مشابه، `deposit_amount`, `service_fee`)
+- `GET /agencies` · `GET /agencies/{id}` (+ `?tab=` و آگهی‌ها)
 
 ## مرحله ۳ — مزایده
 - `GET /auctions` · `GET /auctions/{id}` (پیشنهادها، زمان‌ها، وضعیت) · `POST /auctions/{id}/entry` (پرداخت ورودیه از کیف پول)
@@ -43,10 +43,10 @@
 - `GET /notifications` · `POST /notifications/read` (ids | all)
 - `GET /help` (پرسش‌ها) — می‌تواند ثابت داخل اپ باشد.
 
-## مرحله ۸ — نمایشگاه‌دار
-- ثبت‌نام و وضعیت: `POST /dealer/register` (multipart) · `GET /dealer/status`
-- پنل: `GET /dealer/dashboard` · آگهی‌ها: `GET/POST/PUT/DELETE /dealer/listings` (آپلود چندتصویر)
-- مزایده‌ی جدید: `POST /dealer/auctions` · مزایده‌های من
-- درخواست خریداران (رادار): `GET /dealer/radar` (فیلتر) · `POST /dealer/radar/{id}/offer`
-- مالی: `GET /dealer/finance` · `POST /dealer/settlements` · `GET /dealer/settlements`
-- اشتراک: `GET /dealer/plans` · `POST /dealer/subscription`
+## مرحله ۸ — مشاور املاک
+- ثبت‌نام و وضعیت: `POST /agency/register` (multipart) · `GET /agency/status`
+- پنل: `GET /agency/dashboard` · آگهی‌ها: `GET/POST/PUT/DELETE /agency/listings` (آپلود چندتصویر)
+- مزایده‌ی جدید: `POST /agency/auctions` · مزایده‌های من
+- درخواست مشتریان (رادار): `GET /agency/radar` (فیلتر) · `POST /agency/radar/{id}/offer`
+- مالی: `GET /agency/finance` · `POST /agency/settlements` · `GET /agency/settlements`
+- اشتراک: `GET /agency/plans` · `POST /agency/subscription`
